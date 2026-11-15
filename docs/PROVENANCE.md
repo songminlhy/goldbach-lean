@@ -85,6 +85,34 @@ local source closure and the changes that complete the released proof.
 The source package is distributed under the existing Apache-2.0 license.
 Existing copyright and author notices in upstream source files are retained.
 
+## The `MathlibNt/` source tree
+
+`MathlibNt/` is this project's own library, not a copy of Mathlib. It holds
+1,743 Lean modules under the `MathlibNt.*` namespaces: `SieveTheory/` 1,174,
+`AnalyticNumberTheory/` 509, `Wu2004MeanValue/` 45, `Analysis/` 8, `Tactic/` 5,
+and 2 root modules. It imports Mathlib and builds on it; it does not restate or
+re-export Mathlib source.
+
+An audit of the tree against the pinned `mathlib` checkout in `.lake/packages`
+comparing every non-trivial line (longer than 30 characters, excluding imports,
+`open`, `namespace` and attribute lines) against the 953,595 distinct such lines
+in Mathlib found:
+
+- 0 modules whose relative path also exists under `Mathlib/`;
+- 0 modules declaring `namespace Mathlib`;
+- a maximum verbatim line overlap of 10%, and only six modules above 8%, which is
+  ordinary tactic boilerplate rather than transplanted source.
+
+Twenty modules in `AnalyticNumberTheory/Chen1973`,
+`AnalyticNumberTheory/LargeSieve` and `SieveTheory/LinearSieve/{Richert,Suzuki}`
+retain upstream `Copyright` headers, consistent with the Chen base imported from
+`UyNewNas/chen-theorem-lean`. The remaining modules carry no per-file copyright
+header; the root `LICENSE` covers the tree.
+
+The separate root-level `AnalyticNumberTheory/` directory (33 modules, namespace
+`AnalyticNumberTheory.*`) is the reusable large-sieve, Mertens and prime
+distribution layer built the same way: project code importing Mathlib.
+
 ## Adapted prime-number-theorem proof
 
 The `PrimeNumberTheoremAnd/` sources are an adapted minimal import closure from
