@@ -1,5 +1,15 @@
 # goldbach-lean
 
+> **Provenance.** This repository is a derivative working copy of
+> [subfish-zhou/goldbach-lean](https://github.com/subfish-zhou/goldbach-lean),
+> distributed under Apache-2.0. The mathematics is due to Chen Jingrun (1+2),
+> Jiamin Li and Jianya Liu (1+1.9) and the authors cited in
+> [docs/PROVENANCE.md](docs/PROVENANCE.md); the formalization foundation derives
+> from [UyNewNas/chen-theorem-lean](https://github.com/UyNewNas/chen-theorem-lean),
+> [AlexKontorovich/PrimeNumberTheoremAnd](https://github.com/AlexKontorovich/PrimeNumberTheoremAnd)
+> and Mathlib. No authorship of the upstream results is claimed. Local
+> modifications and additions are recorded in [NOTICE](NOTICE).
+
 A Lean 4 project formalizing progress toward **Goldbach's conjecture** and
 building reusable analytic number theory, with **Chen's 1+2 theorem** and
 **Li–Liu's 1+1.9 theorem** formalized. The separate

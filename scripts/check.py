@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+# Modified 2026 by 宋敏 (GitHub: songminlhy) from the Apache-2.0 source of
+# subfish-zhou/goldbach-lean: module names now use POSIX separators so the
+# static checks behave identically on Windows. See NOTICE.
 """Check the release source surface and the public theorem axiom reports."""
 from __future__ import annotations
 
@@ -178,7 +181,7 @@ def static_checks() -> dict:
         if text.startswith("/-\n!"):
             issues.append(f"malformed module header: {path.relative_to(ROOT)}")
         masked = code_only(text)
-        module = str(path.relative_to(ROOT).with_suffix("")).replace("/", ".")
+        module = path.relative_to(ROOT).with_suffix("").as_posix().replace("/", ".")
         imports = []
         for line in masked.splitlines():
             match = re.match(r"\s*(?:(?:public|meta)\s+)*import\s+(.+)", line)

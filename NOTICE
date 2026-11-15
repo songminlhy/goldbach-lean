@@ -1,0 +1,29 @@
+goldbach-lean
+
+This repository is a derivative working copy of
+    https://github.com/subfish-zhou/goldbach-lean
+distributed under the Apache License, Version 2.0 (see LICENSE).
+
+Upstream sources this work builds on, with attribution retained:
+    - subfish-zhou/goldbach-lean
+    - UyNewNas/chen-theorem-lean
+    - AlexKontorovich/PrimeNumberTheoremAnd
+    - The Mathlib Community (mathlib4)
+
+The mathematics formalized here is due to the original authors: Chen Jingrun
+(1+2), Jiamin Li and Jianya Liu (1+1.9), and the literature listed in
+docs/PROVENANCE.md. No authorship of those results is claimed here.
+
+Modifications and additions in this copy:
+    Copyright 2026 宋敏 (GitHub: songminlhy)
+
+    - MathlibNt/SieveTheory/LiLiuGoldbachG12FlexibleWF.lean:
+      the `simp` step in `labels_test` is replaced by an explicit
+      `sum_congr` argument.
+    - scripts/check.py: module names are derived with POSIX path separators
+      so the static checks behave identically on Windows.
+    - Added: Goldbach/Gap.lean, Goldbach/GapChecks.lean,
+      Goldbach/GapLiveChecks.lean, docs/GAP.md.
+
+All upstream copyright notices, license terms and attribution remain in force.
+See docs/PROVENANCE.md for the source ledger and manifest hashes.

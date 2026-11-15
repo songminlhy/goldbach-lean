@@ -1,3 +1,8 @@
+/-
+Modified 2026 by 宋敏 (GitHub: songminlhy) from the Apache-2.0 source of
+subfish-zhou/goldbach-lean. The change inside `labels_test` replaces a single
+`simp` step with an explicit `sum_congr` argument. See NOTICE.
+-/
 import MathlibNt.SieveTheory.LiLiuGoldbachG12RectangleWFSmall
 import MathlibNt.SieveTheory.LiLiuGoldbachG12FlexibleRectangleC2
 
@@ -29,7 +34,11 @@ theorem labels_test (N : ℕ) (A : Finset (ℕ × ℕ)) (f : ℕ × ℕ → ℝ)
   unfold labels
   rw [sum_image]
   · rw [sum_sigma]
-    simp [G12RectangleWF.multiplicity, mul_comm]
+    apply sum_congr rfl
+    intro p _
+    set M := G12RectangleWF.multiplicity N p.1 with hM
+    change ∑ s ∈ range M, f p = (M : ℝ) * f p
+    rw [sum_const, card_range, nsmul_eq_mul]
   · intro a _ b _ hab
     cases a
     cases b
