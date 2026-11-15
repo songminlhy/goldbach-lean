@@ -8,7 +8,9 @@
 > from [UyNewNas/chen-theorem-lean](https://github.com/UyNewNas/chen-theorem-lean),
 > [AlexKontorovich/PrimeNumberTheoremAnd](https://github.com/AlexKontorovich/PrimeNumberTheoremAnd)
 > and Mathlib. No authorship of the upstream results is claimed. Local
-> modifications and additions are recorded in [NOTICE](NOTICE).
+> modifications and additions are recorded in [NOTICE](NOTICE), and the
+> division of labour between upstream and this copy in
+> [docs/AUTHORSHIP.md](docs/AUTHORSHIP.md).
 
 A Lean 4 project formalizing progress toward **Goldbach's conjecture** and
 building reusable analytic number theory, with **Chen's 1+2 theorem** and
