@@ -1,5 +1,5 @@
 /-
-Modified 2026 by 宋敏 (GitHub: songminlhy) from the Apache-2.0 source of
+Modified 2026 by Song Min (GitHub: songminlhy) from the Apache-2.0 source of
 subfish-zhou/goldbach-lean. The change inside `labels_test` replaces a single
 `simp` step with an explicit `sum_congr` argument. See NOTICE.
 -/

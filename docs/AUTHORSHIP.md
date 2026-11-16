@@ -18,7 +18,7 @@ It is a provenance record, not a legal authorship determination.
 | Prime-number-theorem source closure | [AlexKontorovich/PrimeNumberTheoremAnd](https://github.com/AlexKontorovich/PrimeNumberTheoremAnd) | `PrimeNumberTheoremAnd/` |
 | General library | The Mathlib Community (`mathlib4`) | `lake-manifest.json` dependency |
 | Integration, release engineering and proof completion on top of the above | [subfish-zhou/goldbach-lean](https://github.com/subfish-zhou/goldbach-lean) | The whole tree as inherited |
-| Increments in this working copy | 宋敏 (GitHub: [songminlhy](https://github.com/songminlhy)) | Commit `09e1185` and later |
+| Increments in this working copy | Song Min (GitHub: [songminlhy](https://github.com/songminlhy)) | Commit `09e1185` and later |
 
 Nothing in this copy claims authorship of the mathematical theorems, of the
 upstream formalization base, or of the upstream integration work.
@@ -75,7 +75,7 @@ Commit `09e1185` — "feat: formalize the 1+1 gap and record upstream provenance
   it does not prove new number theory.
 - **Upstream formalization and integration.** Owned by the upstream projects
   listed above, under Apache-2.0.
-- **Local increments.** Owned by 宋敏 (songminlhy), limited to the files in the
+- **Local increments.** Owned by Song Min (songminlhy), limited to the files in the
   table above and any later commits authored under that identity.
 - **Correctness of inherited proofs.** Carried by the upstream projects. The
   `scripts/check.py` gate and `CONTRIBUTING.md` rules describe what *this copy*
@@ -85,8 +85,8 @@ Commit `09e1185` — "feat: formalize the 1+1 gap and record upstream provenance
 
 ```bash
 git shortlog -sne HEAD                    # who committed here
-git log --author=宋敏 --name-status       # files touched by this copy's owner
-git log --author=宋敏 --format=%H         # SHA list of local commits
+git log --author=160120136+songminlhy@users.noreply.github.com --name-status       # files touched by this copy's owner
+git log --author=160120136+songminlhy@users.noreply.github.com --format=%H         # SHA list of local commits
 git diff subfish-zhou/main..HEAD          # divergence from upstream, if fetched
 ```
 

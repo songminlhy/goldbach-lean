@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Modified 2026 by 宋敏 (GitHub: songminlhy) from the Apache-2.0 source of
+# Modified 2026 by Song Min (GitHub: songminlhy) from the Apache-2.0 source of
 # subfish-zhou/goldbach-lean: module names now use POSIX separators so the
 # static checks behave identically on Windows. See NOTICE.
 """Check the release source surface and the public theorem axiom reports."""

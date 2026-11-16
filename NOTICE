@@ -15,7 +15,7 @@ The mathematics formalized here is due to the original authors: Chen Jingrun
 docs/PROVENANCE.md. No authorship of those results is claimed here.
 
 Modifications and additions in this copy:
-    Copyright 2026 宋敏 (GitHub: songminlhy)
+    Copyright 2026 Song Min (GitHub: songminlhy)
 
     - MathlibNt/SieveTheory/LiLiuGoldbachG12FlexibleWF.lean:
       the `simp` step in `labels_test` is replaced by an explicit
