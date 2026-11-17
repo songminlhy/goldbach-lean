@@ -1,6 +1,6 @@
-# Liouville–Goldbach audit (`lg-v0.2.0`)
+# Liouville–Goldbach audit (`lg-v0.3.0`)
 
-This directory contains the Lean 4 evidence for the paper *刘维尔--哥德巴赫定理的严格证明与二元哥德巴赫猜想的逻辑边界* (v0.2.0, 2026-11-17).
+This directory contains the Lean 4 evidence for the paper *刘维尔--哥德巴赫定理的严格证明与二元哥德巴赫猜想的逻辑边界* (v0.3.0, 2026-11-17).
 
 ## Provenance
 
@@ -33,11 +33,13 @@ lake env lean LiouvilleAudit.lean     # rc 0
 
 `#print axioms` lists only `propext`, `Classical.choice`, `Quot.sound` for the main theorem `LiouvilleGoldbach.liouville_goldbach`.
 
+v0.3.0 adds two theorems to `GapCertificate.lean`: `positive_prime_pairs_seven` (the \(p=7\) case, \(14=4+10\)) and `binary_goldbach_implies_omega_le` (\(\mathrm{GC}\Rightarrow\mathrm{LG}_{\Omega\le k}\) for every \(k\ge2\)). Both compile with rc 0 and the same three standard axioms.
+
 ## Scope
 
 The Lean statements formalize LG, not binary Goldbach. The paper proves `GC ⇔ LG_{Ω≤2}`; no theorem here concludes `BinaryGoldbach`. The upstream manuscript's prose is not kernel-checked; the formalization covers the listed statements only.
 
 ## Links
 
-- Evidence pack (Zenodo preprint v0.2.0): DOI `10.5281/zenodo.24302032`
+- Evidence pack (Zenodo preprint v0.3.0): DOI `10.5281/zenodo.24306341`
 - Paper: `paper_boundary/paper.pdf` in the evidence pack

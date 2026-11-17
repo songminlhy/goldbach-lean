@@ -78,6 +78,22 @@ theorem liouville_witness_can_be_composite :
   · exact (by decide : ¬ Nat.Prime 8)
   · exact (by decide : ¬ Nat.Prime 12)
 
+/-- The `p = 7` case of the positive-positive pair theorem: `14 = 4 + 10`. -/
+theorem positive_prime_pairs_seven :
+    ∃ a b : ℕ, 0 < a ∧ 0 < b ∧ a + b = 14 ∧
+      ArithmeticFunction.liouville a = 1 ∧ ArithmeticFunction.liouville b = 1 := by
+  have h2 : ArithmeticFunction.liouville 2 = -1 := liouville_prime Nat.prime_two
+  have h5 : ArithmeticFunction.liouville 5 = -1 := liouville_prime (by decide : Nat.Prime 5)
+  have h4 : ArithmeticFunction.liouville 4 = 1 := by
+    rw [show 4 = 2 * 2 by norm_num,
+      ArithmeticFunction.liouville_apply_mul, h2]
+    norm_num
+  have h10 : ArithmeticFunction.liouville 10 = 1 := by
+    rw [show 10 = 2 * 5 by norm_num,
+      ArithmeticFunction.liouville_apply_mul, h2, h5]
+    norm_num
+  exact ⟨4, 10, by norm_num, by norm_num, by norm_num, h4, h10⟩
+
 /-- If `n > 1`, `lambda n = -1`, and `Omega n <= 2`, then `n` is prime.
 The only odd value of `Omega n` below two is one. -/
 theorem prime_of_liouville_negative_of_cardFactors_le_two
@@ -101,6 +117,26 @@ def LiouvilleGoldbachOmegaTwo : Prop :=
       ArithmeticFunction.liouville b = -1 ∧
       ArithmeticFunction.cardFactors a ≤ 2 ∧
       ArithmeticFunction.cardFactors b ≤ 2
+
+/-- The `Omega <= k` strengthening of Liouville--Goldbach. -/
+def LiouvilleGoldbachOmegaLe (k : ℕ) : Prop :=
+  ∀ N : ℕ, Even N → 2 < N →
+    ∃ a b : ℕ, 0 < a ∧ 0 < b ∧ a + b = N ∧
+      ArithmeticFunction.liouville a = -1 ∧
+      ArithmeticFunction.liouville b = -1 ∧
+      ArithmeticFunction.cardFactors a ≤ k ∧
+      ArithmeticFunction.cardFactors b ≤ k
+
+/-- Binary Goldbach implies the `Omega <= k` strengthening for every `k >= 2`. -/
+theorem binary_goldbach_implies_omega_le (k : ℕ) (hk : 2 ≤ k) :
+    BinaryGoldbach → LiouvilleGoldbachOmegaLe k := by
+  intro h N hEven hN
+  rcases h N hEven hN with ⟨p, q, hp, hq, hpq⟩
+  refine ⟨p, q, hp.pos, hq.pos, hpq, liouville_prime hp, liouville_prime hq, ?_, ?_⟩
+  · rw [ArithmeticFunction.cardFactors_apply_prime hp]
+    omega
+  · rw [ArithmeticFunction.cardFactors_apply_prime hq]
+    omega
 
 /-- Binary Goldbach is equivalent to the Omega-two strengthening of
 Liouville--Goldbach.  The unstrengthened theorem omits exactly this bound. -/
@@ -143,3 +179,8 @@ end LiouvilleGoldbach
 #print axioms LiouvilleGoldbach.liouville_witness_can_be_composite
 #print axioms LiouvilleGoldbach.prime_of_liouville_negative_of_cardFactors_le_two
 #print axioms LiouvilleGoldbach.binary_goldbach_iff_liouville_omega_two
+#check LiouvilleGoldbach.positive_prime_pairs_seven
+#check LiouvilleGoldbach.LiouvilleGoldbachOmegaLe
+#check LiouvilleGoldbach.binary_goldbach_implies_omega_le
+#print axioms LiouvilleGoldbach.positive_prime_pairs_seven
+#print axioms LiouvilleGoldbach.binary_goldbach_implies_omega_le
