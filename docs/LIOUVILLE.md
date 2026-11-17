@@ -1,6 +1,6 @@
-# Liouville–Goldbach audit (`lg-v0.1.0`)
+# Liouville–Goldbach audit (`lg-v0.2.0`)
 
-This directory contains the Lean 4 evidence for the paper *刘维尔--哥德巴赫定理的严格证明与二元哥德巴赫猜想的逻辑边界* (v0.1.0, 2026-11-17).
+This directory contains the Lean 4 evidence for the paper *刘维尔--哥德巴赫定理的严格证明与二元哥德巴赫猜想的逻辑边界* (v0.2.0, 2026-11-17).
 
 ## Provenance
 
@@ -39,5 +39,5 @@ The Lean statements formalize LG, not binary Goldbach. The paper proves `GC ⇔ 
 
 ## Links
 
-- Evidence pack (Zenodo preprint v0.1.0): DOI `10.5281/zenodo.24302032`
+- Evidence pack (Zenodo preprint v0.2.0): DOI `10.5281/zenodo.24302032`
 - Paper: `paper_boundary/paper.pdf` in the evidence pack
