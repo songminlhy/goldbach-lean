@@ -28,3 +28,7 @@ globs = ["MathlibNt", "MathlibNt.+"]
 [[lean_lib]]
 name = "Goldbach"
 globs = ["Goldbach", "Goldbach.+"]
+
+[[lean_lib]]
+name = "LiouvilleGoldbach"
+globs = ["LiouvilleGoldbach", "LiouvilleGoldbach.+"]

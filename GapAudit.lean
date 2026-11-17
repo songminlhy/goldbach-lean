@@ -1,0 +1,9 @@
+import GapCertificate
+
+#check LiouvilleGoldbach.BinaryGoldbach
+#check LiouvilleGoldbach.binary_goldbach_implies_liouville_goldbach
+#check LiouvilleGoldbach.liouville_negative_not_prime
+#check LiouvilleGoldbach.liouville_witness_can_be_composite
+#print axioms LiouvilleGoldbach.binary_goldbach_implies_liouville_goldbach
+#print axioms LiouvilleGoldbach.liouville_negative_not_prime
+#print axioms LiouvilleGoldbach.liouville_witness_can_be_composite
