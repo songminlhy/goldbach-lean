@@ -1,0 +1,42 @@
+{
+  "metadata": {
+    "title": "A linear-range application of Lev sumset bounds to forbidden subset sums",
+    "upload_type": "publication",
+    "publication_type": "preprint",
+    "publication_date": "2026-11-18",
+    "description": "<p>Anonymous, unreviewed mathematical preprint and reproducibility package. The manuscript studies the application of existing Lev sumset estimates to the least-non-divisor forbidden subset-sum problem, giving the range factor q-1 and the q=4, c=2/3 congruence-class limit.</p>\n<p>The bounded-basis lemma is a direct corollary of Lev (1997), Theorem 1-prime; the good-core, distinctification and central-interval framework is prior work. No first-ever structure theorem, bridge or formalization claim is made. The package contains an independent Lean reimplementation of the finite distinctification bridge and arithmetic steps, not a complete formalization of either main theorem.</p>\n<p>External peer review has not occurred. Novelty and priority are not certified: one relevant Huicochea (2018) main theorem and current forum discussion remain unread, and the cited full-text read-set is bounded. These limitations and the AI-assisted preparation are disclosed in the reviewer package. The anonymous manuscript does not hide the ownership of the hosting account.</p>",
+    "creators": [
+      {
+        "name": "Anonymous"
+      }
+    ],
+    "version": "0.1.0",
+    "access_right": "open",
+    "license": "cc-by-4.0",
+    "language": "zho",
+    "keywords": [
+      "subset sums",
+      "additive combinatorics",
+      "Lev theorem",
+      "reproducibility",
+      "unreviewed preprint"
+    ],
+    "related_identifiers": [
+      {
+        "identifier": "https://arxiv.org/abs/2611.17205v1",
+        "relation": "references",
+        "scheme": "url"
+      },
+      {
+        "identifier": "10.1006/jnth.1996.0065",
+        "relation": "references",
+        "scheme": "doi"
+      },
+      {
+        "identifier": "10.1006/jnth.1997.2012",
+        "relation": "references",
+        "scheme": "doi"
+      }
+    ]
+  }
+}
