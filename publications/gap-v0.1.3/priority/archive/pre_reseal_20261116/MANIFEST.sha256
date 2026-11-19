@@ -1,0 +1,50 @@
+# MANIFEST.sha256 -- DSH_MM priority pack
+# generated: 2026-11-15T15:59:25Z
+# verify:    cd goldbach && sha256sum -c priority/MANIFEST.sha256
+# sha256sum -c ignores every line that does not start with a hex digest.
+# ============================================================
+# files.txt -- what the manifest binds. Single source of truth.
+#   '#'            section header, copied into MANIFEST.sha256
+#   '!third-party' hashed for reference, NOT claimed
+# paths are relative to goldbach/ so that:
+#   cd goldbach && sha256sum -c priority/MANIFEST.sha256
+# ============================================================
+# --- authored: Lean module (the claim itself) ---
+2240ec615ae79e267f62554866bb61f1212c575b2eea7b52f090830d0df18732  frontier/goldbach-lean/Goldbach/Gap.lean
+12fb54261b02d49a66c6a030986179df615da8e38312156edf5cc0329f4aa57a  frontier/goldbach-lean/Goldbach/GapChecks.lean
+e5abe889d8412b5c8bd4e6000b23dd8a9d52a93db4d6ce886f1a23b24c2fe881  frontier/goldbach-lean/Goldbach/GapLiveChecks.lean
+587c56f72464036b13d33548cff19910a62258e710ad989834d8b5fe861f45d3  frontier/goldbach-lean/docs/GAP.md
+# --- authored: audit and reports ---
+5fef4e9d17ee6fbd2e9db918a2642f5efbe453c43f13c32474b0938214c66276  AUDIT_2026-11-15.md
+09b8b859b5bea649c7b223ba02d19800b2c288404461c0cf92c9368120cd3a44  PROGRESS_2026-11-15.md
+1a1dbdc02aec9c07d9b72a74527c2662385ad23f26083e540710b85d9babd9f3  audit/audit_goldbach.py
+788db10914d2a38014036501b0957703abe5c504fd61f5ce10861b2358502d6f  audit/audit_results.json
+b687a7b13efd0db5737f84668151631562f2e7d3c75f7bfa133aac2c7f168788  audit/audit_run.log
+# --- evidence: kernel replay logs ---
+0a50ee8c3b25b20cd50993e4f956e07d03a18d0f1e57929b71d891123640063d  logs/audit_gap_check_rerun.log
+b96c24f1e8b27ca3d9360ae75cabd0d53a339a3c733b0caedbec8cd6482eab5c  logs/audit_live_shape_check.log
+070d1fc8bc23591317296bbf40ef22bb469e81d833e0c8465d17d45c9eaaceaa  logs/audit_chen_check_rerun.log
+a6d3aa1219d5c2f28e501407fe3b75356013c7c65b68b38f68a0cae0291206f1  logs/audit_liliu_check_rerun.log
+fe0b52e99185c4a4123264ea856e5192f4c6999d0368760b62b95cf9982ba9cd  logs/static_check_2026-11-15.log
+931b2d6283fb5d208956c59bd3eab8f40ae4e95180eb344363233e816abff6c5  logs/build_resume_2026-11-15.log
+390e60b028078027c1d619588da78681ce19a2b24f96240380c19e759a35e22b  logs/build_resume_chen_2026-11-15.log
+# --- authored: local modifications to upstream files (Apache-2.0) ---
+d542a7e59ac87a33265ebe913d350872f8ac21b0c4163246dcd7031d849aceab  frontier/goldbach-lean/MathlibNt/SieveTheory/LiLiuGoldbachG12FlexibleWF.lean
+4154b347be1cc92d0e8e4119e27fd2efc4bbae28c9b7c607288ca5734404937a  frontier/goldbach-lean/scripts/check.py
+# --- this package ---
+4927ef142d9ccf6279f2778ab18b1a455c938102f4e5683c0ec22dd9c161966b  priority/README.md
+7f522bda5fbf0552b2da54c521157920c5bd63c08ef102cfa9301b648bebca70  priority/CLAIM.md
+4e3e1f2e00307d79f47c2bba1ade477267e0d1734abe6088a74513fb0e1abda3  priority/PRIOR_ART.md
+5fedae44a570f06a538b17e895ab4efef25aac1bfe1a17c9d71ff74e7fdf4566  priority/VERIFY.md
+87358e46f6673c5e0c1636ea120aaa4065e1160c19165ac21a4948658ba6b16e  priority/CHECKLIST.md
+49f21af68909830701af75c183a02198154208dff8c090d98205a4b9eac00299  priority/AUTHORS.md
+e7542c3a81cc82191dd47f10ba9ed499b6c62f809a9aef959b78b060d0081a28  priority/ANNOUNCE.zh.md
+d0ddb53927ec69d16c734d0dedf3a2b01a20b906d117f205d231cb5a60e74033  priority/ANNOUNCE.en.md
+9b84468dbf34196e65a8a9b93a83c0e778960675376d961768682250150eccb8  priority/IDENTITY.json
+09626af625aa048fc20c0ab7532ea7859c700820f417fef01171e69590bcef8c  priority/CITATION.cff
+f66621b87ea05a5c2803a219240c713712f9baea6de8da7e163d797a2d7d2c94  priority/zenodo.json
+51c2d453691cd687fc993820b7ee6a62996dee0f1e366c5fdda91c029a230180  priority/files.txt
+45a35b378b07d774cca00c47048dd7a898aab3899bc71e3265f2602509875cdc  priority/tools/seal.ps1
+2d7932b7f56f00e94e8d6d985757b9e4a4ba9cc66d8696093d5842a56adbe1e1  priority/tools/build-metadata.py
+# --- referenced third-party source (CC BY 4.0, not ours) ---
+db1fa07154ae7430245d19ac377f6d22f02361608014498fe3449129c3765ffd  A_Simple_Proof_of_Goldbach_Conjecture.tex

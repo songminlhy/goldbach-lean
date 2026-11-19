@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+message: "If you use this work, please cite it as below."
+type: software
+title: "The 1+1 Gap, Machine-Checked: Goldbach endpoints as consequences of binary Goldbach, and a kernel-checked circularity certificate for arXiv:2611.09007v1"
+version: "0.1.0"
+date-released: "2026-11-15"
+license: "Apache-2.0"
+repository-code: "<FILL: repository_code>"
+authors:
+  - family-names: "<FILL: family_name>"
+    given-names: "<FILL: given_name>"
+keywords:
+  - "Goldbach conjecture"
+  - "Lean 4"
+  - "Mathlib"
+  - "formalization"
+  - "proof assistant"
+  - "circular reasoning"
+  - "arXiv:2611.09007"
+abstract: "In Lean 4 with Mathlib we formalize two facts about the binary Goldbach conjecture. First, the headline endpoints of the goldbach-lean development (Chen 1+2, Li-Liu 1+1.9, Wu 1+1.8938) are logical consequences of binary Goldbach: set the second multiplier to 1. Second, Theorem 1.1 of arXiv:2611.09007v1, read under the paper's own definition of big-O (a limit ratio equal to a nonzero constant), already implies binary Goldbach; hence its induction step, which assumes positivity of G(2n-2), assumes the conclusion. Eight theorems are kernel-checked with axioms contained in {propext, Classical.choice, Quot.sound}. This does not prove the Goldbach conjecture, and no claim of priority is made beyond the timestamped record."

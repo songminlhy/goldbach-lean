@@ -24,6 +24,11 @@ Modifications and additions in this copy:
       so the static checks behave identically on Windows.
     - Added: Goldbach/Gap.lean, Goldbach/GapChecks.lean,
       Goldbach/GapLiveChecks.lean, docs/GAP.md.
+    - Added after the gap-v0.1.1 DOI (not part of that sealed manifest):
+      Goldbach/EndpointHierarchy.lean, Goldbach/EndpointHierarchyChecks.lean,
+      Goldbach/PaperIdentities.lean, Goldbach/PaperIdentitiesChecks.lean,
+      Goldbach/EndpointFamily.lean, Goldbach/EndpointFamilyChecks.lean,
+      docs/PAPER_IDENTITIES.md, docs/ENDPOINT_FAMILY.md.
 
 All upstream copyright notices, license terms and attribution remain in force.
 See docs/PROVENANCE.md for the source ledger and manifest hashes.

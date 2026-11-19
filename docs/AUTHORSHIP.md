@@ -69,6 +69,23 @@ Commit `09e1185` — "feat: formalize the 1+1 gap and record upstream provenance
 `docs/GAP.md` records the scope limit explicitly: the gap theorems are about the
 *statements* formalized here, not a new result toward binary Goldbach itself.
 
+Post-DOI additions (2026-11-16, **not** part of the sealed `gap-v0.1.1`
+manifest):
+
+| File | Status | Content |
+| --- | --- | --- |
+| `Goldbach/EndpointHierarchy.lean` | added | Wu ⇒ Li–Liu ⇒ Chen for the transcribed endpoint shapes |
+| `Goldbach/EndpointHierarchyChecks.lean` | added | Restates the hierarchy theorems and prints their axiom sets |
+| `Goldbach/PaperIdentities.lean` | added | Corrected counting identities of arXiv:2611.09007 and explicit counterexamples at `x = 10` |
+| `Goldbach/PaperIdentitiesChecks.lean` | added | Restates the correction and prints its axiom sets |
+| `Goldbach/EndpointFamily.lean` | added | `EndpointShape a b`, exponent monotonicity, and the `(67, 109)` sharpness witness |
+| `Goldbach/EndpointFamilyChecks.lean` | added | Restates the family results and prints their axiom sets |
+| `docs/PAPER_IDENTITIES.md` | added | Exposition and reproduction of the paper-identity correction |
+| `docs/ENDPOINT_FAMILY.md` | added | Exposition and reproduction of the endpoint family |
+
+These files are post-DOI. They do not change the DOI record or the
+`gap-v0.1.1` release archive; a future tag would need a new manifest.
+
 ## Scope of responsibility
 
 - **Mathematics.** Owned by the cited authors. This copy implements and audits,

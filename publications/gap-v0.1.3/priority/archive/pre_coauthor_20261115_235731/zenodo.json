@@ -1,0 +1,35 @@
+{
+  "title": "The 1+1 Gap, Machine-Checked: Goldbach endpoints as consequences of binary Goldbach, and a kernel-checked circularity certificate for arXiv:2611.09007v1",
+  "upload_type": "software",
+  "publication_date": "2026-11-15",
+  "version": "0.1.0",
+  "creators": [
+    {
+      "name": "<FILL: family_name>"
+    }
+  ],
+  "description": "<p><strong>What is claimed.</strong> In Lean 4 with Mathlib, the three headline endpoints of the goldbach-lean development (Chen 1+2, Li&ndash;Liu 1+1.9, Wu 1+1.8938) are proved to be logical consequences of binary Goldbach (set the second multiplier to 1). Separately, Theorem 1.1 of arXiv:2611.09007v1 is formalized under the paper's own definition of big-O (a limit ratio equal to a nonzero constant), and is proved to imply binary Goldbach; the paper's induction step, which assumes positivity of G(2n-2), therefore assumes the conclusion.</p><p><strong>What is not claimed.</strong> This does not prove the Goldbach conjecture. No unconditional theorem here concludes binary Goldbach. No independence result is proved (the witness theorems only show that the endpoint predicates admit objects that 1+1 forbids). No claim of being first is made: see the prior-art record in the package.</p><p><strong>Evidence.</strong> Eight theorems plus one definitional check are replayed with <code>leanchecker</code>; axiom sets are contained in {propext, Classical.choice, Quot.sound}. Logs and an RFC 3161 timestamp over the manifest are included.</p>",
+  "license": "apache-2.0",
+  "keywords": [
+    "Goldbach conjecture",
+    "Lean 4",
+    "Mathlib",
+    "formalization",
+    "proof assistant",
+    "circular reasoning",
+    "arXiv:2611.09007"
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "arXiv:2611.09007",
+      "relation": "references",
+      "resource_type": "publication-preprint"
+    },
+    {
+      "identifier": "https://github.com/subfish-zhou/goldbach-lean",
+      "relation": "isSupplementTo",
+      "resource_type": "software"
+    }
+  ],
+  "notes": "The prose in this package is released under CC BY 4.0; the Lean sources are Apache-2.0, matching the upstream goldbach-lean repository. Upstream files retain their original notices."
+}

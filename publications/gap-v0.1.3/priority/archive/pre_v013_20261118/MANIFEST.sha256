@@ -1,0 +1,90 @@
+# MANIFEST.sha256 -- DSH_MM priority pack
+# generated: 2026-11-16T23:56:44Z
+# verify:    cd goldbach && sha256sum -c priority/MANIFEST.sha256
+# sha256sum -c ignores every line that does not start with a hex digest.
+# ============================================================
+# files.txt -- what the manifest binds. Single source of truth.
+#   '#'            section header, copied into MANIFEST.sha256
+#   '!third-party' hashed for reference, NOT claimed
+# paths are relative to goldbach/ so that:
+#   cd goldbach && sha256sum -c priority/MANIFEST.sha256
+# ============================================================
+# --- authored: Lean module (the claim itself) ---
+2240ec615ae79e267f62554866bb61f1212c575b2eea7b52f090830d0df18732  frontier/goldbach-lean/Goldbach/Gap.lean
+12fb54261b02d49a66c6a030986179df615da8e38312156edf5cc0329f4aa57a  frontier/goldbach-lean/Goldbach/GapChecks.lean
+e5abe889d8412b5c8bd4e6000b23dd8a9d52a93db4d6ce886f1a23b24c2fe881  frontier/goldbach-lean/Goldbach/GapLiveChecks.lean
+587c56f72464036b13d33548cff19910a62258e710ad989834d8b5fe861f45d3  frontier/goldbach-lean/docs/GAP.md
+# --- authored: audit and reports ---
+5fef4e9d17ee6fbd2e9db918a2642f5efbe453c43f13c32474b0938214c66276  AUDIT_2026-11-15.md
+09b8b859b5bea649c7b223ba02d19800b2c288404461c0cf92c9368120cd3a44  PROGRESS_2026-11-15.md
+1a1dbdc02aec9c07d9b72a74527c2662385ad23f26083e540710b85d9babd9f3  audit/audit_goldbach.py
+788db10914d2a38014036501b0957703abe5c504fd61f5ce10861b2358502d6f  audit/audit_results.json
+b687a7b13efd0db5737f84668151631562f2e7d3c75f7bfa133aac2c7f168788  audit/audit_run.log
+# --- evidence: kernel replay logs ---
+0a50ee8c3b25b20cd50993e4f956e07d03a18d0f1e57929b71d891123640063d  logs/audit_gap_check_rerun.log
+b96c24f1e8b27ca3d9360ae75cabd0d53a339a3c733b0caedbec8cd6482eab5c  logs/audit_live_shape_check.log
+070d1fc8bc23591317296bbf40ef22bb469e81d833e0c8465d17d45c9eaaceaa  logs/audit_chen_check_rerun.log
+a6d3aa1219d5c2f28e501407fe3b75356013c7c65b68b38f68a0cae0291206f1  logs/audit_liliu_check_rerun.log
+fe0b52e99185c4a4123264ea856e5192f4c6999d0368760b62b95cf9982ba9cd  logs/static_check_2026-11-15.log
+931b2d6283fb5d208956c59bd3eab8f40ae4e95180eb344363233e816abff6c5  logs/build_resume_2026-11-15.log
+390e60b028078027c1d619588da78681ce19a2b24f96240380c19e759a35e22b  logs/build_resume_chen_2026-11-15.log
+# --- authored: local modifications to upstream files (Apache-2.0) ---
+a7c147819bcf895b54ddbd99ac12fd83ed22f35735782ddeac3ab4609ef212ed  frontier/goldbach-lean/MathlibNt/SieveTheory/LiLiuGoldbachG12FlexibleWF.lean
+eb3d570939835bf9ddae9817c652be2f49eff6758edffc7bb8afa85983b851d9  frontier/goldbach-lean/scripts/check.py
+# --- this package ---
+354fab40864c96d852d369561198ad9069fa2c186b75fa5fae3272d429b63e79  priority/README.md
+7f522bda5fbf0552b2da54c521157920c5bd63c08ef102cfa9301b648bebca70  priority/CLAIM.md
+4e3e1f2e00307d79f47c2bba1ade477267e0d1734abe6088a74513fb0e1abda3  priority/PRIOR_ART.md
+5fedae44a570f06a538b17e895ab4efef25aac1bfe1a17c9d71ff74e7fdf4566  priority/VERIFY.md
+87358e46f6673c5e0c1636ea120aaa4065e1160c19165ac21a4948658ba6b16e  priority/CHECKLIST.md
+49f21af68909830701af75c183a02198154208dff8c090d98205a4b9eac00299  priority/AUTHORS.md
+e7542c3a81cc82191dd47f10ba9ed499b6c62f809a9aef959b78b060d0081a28  priority/ANNOUNCE.zh.md
+d0ddb53927ec69d16c734d0dedf3a2b01a20b906d117f205d231cb5a60e74033  priority/ANNOUNCE.en.md
+cc2a33a8b8ced50b46a0a9bb28f94be03a6b430c9a66705bbbadbd3db09827c3  priority/IDENTITY.json
+607c72aa02e5190a0a7bc5d6f995fa4846c13d211465206c4e7ac9b310d0569f  priority/CITATION.cff
+f178e857c5a2f0b87c4efb37a36b78d69c7c535eaf50103b1c6be92b073239c4  priority/zenodo.json
+36b3a8dc7b676bdb876ebe70751e015705668e22f1458a8890d3242a53c39d0e  priority/files.txt
+45a35b378b07d774cca00c47048dd7a898aab3899bc71e3265f2602509875cdc  priority/tools/seal.ps1
+2d7932b7f56f00e94e8d6d985757b9e4a4ba9cc66d8696093d5842a56adbe1e1  priority/tools/build-metadata.py
+# --- authored: close reading of the conditional proof (2026-11-16) ---
+7c6a4213441bf9db5220aa2c3617dd730947c62ebb73cbe621a0d286c61e0e5e  frontier/READING_1p9.md
+# --- authored: prior-art expansion (2026-11-16) ---
+2c7b4ece20acca9f3f7a76574b0cf1d1f118f4709815d381e8e7c9d64184a625  originality/PRIOR_ART_2026-11-16.md
+6e03b11bc29d9b492a042a51cffa2a608e07f6e69f6c4671ba7a3b831bcfbcc8  originality/prior_art_scan.py
+8b93b24514c533f25503f8b34078f9f1c6da3aa33212b0bace21ed28e97b58ac  originality/prior_art_hits_20261116.jsonl
+b9d913880d7e55d8b05dce5bb20bf1f96fa6924617638aafe44c11b78074dbfe  originality/QUEUE.md
+b98ccbfec659dd3f00de8c594c93e1abf8d5ea3d450d65ae139ae4cc2bbc839c  originality/FAILURES.md
+# --- authored: Q4 counterexample scan (2026-11-16) ---
+f388ed933b6840d2e713e85ee12261db380159a4e1a0ed40d187c39f207923f9  audit/claims/README.md
+a6bb87cb7207b42903bc1e0faf9bf6b358814d3c647c2333159cb63e3b266cdb  audit/claims/candidates_20261116.jsonl
+69f8322a78e52c90e4b429f983fdc286375144b7e34d0a510908ad454ea92260  audit/claims/2611_10499.json
+186c939e4168ea4cfb7de7162194415619636ca32f1d7078ca7a218385b31e4e  audit/claims/2611_10499_results.json
+0d73a5bb63cadf8b554bdfe3c960282643c6bbce4765eecfd1694da5c30cf529  audit/claims/2611_10499_bruteforce.json
+0a4e33f9169409b60a8a9e4713621f6fc9057399e608ce2faf3c1b6c6566b8cd  audit/claims/2610_05776.json
+0005f3bb9a2210863505234764ee527a91296a3c3292c22450f71115c7c9b347  audit/claims/2610_05776_results.json
+a143a8c582ae956e6a85f774a772ba20d26ae8b6a3cdd065be2918697933200c  audit/claims/2611_17205.json
+fdba901242071eb426d7d4eb8125667b7c1f62286ac0aa1dd100388caa0a5d7e  audit/claims/2611_17205_results.json
+c9f6d5d4e124f0b82183116a0949b109c343d9a672ef25cc3c543551bbab8329  audit/claims/2608_24948.json
+01ab86798c0d59efc406747f6053a87fa852bb34536a30857d13c1ff64549eb1  audit/claims/2608_24948_results.json
+686926496182d7c8c4be82d97bc16bce684a60f79914e6cc51d2d6658743e5ed  audit/claims/2609_03444.json
+8fcf4fb796c462984daea55bf5bbe402dbee01cbacaade9491100c13f9d39095  audit/claims/2609_03444_results.json
+bca5b3aadbffc22411a4f2b91c4893074a4b50fea219ce4265e697d52b72dbf7  audit/search/q4_harvest.py
+7c04bb4449a918c4317a38b04c811af933ca886e2def64c21d9d7c8f5938f867  audit/search/2611_10499.py
+b1f7ecb3355b903e0b85b0d94d711a74687ab029aa98df01067d03539b5fc2c5  audit/search/2611_10499_bruteforce.py
+1159e53d014fc00ec09f6ab1560fa54da677e636e6eefafba35af34326878f7b  audit/search/2610_05776.py
+ea6c725365c455add28372bf453150656e54a33b6018cab2f547185964bcc5b1  audit/search/2611_17205.py
+f436347a0e7207ef6147dafd0b85c6dbc38c984c5a50a1b08091fd50c0a77a93  audit/search/2608_24948.py
+eaea5f77f681a586f604b40a1574c1c5fb2265f2599584c015348067064ab806  audit/search/2609_03444.py
+# --- authored: closed-loop paper (2026-11-17) ---
+3b870aa4c3a19dbeea486a4eed9cc18dbfba1dc2e2fec39ac3dbac6b4dfb4814  paper_closed_loop/paper.tex
+a72231b91a217d152037fb74deae961b1abbde4d98c6d958e5b4947fc70115b4  paper_closed_loop/paper_en.tex
+5a00572d3f128ca57a7e49519f79f25206ba53b7593a6e3f57ca07fc1776ec6c  paper_closed_loop/README.md
+d62710c34149cc16ff1c48b0a5f50525b4b53de21363b3dd0898bb1360527089  paper_closed_loop/make_figures.py
+a85ba8f8fa525856610eebc273c81d989f9810452da353d0b3d83152e48ea617  paper_closed_loop/figures/fig1_pipeline.pdf
+33f721d40499dc7d1e10bee87bdd98070c68e9d280de80ad2fb4acff4f70b486  paper_closed_loop/figures/fig1_pipeline.png
+ec89afe2fcc08ce226b7ece9b1e4b859662747abe8722c2cf8be0437158d9536  paper_closed_loop/figures/fig2_progress.pdf
+e6be5bbc7ec41baadff89860582047149ca28292133c4ad882590c2a4805da5a  paper_closed_loop/figures/fig2_progress.png
+# --- DOI and publication state (2026-11-16) ---
+d09c90c664c888b47920df65f9367924fd81bee5eb32c4fefa9f019a04e079a3  priority/DOI.txt
+# --- referenced third-party source (CC BY 4.0, not ours) ---
+db1fa07154ae7430245d19ac377f6d22f02361608014498fe3449129c3765ffd  A_Simple_Proof_of_Goldbach_Conjecture.tex
