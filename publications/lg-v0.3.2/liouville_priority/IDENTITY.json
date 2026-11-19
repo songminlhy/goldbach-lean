@@ -1,0 +1,37 @@
+{
+  "_comment": "Liouville priority pack identity. Single source of authorship; run py tools/build-metadata.py after edits, then run tools/seal.ps1.",
+  "given_name": "敏",
+  "family_name": "宋",
+  "display_name": "宋敏",
+  "orcid": "",
+  "email": "160120136+songminlhy@users.noreply.github.com",
+  "github": "songminlhy",
+  "affiliation": "",
+  "version": "0.3.2",
+  "date_released": "2026-11-18",
+  "repository_code": "https://github.com/songminlhy/goldbach-lean",
+  "license_code": "CC-BY-4.0",
+  "license_text": "Lean sources Apache-2.0; upstream notices retained",
+  "co_authors": [
+    {
+      "given_name": "瑷成",
+      "family_name": "宋"
+    },
+    {
+      "given_name": "奥菲",
+      "family_name": "宋"
+    },
+    {
+      "given_name": "钧睿",
+      "family_name": "范"
+    },
+    {
+      "given_name": "安",
+      "family_name": "胡"
+    },
+    {
+      "given_name": "源",
+      "family_name": "涂"
+    }
+  ]
+}

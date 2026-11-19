@@ -1,0 +1,1469 @@
+% !TeX program = xelatex
+% Liouville--Goldbach: complete proof, September audits, and the logical boundary with Goldbach
+\documentclass[11pt,a4paper]{ctexart}
+
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{caption}
+\usepackage{microtype}
+\usepackage{url}
+\usepackage[hidelinks]{hyperref}
+
+\setlength{\emergencystretch}{3em}
+\sloppy
+\raggedbottom
+
+\captionsetup{font=small,labelfont=bf,skip=6pt}
+\setlist[itemize]{leftmargin=2em,itemsep=0.25em,topsep=0.35em}
+\setlist[enumerate]{leftmargin=2.2em,itemsep=0.25em,topsep=0.35em}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{定理}[section]
+\newtheorem{lemma}[theorem]{引理}
+\newtheorem{proposition}[theorem]{命题}
+\newtheorem{corollary}[theorem]{推论}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{定义}
+\newtheorem{remark}[theorem]{注}
+\newtheorem{example}[theorem]{例}
+\renewcommand{\proofname}{证明}
+
+\newcommand{\Fp}{\mathbb{F}_p}
+\newcommand{\Fpx}{\mathbb{F}_p^{\times}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\li}{\lambda}
+\newcommand{\Om}{\Omega}
+\newcommand{\Even}{\operatorname{Even}}
+\newcommand{\GC}{\mathrm{GC}}
+\newcommand{\LG}{\mathrm{LG}}
+\newcommand{\LGtwo}{\mathrm{LG}_{\Om\le2}}
+\newcommand{\PP}{\mathrm{PP}}
+\newcommand{\leg}[2]{\left(\frac{#1}{#2}\right)}
+\newcommand{\sgn}{\operatorname{sgn}}
+\newcommand{\code}[1]{\texttt{#1}}
+
+\setCJKmonofont{SimHei}
+
+\hypersetup{
+  pdftitle={刘维尔--哥德巴赫定理的严格证明与二元哥德巴赫猜想的逻辑边界},
+  pdfauthor={宋敏, 宋瑷成, 宋奥菲, 范钧睿, 胡安, 涂源},
+  pdfkeywords={Liouville function, Goldbach conjecture, Lean 4, formal verification, parity problem}
+}
+
+\title{\bfseries 刘维尔--哥德巴赫定理的严格证明\\[2pt]
+与二元哥德巴赫猜想的逻辑边界\\[4pt]
+\large ——对 2026 年 9 月两项手稿的闭环核验}
+\author{宋敏、宋瑷成、宋奥菲、范钧睿、胡安、涂源\\[2pt]
+\small DSH\_MM 数论核验项目组\\[1pt]
+\small 通讯作者：宋敏}
+\date{2026年11月18日\\[2pt]
+\small 预印本 v3.2，未经同行评审}
+
+\begin{document}
+\maketitle
+
+\begin{center}
+\fbox{\parbox{0.94\textwidth}{\small
+\textbf{范围声明。}本文严格证明的是刘维尔--哥德巴赫定理（LG）：每个偶数 $N>2$ 都是两个正整数之和，且两个加数的刘维尔值均为 $-1$。本文\textbf{不证明}二元哥德巴赫猜想（GC），也不声称 LG 足以推出 GC。相反，本文证明
+\[
+  \GC\iff \LGtwo,
+\]
+其中 $\LGtwo$ 要求两个加数还满足 $\Om\le2$。因此，从 LG 到 GC 的缺口恰是一个与 GC 等价的加强；现有九月材料没有给出这个加强。把本文或九月材料读作“哥德巴赫猜想已被证明”，是把“奇偶性”误读为“素性”。}}
+\end{center}
+
+\begin{abstract}
+\noindent
+二元哥德巴赫猜想（GC）至今开放。2026 年 9 月，两项预印本与 Lean~4 工程声称证明了刘维尔函数下的弱形式（LG）：每个偶数 $N>2$ 都是两个正整数之和，且两个加数的刘维尔值均为 $-1$；其中一项还声称覆盖所有 $4$ 的倍数。本文做五件事。第一，独立重述并核验 LG 的一个完整、自足、可逐步复核的初等证明。第二，修正原证明在 $p=7$ 处的一个小素数边界缺口，并给出显式补丁。第三，审计 9 月 15 日“$4$ 的倍数”稿与 Mangerel 阈值的版本差异：该稿引用的是 IMRN 出版版（摘要写对所有 $m\ge11$），而 arXiv v2 只写“充分大”且 $N_0$ 无效；两者不能混用。本文只核对 Mangerel 出版版摘要（$N\ge11$），未逐行审计出版版正文；arXiv v2 的 $N_0$ 无效，两个阈值不得互相替代。本文撤回早期稿把该稿判为“量词偷换”的说法。第四，审计 9 月 16 日一般稿：主线正确，但正文在交换平方处同样需要一个 $p=7$ 的小情形；补上后，其纸面证明与 Lean 形式化一致。第五，澄清逻辑边界：LG 与 GC 不是同一个命题，且
+\[
+  \GC\iff \LGtwo.
+\]
+由于 $\li(n)=-1$ 允许 $8,12$ 等合数，LG 本身不提供 $\Om$ 界；要把 LG 升级为 GC，必须补上 $\Om\le2$ 的加强，而该加强本身与 GC 等价。结论是：LG 已获严格证明与机器核验，但二元哥德巴赫猜想仍开放；把 LG 称为 GC 的证明，是把“奇偶性”偷换为“素性”。这里还要记录一条更强的先验结果：2026 年 9 月 25 日 MathOverflow 的一份答案给出了无条件结论——对每个 $N\notin\{2,3,4,5,6,9,10\}$，四种符号对都能在分解 $N=a+b$ 中出现，并注明偶数情形的证明与 Lean 形式化来自上游匿名作者。本文不涉及这一更强结果，也不主张优先权。
+
+\vspace{0.6em}
+\noindent\textbf{关键词：}刘维尔函数；哥德巴赫猜想；Shusterman 问题；Lean~4；形式化验证；奇偶障碍
+
+\vspace{0.3em}
+\noindent\textbf{MSC 2020：}11P32（Goldbach 问题）；11N37（乘性函数）；68V20（形式化数学）
+\end{abstract}
+
+\newpage
+\begin{center}
+{\large\bfseries A Goldbach Theorem for the Liouville Function:\\[2pt]
+Complete Proof, September Audits, and the Logical Boundary\\[2pt]
+with Binary Goldbach}
+\end{center}
+
+\noindent\textbf{Abstract.}
+The binary Goldbach conjecture (GC) remains open. In September 2026 two preprints and a Lean~4 development announced a proof of the Liouville--Goldbach theorem (LG): every even $N>2$ is a sum of two positive integers at which the Liouville function equals $-1$. One of them also claimed all multiples of four. We do five things. First, we give an independent, self-contained exposition and verification of a complete elementary proof of LG. Second, we repair a small-prime boundary case at $p=7$ in the written proof. Third, we audit the 15 September manuscript on multiples of four and the version dependence of Mangerel's threshold: the manuscript cites the published IMRN version, whose abstract asserts the bound for all $m\ge11$, whereas arXiv v2 only asserts it for all sufficiently large $m$ with an ineffective $N_0$. The two versions must not be conflated; we checked only the abstract of the published Mangerel version ($N\ge11$), not its body line by line; arXiv v2's $N_0$ is ineffective, and the two thresholds must not substitute for each other. We withdraw an earlier claim that the manuscript committed a quantifier substitution. Fourth, we audit the 16 September general manuscript: its main line is correct, but the written commuting-square argument also needs the case $p=7$; after this repair, the paper proof and the Lean formalization agree. Fifth, we isolate the logical boundary: LG and GC are not the same proposition, and
+\[
+  \GC\iff\LGtwo,
+\]
+where $\LGtwo$ additionally requires $\Om(a),\Om(b)\le2$. Since $\li(n)=-1$ admits composites such as $8$ and $12$, LG supplies no such $\Om$-bound. Any derivation of GC that uses only the statement of LG as a black box must establish this strengthening, which is equivalent to GC itself. Thus LG is proved and machine-verified, while binary Goldbach remains open. Calling LG a proof of GC is a quantifier-and-predicate substitution, not a mathematical inference. We also record a stronger prior result: a MathOverflow answer of 25 September 2026 states unconditionally that for every $N\notin\{2,3,4,5,6,9,10\}$ all four sign pairs occur in decompositions $N=a+b$, and credits the even case (proof and Lean formalization) to an anonymous upstream author. This paper does not address that stronger statement and makes no priority claim.
+
+\vspace{0.4em}
+\noindent\textbf{Keywords:}Liouville function; Goldbach conjecture; Shusterman problem; Lean~4; formal verification; parity problem
+
+\newpage
+\section{引言}
+\label{sec:intro}
+
+\subsection{二元哥德巴赫猜想与弱型结果}
+\label{sec:bg}
+
+1742 年，Goldbach 在致 Euler 的信中提出：每个大于 $2$ 的偶数都可写成两个素数之和\cite{goldbach1742}。这一命题今称二元（强）哥德巴赫猜想：
+\begin{equation}
+\GC:\quad \forall N\in\N,\quad \Even(N)\ \land\ N>2
+\Longrightarrow\ \exists p,q\in\N,\ p,q\ \text{素数}\ \land\ p+q=N.
+\label{eq:gc}
+\end{equation}
+截至本文写作时，在作者的文献核查范围内，未见被数学界普遍接受的证明；GC 仍开放。有限范围的验证已到 \(4\times10^{18}\)\cite{oliveira2014}，但有限验证不是证明。与之不同，弱（三元）哥德巴赫猜想断言每个充分大的奇数都是三个素数之和，已由 Helfgott 证明\cite{helfgott2015}；二者不能互相替代。Chen 的 $1+2$ 定理\cite{chen1973,chen1978}把大偶数写成“一个素数加一个至多两个素因子的数”，但第二个加数仍可以是合数。从 $1+2$ 到 $1+1$ 的障碍不是“再算大一点”，而是筛法的奇偶障碍（parity problem）：Selberg 筛只能检测“未被小素数整除”，不能区分素因子个数的奇偶\cite{montgomeryvaughan}。
+
+把素数替换为“有奇数个素因子的整数”，会得到另一类弱化。令 $\li(n)=(-1)^{\Om(n)}$ 为刘维尔函数，其中 $\Om(n)$ 是 $n$ 的素因子个数（计重数）。每个素数 $p$ 满足 $\li(p)=-1$，但许多合数也满足，例如
+\[
+  \li(8)=(-1)^3=-1,\qquad \li(12)=(-1)^3=-1.
+\]
+因此，若把 GC 中的“素数”替换为“$\li=-1$ 的整数”，就得到一个严格更弱的命题。2018 年，Shusterman 在 MathOverflow 上提出该问题\cite{shusterman2018}：是否每个偶数 $N>2$ 都可写成 $a+b=N$，其中 $\li(a)=\li(b)=-1$？本文称其为刘维尔--哥德巴赫定理（LG）。
+
+\subsection{刘维尔--哥德巴赫定理与九月手稿}
+\label{sec:lg-background}
+
+Mangerel 在 2024 年证明了反射相关和的一个非平凡上界\cite[Theorem~1.2]{mangerel2024}：
+\begin{equation}
+  \left|\sum_{1\le n<N}\li(n)\li(N-n)\right|<N-1.
+  \label{eq:mangerel}
+\end{equation}
+该结果的阈值在两个版本中不同：arXiv v2 的摘要写“for all sufficiently large integers $N$”，其证明依赖 Siegel 关于二次 Dirichlet 特征 $L(1,\chi)$ 下界的定理，因此 $N_0$ 是\emph{无效的}（ineffective），不能给出可计算的上界\cite[Remark~1]{mangerel2024}；IMRN 出版版（2024, no.~16, 11865--11877, DOI \texttt{10.1093/imrn/rnae149}）的摘要则写“for all $N\ge11$”。本文在引用时区分这两个版本；第~\ref{sec:audit-a} 节说明这一区别如何影响手稿 A 的引用。在广义 Riemann 猜想（GRH）下，Mangerel 进一步证明了每个充分大的偶数都有 $\li(a)=\li(b)=-1$ 的表示\cite[Theorem~1.2]{mangerel2024b}。
+
+2026 年 9 月，两项预印本与一个 Lean~4 工程把上述问题推进到无条件情形。手稿 A（9 月 15 日）声称证明所有 $4$ 的倍数；手稿 B（9 月 16 日）声称证明所有偶数 $N>2$，并给出一个初等证明与完整形式化\cite{captain2026four,captain2026general}。本文的审计将说明：A 的结论正确，其证明引用的是 Mangerel 的 \emph{IMRN 出版版}，该版摘要写的是对所有 $m\ge11$；arXiv v2 只写“充分大”且阈值无效。两者不能混用，但 A 的引用本身与出版版一致。B 的证明主线正确，但正文有一个 $p=7$ 的小边界需要补上；补上后，B 证明的仍只是 LG，而不是 GC。
+
+还应记录一份与本文同时代的独立审计：\path{sunnyspot114514/Liouville-Goldbach-audit} 于 2026 年 9 月 17 日对上游 B 的 v1.0.0 做了独立的 Lean 全量 replay（2907 任务、PASS、公理集为三条标准公理、数值检查 $4$ 到 $500$；见 \cite{sunnyspot2026}）。本文的 Lean 复核\emph{不是}首次独立 replay；本文相对它的增量是 \(p=7\) 的书面补丁、\(\mathrm{GC}\iff\mathrm{LG}_{\Omega\le2}\) 的证书，以及 v1$\to$v2 的公开更正。引用这份先前的独立审计，比声称“首次”更准确。
+
+\paragraph{一条更强的先验结果。}2026 年 9 月 25 日，L.~Meng 在 MathOverflow 的答案中给出一个更强且无条件的结论：对每个 $N\notin\{2,3,4,5,6,9,10\}$，四种符号对 $(\li(a),\li(b))\in\{\pm1\}^2$ 都在分解 $N=a+b$（$a,b>0$）中出现，且七个例外值确实各缺至少一种符号对。该答案同时注明，偶数情形的无条件证明与 Lean 形式化由一位匿名作者独立给出，并指向 \path{CaptainSude/Liouville-Goldbach} 的 v1.0.0 发布\cite{meng2026}。本文不涉及这一更强结果：本文只处理 LG、它的书写边界以及它与 GC 的逻辑距离，并明确不主张优先权。本文没有逐项核对该答案的证明，引用只按公开答案的陈述。
+
+\subsection{一个必须拒绝的推理}
+\label{sec:false-inference}
+
+一个自然的误读是：既然 LG 已经对所有偶数成立，而“素数就是 $\li=-1$ 的数”，那么 GC 不也就成立了吗？这个推理在两个地方偷换了概念。第一，$\li(n)=-1$ 只说明 $\Om(n)$ 为奇数，而素数要求 $\Om(n)=1$；$8,12,18$ 都是反例。第二，LG 的证明只控制符号模式，不控制 $\Om$ 的大小；它给出的见证可能完全是合数，例如
+\[
+  20=8+12,\qquad \li(8)=\li(12)=-1.
+\]
+本文要把这一逻辑距离写成可机器检查的定理，而不是停留在口头澄清。特别地，本文\textbf{不会}在结尾把 LG 改名为 GC；那将是数学上不成立的断言。
+
+\subsection{主要贡献}
+\label{sec:contributions}
+
+本文的贡献可以概括为五点。
+\begin{enumerate}
+\item \textbf{LG 的完整重述与核验。}第~\ref{sec:proof} 节独立重述一个自足的初等证明：从“$2p$ 没有正正刘维尔对”的假设出发，用反射不等式、奇延拓、两个交换对称、短乘法延拓与小素数平方矛盾，推出每个素数 $p>3$ 都有正正对；再用两个素因子把结论降到所有偶数。证明只用到初等算术、二次 reciprocity 及其补充律。
+\item \textbf{小素数边界的修复。}原证明在交换平方一步取 $p/6<n<p/4$；当 $p=7$ 时该区间没有整数。本文显式验证 $p=5,7$，并说明 $p\ge11$ 时该区间非空（例如 $n=\lfloor p/4\rfloor$ 可用），使纸面证明不再有空区间。第~\ref{sec:small-p} 节给出细节，其中 $p\ge11$ 的区间非空性已内核化：Lean 定理 \code{exists\_nat\_between\_sixth\_and\_fourth} 对每个素数 $p\ge11$ 取 $n=p/4$，并在内核中验证 $p<6n$ 与 $4n<p$（第~\ref{sec:lean} 节、附录~\ref{app:lean}）。
+\item \textbf{对手稿 A 的版本审计。}第~\ref{sec:audit-a} 节对照 Mangerel 的两个版本：arXiv v2 只给出无效的 $N_0$，IMRN 出版版的摘要则写对所有 $m\ge11$。手稿 A 引用的是后者，因此其 $m\ge11$ 不是对 arXiv v2 的“量词偷换”，而是对出版版的忠实引用；本文撤回早期稿把 A 称为量词偷换的说法。A 的结论本身也由本文的定理~\ref{thm:LG} 独立补全。
+\item \textbf{对手稿 B 的逐行核验。}B 的一般证明不依赖 Mangerel 的阈值，核心是交换平方与下降。第~\ref{sec:audit-b} 节逐条检查其中间不等式、区间端点、奇偶性与二次 reciprocity 的使用；除 $p=7$ 的边界补丁外，未发现数学缺口。B 的 Lean 主定理没有额外解析假设，公理集为标准三公理。
+\item \textbf{逻辑边界的机器化。}第~\ref{sec:boundary} 节证明 $\GC\Rightarrow\LG$，并证明
+\[
+  \GC\iff\LGtwo.
+\]
+同时给出 Lean 证书：$\li(8)=-1$ 但 $8$ 不是素数；$20=8+12$ 是 LG 见证而两个加数都是合数。由此可知，LG 到 GC 的缺口恰是 $\Om\le2$ 的升级；这个升级与 GC 等价，因而不是“再加一个引理”就能补上的技术细节。
+\end{enumerate}
+
+\subsection{结构安排}
+\label{sec:organization}
+
+第~\ref{sec:prelim} 节给出记号、主要定理与逻辑关系的概览。第~\ref{sec:proof} 节证明正正对定理 $\PP(p)$，第~\ref{sec:reduction} 节从它推出所有偶数的 LG。第~\ref{sec:audit} 节审计九月两项手稿。第~\ref{sec:verification} 节报告形式化与数值核验。第~\ref{sec:boundary} 节讨论 LG 与 GC 的逻辑边界。第~\ref{sec:conclusion} 节总结。附录给出 Lean 声明、复现命令与哈希。
+
+\paragraph{版本说明。}本稿为 v3.2；相对 v3.1 的增量是文本更正与先验补全：(i) 条件桥的量词改为“存在一个表示，其两个加数均满足 $\Om\le2$”；(ii) 摘要与结论补充 Mangerel 版本限定（只核对出版版摘要，正文未逐行审计）；(iii) §1.2 增引 2026 年 9 月 25 日 MathOverflow 的更强先验结果，并明确本文不涉及该结果、不主张优先权；(iv) 新增“AI 使用与上游归属”说明，写清上游快照内未见 AI 工具声明。无新增数学主张。v3.1 相对 v3 的增量是把 $p\ge11$ 的区间非空性做成独立模块 \code{IntervalLemma.lean} 中的内核定理 \code{exists\_nat\_between\_sixth\_and\_fourth}，并纳入封存清单（104 个文件）。v3 相对 v2 的增量是：引用先前的独立 Lean 审计 \cite{sunnyspot2026}；新增 \(p=7\) 的 Lean 证书 \code{positive\_prime\_pairs\_seven} 与 \(\Omega\) 层级定理 \code{binary\_goldbach\_implies\_omega\_le}；增加间接价值讨论。LG/GC 的结论与边界在 v3$\to$v3.1 中不变。
+
+\begin{figure}[htbp]
+\centering
+\fbox{\parbox{0.93\textwidth}{\centering\small
+假设 $2p$ 无正正对 $\longrightarrow$ 反射不等式 $\longrightarrow$ 上三分之一恒等式 $\longrightarrow$ 奇延拓 $G$ 与缺陷 $A,B$ $\longrightarrow$ 交换平方 $A=B=0$ $\longrightarrow$ 短代表元与乘法延拓 $\longrightarrow$ 小素数二次剩余矛盾 $\longrightarrow$ 正正对 $\PP(p)$ $\longrightarrow$ 两个素因子下降 $\longrightarrow$ 所有偶数 LG.
+}}
+\caption{正正对定理与 LG 的证明路线。图中从反射不等式到小素数二次剩余的论证在 $\Fp$ 上完成；两端与最终下降是整数陈述。}
+\label{fig:proof}
+\end{figure}
+
+\section{预备与主要结果}
+\label{sec:prelim}
+
+\subsection{刘维尔函数}
+\label{sec:liouville}
+
+对正整数 $n$，令 $\Om(n)$ 为 $n$ 的素因子个数，计重数；令
+\begin{equation}
+  \li(n)=(-1)^{\Om(n)}.
+  \label{eq:liouville}
+\end{equation}
+于是 $\li(1)=1$，每个素数 $p$ 满足 $\li(p)=-1$，且 $\li$ 完全乘性：
+\begin{equation}
+  \li(ab)=\li(a)\li(b)\qquad(a,b\in\N_{>0}).
+  \label{eq:multiplicative}
+\end{equation}
+特别地，
+\begin{equation}
+  \li(2n)=\li(3n)=-\li(n).
+  \label{eq:two-three}
+\end{equation}
+本文用 $\li$ 表示刘维尔函数，用 $f$ 表示它在区间上的限制，用 $G$ 表示第~\ref{sec:completion} 节构造的奇延拓。
+
+\begin{definition}[刘维尔--哥德巴赫定理]
+\label{def:LG}
+记 $\LG$ 为如下命题：对每个偶数 $N>2$，存在正整数 $a,b$，使得
+\[
+  a+b=N,\qquad \li(a)=\li(b)=-1.
+\]
+\end{definition}
+
+\begin{definition}[正正对]
+\label{def:PP}
+对素数 $p>3$，记 $\PP(p)$ 为如下命题：存在正整数 $u,v$，使得
+\[
+  u+v=2p,\qquad \li(u)=\li(v)=1.
+\]
+\end{definition}
+
+\begin{definition}[带 $\Om$ 界的 LG]
+\label{def:LGtwo}
+记 $\LGtwo$ 为如下命题：对每个偶数 $N>2$，存在正整数 $a,b$，使得
+\[
+  a+b=N,\qquad \li(a)=\li(b)=-1,\qquad \Om(a)\le2,\qquad \Om(b)\le2.
+\]
+\end{definition}
+
+本文的主定理是：
+
+\begin{theorem}[刘维尔--哥德巴赫定理]
+\label{thm:LG}
+$\LG$ 成立：每个偶数 $N>2$ 都是两个正整数之和，且这两个正整数的刘维尔值均为 $-1$。
+\end{theorem}
+
+证明分为两步。第~\ref{sec:proof} 节证明：
+
+\begin{theorem}[正正对定理]
+\label{thm:PP}
+对每个素数 $p>3$，$\PP(p)$ 成立。
+\end{theorem}
+
+第~\ref{sec:reduction} 节用两个素因子从定理~\ref{thm:PP} 推出定理~\ref{thm:LG}。
+
+\subsection{与二元哥德巴赫猜想的关系}
+\label{sec:relation-preview}
+
+\begin{proposition}[GC 蕴含 LG]
+\label{prop:gc-implies-lg}
+若 $\GC$ 成立，则 $\LG$ 成立。
+\end{proposition}
+
+\begin{proof}
+设 $N>2$ 为偶数。由 $\GC$，存在素数 $p,q$ 使 $p+q=N$。素数满足 $\li(p)=\li(q)=-1$，取 $a=p,b=q$ 即可。
+\end{proof}
+
+反向蕴含并不成立，至少不能由“$\li=-1$ 即素数”这种直接推理得到：
+
+\begin{proposition}[直接反向推理失效]
+\label{prop:naive-converse}
+命题“$\forall n\in\N,\ \li(n)=-1\Rightarrow n$ 是素数”为假。
+\end{proposition}
+
+\begin{proof}
+$\li(8)=(-1)^3=-1$，但 $8=2^3$ 不是素数。
+\end{proof}
+
+更强地，LG 的见证可以两个加数都是合数：$20=8+12$，且 $\li(8)=\li(12)=-1$。因此，LG 的存在量词并不保证素性。第~\ref{sec:boundary} 节将把这一观察升级为一个机器检查的等价：
+\begin{equation}
+  \GC\iff\LGtwo,
+  \label{eq:omega-equiv-preview}
+\end{equation}
+其中 $\LGtwo$ 在 LG 的基础上要求 $\Om(a),\Om(b)\le2$。由于 $\li(n)=-1$ 且 $\Om(n)\le2$ 强迫 $\Om(n)=1$，这个加强恰好恢复素性。换言之，LG 缺少的不是“再多算一点”，而是对 $\Om$ 的精确控制。
+
+\subsection{记号与约定}
+\label{sec:notation}
+
+\begin{itemize}
+\item $p$ 总表示大于 $3$ 的素数；因此 $p$ 为奇数且 $3\nmid p$。
+\item $\Fp$ 表示 $p$ 元有限域，$\Fpx=\Fp\setminus\{0\}$。
+\item 对 $x\in\Fp$，其\emph{中心代表}是唯一的整数 $t\in(-p/2,p/2)$ 使 $x\equiv t\pmod p$。
+\item $\sgn(t)$ 在 $t>0$ 时为 $1$，在 $t<0$ 时为 $-1$，在 $t=0$ 时为 $0$。
+\item $\leg{a}{p}$ 表示 Legendre 符号；$a$ 是模 $p$ 的二次剩余当且仅当 $\leg{a}{p}=1$。在本文中 $a$ 总与 $p$ 互素。
+\item 所有区间如 $(p/6,p/4)$ 均指其中的整数点；端点是否为整数在第~\ref{sec:support} 节统一检查。
+\end{itemize}
+
+\section{正正对的证明}
+\label{sec:proof}
+
+本节固定一个素数 $p>3$，并假设 $\PP(p)$ 不成立，即
+\begin{equation}
+  \text{不存在 }u,v>0\text{ 使 }u+v=2p\text{ 且 }\li(u)=\li(v)=1.
+  \label{eq:noPP}
+\end{equation}
+记 $f(n)=\li(n)$，只使用 $0<n<2p$ 上的值。我们将从 \eqref{eq:noPP} 推出一对矛盾：一方面构造出一个在 $\Fpx$ 上乘性的符号函数 $G$，另一方面二次 reciprocity 强制 $G$ 与 $\li$ 在某个小素数处冲突。
+
+先处理两个小素数。$p=5$ 时
+\[
+  10=1+9,\qquad \li(1)=\li(9)=1;
+\]
+$p=7$ 时
+\[
+  14=4+10,\qquad \li(4)=1,\quad \li(10)=\li(2)\li(5)=1.
+\]
+因此 $p=5,7$ 满足 $\PP(p)$。以下假设 $p\ge11$。这个假设将在第~\ref{sec:small-p} 节用于选取一个非空的短区间；原证明在 $p=7$ 时该区间为空，是一个需要显式补上的边界。
+
+\subsection{反射不等式}
+\label{sec:reflection}
+
+\begin{lemma}[反射与平移]
+\label{lem:reflection}
+在假设 \eqref{eq:noPP} 下，对 $0<n<p$，
+\begin{equation}
+  -f(n)\le f(p-n),\qquad f(p+n)\le f(n),
+  \label{eq:reflection}
+\end{equation}
+且对 $0<n<p/2$，
+\begin{equation}
+  f(n)\le f(p-2n).
+  \label{eq:double-reflection}
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+先证第一个不等式。若 $f(n)=f(p-n)=-1$，则 $n+(p-n)=p$ 是一对负负和；把两个加数都乘以 $2$，由 $\li(2m)=-\li(m)$ 得
+\[
+  \li(2n)=\li(2(p-n))=1,
+\]
+于是 $2n+2(p-n)=2p$ 是一对正正和，与 \eqref{eq:noPP} 矛盾。因此 $n$ 与 $p-n$ 不可能同时为 $-1$，即 $f(p-n)\ge -f(n)$。
+
+再证第二个不等式。若 $f(n)=1$，则 $f(p+n)\le1=f(n)$ 自动成立。若 $f(n)=-1$，由第一个不等式得 $f(p-n)=1$。但 $(p-n)+(p+n)=2p$，而 \eqref{eq:noPP} 禁止两个加数同时为 $1$，故 $f(p+n)=-1$，仍有 $f(p+n)\le f(n)$。
+
+最后，对 $2n$ 应用第一个不等式（$0<2n<p$）：
+\[
+  -f(2n)\le f(p-2n).
+\]
+由 $f(2n)=-f(n)$ 得 $f(n)\le f(p-2n)$，即 \eqref{eq:double-reflection}。
+\end{proof}
+
+\begin{remark}
+项目此前的重述稿在第一个不等式的证明中把 $\li(2n)$ 误写为 $-1$；正确的值是 $+1$（因为 $\li(2)=-\li(n)$ 且 $\li(n)=-1$）。该笔误不影响“$n$ 与 $p-n$ 不能同时为 $-1$”的结论，本文已改正。
+\end{remark}
+
+\begin{lemma}[上三分之一恒等式]
+\label{lem:upper}
+若 $p/3<n<p/2$，令 $u=p-2n$，$v=3n-p$，则 $u,v>0$，且
+\begin{equation}
+  f(n)=f(u)=-f(v).
+  \label{eq:upper}
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+由 $p/3<n<p/2$ 得
+\[
+  u=p-2n>0,\qquad v=3n-p>0.
+\]
+由 \eqref{eq:double-reflection}，$f(n)\le f(u)$。又 $3n=p+v$，对 $v$ 应用 \eqref{eq:reflection} 的第二个不等式：
+\[
+  f(3n)=f(p+v)\le f(v).
+\]
+而 $f(3n)=-f(n)$，故
+\begin{equation}
+  -f(n)\le f(v).
+  \label{eq:chain1}
+\end{equation}
+另一方面，
+\[
+  p=3u+2v.
+\]
+若 $f(u)=f(v)=1$，则
+\[
+  f(3u)=f(3)f(u)=-1,\qquad f(2v)=f(2)f(v)=-1.
+\]
+于是 $6u+4v=2p$ 是一对正正和，与 \eqref{eq:noPP} 矛盾。因此 $f(u),f(v)$ 不可能同时为 $1$，即
+\begin{equation}
+  f(v)\le -f(u).
+  \label{eq:chain2}
+\end{equation}
+再由 $f(n)\le f(u)$ 得
+\begin{equation}
+  -f(u)\le -f(n).
+  \label{eq:chain3}
+\end{equation}
+把 \eqref{eq:chain1}--\eqref{eq:chain3} 串起来：
+\[
+  -f(n)\le f(v)\le -f(u)\le -f(n).
+\]
+两端相等，故每一步都是等号，于是 $f(n)=f(u)$ 且 $f(v)=-f(n)$。
+\end{proof}
+
+\subsection{奇延拓与两个缺陷}
+\label{sec:completion}
+\label{sec:support}
+
+把 $f$ 在 $0<n<p/2$ 上的值奇延拓到 $\Fp$。对 $x\in\Fp$，设 $t$ 是 $x$ 的唯一中心代表，$-p/2<t<p/2$，定义
+\begin{equation}
+  G(0)=0,\qquad G(x)=\sgn(t)\,f(|t|)\quad(x\ne0).
+  \label{eq:completion}
+\end{equation}
+于是
+\begin{equation}
+  G(-x)=-G(x),\qquad G(1)=1,\qquad G(n)=f(n)\quad(0<n<p/2).
+  \label{eq:G-properties}
+\end{equation}
+注意 $G$ 只用到 $f$ 在 $0<n<p/2$ 上的值，而这段区间完全由 $\li$ 给出。
+
+定义两个“缺陷”函数
+\begin{equation}
+  A(x)=G(-2x)-G(x),\qquad B(x)=G(-3x)-G(x)\qquad(x\in\Fp).
+  \label{eq:defects}
+\end{equation}
+由 $G$ 的奇性，$A,B$ 都是奇函数：
+\[
+  A(-x)=-A(x),\qquad B(-x)=-B(x).
+\]
+
+\begin{lemma}[缺陷的支撑表]
+\label{lem:support}
+对正的中心代表 $n$（即 $0<n<p/2$），$A(n),B(n)$ 满足下表：
+\begin{center}
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+$n$ & $(0,p/6)$ & $(p/6,p/4)$ & $(p/4,p/3)$ & $(p/3,p/2)$ \\
+\midrule
+$A(n)$ & $0$ & $0$ & $\ge0$ & $0$ \\
+$B(n)$ & $0$ & $\ge0$ & $A(n)$ & $0$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{lemma}
+
+\begin{proof}
+先看 $A$。若 $0<n<p/4$，则 $2n<p/2$，$-2n$ 的中心代表就是 $-2n$，故
+\[
+  G(-2n)=-f(2n)=f(n)=G(n),
+\]
+于是 $A(n)=0$。若 $p/4<n<p/2$，则 $0<p-2n<p/2$，$-2n$ 的中心代表是 $p-2n$，故
+\[
+  A(n)=f(p-2n)-f(n)\ge0
+\]
+由 \eqref{eq:double-reflection}。若进一步 $p/3<n<p/2$，由 \eqref{eq:upper} 得 $f(p-2n)=f(n)$，故 $A(n)=0$。这就给出 $A$ 的四段。
+
+再看 $B$。若 $0<n<p/6$，则 $3n<p/2$，$-3n$ 的中心代表是 $-3n$，故
+\[
+  G(-3n)=-f(3n)=f(n)=G(n),
+\]
+于是 $B(n)=0$。若 $p/6<n<p/3$，则 $0<p-3n<p/2$，$-3n$ 的中心代表是 $p-3n$，故
+\[
+  B(n)=f(p-3n)-f(n)\ge0,
+\]
+这里用了 \eqref{eq:reflection} 在 $3n$ 处：
+\[
+  f(p-3n)\ge -f(3n)=f(n).
+\]
+若 $p/3<n<p/2$，由 \eqref{eq:upper} 得 $f(3n-p)=-f(n)$；而 $-3n$ 的中心代表是 $p-3n=-(3n-p)$，所以
+\[
+  G(-3n)=-f(3n-p)=f(n),
+\]
+于是 $B(n)=0$。
+
+最后比较中间两段。若 $p/4<n<p/3$，令 $u=p-2n$，则 $p/3<u<p/2$。对 $u$ 应用 \eqref{eq:upper}：
+\[
+  f(u)=-f(3u-p).
+\]
+而 $3u-p=3(p-2n)-p=2(p-3n)$，故
+\[
+  f(p-2n)=-f(2(p-3n))=f(p-3n).
+\]
+于是
+\[
+  A(n)=f(p-2n)-f(n)=f(p-3n)-f(n)=B(n).
+\]
+表中的端点 $p/6,p/4,p/3,p/2$ 都不是整数：$p$ 是大于 $3$ 的素数，故 $2\nmid p$ 且 $3\nmid p$，四个端点分别需要 $6,4,3,2$ 整除 $p$，均不可能。
+\end{proof}
+
+\subsection{交换平方}
+\label{sec:commuting}
+\label{sec:small-p}
+
+\begin{proposition}[两个精确对称]
+\label{prop:commuting}
+在假设 \eqref{eq:noPP} 下，对每个 $x\in\Fp$，
+\begin{equation}
+  G(2x)=-G(x),\qquad G(3x)=-G(x).
+  \label{eq:exact}
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+乘法 $-2$ 与 $-3$ 在 $\Fp$ 上交换。沿两条路径从 $x$ 到 $6x$ 作差，得到恒等式
+\begin{equation}
+  A(-3x)+B(x)=B(-2x)+A(x).
+  \label{eq:commuting}
+\end{equation}
+事实上，左边等于
+\[
+  \bigl(G(6x)-G(-3x)\bigr)+\bigl(G(-3x)-G(x)\bigr)=G(6x)-G(x),
+\]
+右边等于
+\[
+  \bigl(G(6x)-G(-2x)\bigr)+\bigl(G(-2x)-G(x)\bigr)=G(6x)-G(x).
+\]
+
+取任意整数 $n$ 满足 $p/6<n<p/4$。这样的 $n$ 存在：例如 $n_0=\lfloor p/4\rfloor$ 满足 $n_0<p/4$，且
+\[
+  n_0\ge \frac{p-3}{4}>\frac{p}{6}
+\]
+（因为 $p\ge11$）。以下论证对每个这样的 $n$ 都成立。此时 $A(n)=0$；又 $2n\in(p/3,p/2)$，由支撑表 $B(2n)=0$，再由 $B$ 的奇性得 $B(-2n)=0$。所以 \eqref{eq:commuting} 的右边为 $0$。
+
+左边呢？$-3n$ 的中心代表是 $p-3n$，而
+\[
+  p-3n\in(p/4,p/2).
+\]
+由支撑表，$A(p-3n)\ge0$，且 $B(n)\ge0$（因为 $n\in(p/6,p/4)$）。于是左边是两个非负数之和，等于 $0$，故
+\[
+  A(p-3n)=0,\qquad B(n)=0.
+\]
+特别地，$B$ 在 $(p/6,p/4)$ 上为零。结合支撑表，$A$ 与 $B$ 在所有正的中心代表上相等：在 $(0,p/6)$ 与 $(p/3,p/2)$ 上两者都为 $0$，在 $(p/6,p/4)$ 上两者都为 $0$，在 $(p/4,p/3)$ 上表中已给出 $B=A$。由奇性，$A=B$ 在整个 $\Fp$ 上成立。
+
+于是对每个 $x$，
+\[
+  G(-2x)-G(x)=G(-3x)-G(x),
+\]
+即 $G(-2x)=G(-3x)$。由 $G$ 的奇性，
+\[
+  -G(2x)=-G(3x),
+\]
+所以
+\begin{equation}
+  G(2x)=G(3x)\qquad(x\in\Fp).
+  \label{eq:ratio}
+\end{equation}
+等价地，令 $y=x/3$，得
+\begin{equation}
+  G(2y/3)=G(y).
+  \label{eq:ratio2}
+\end{equation}
+
+我们还要知道 $A$ 在乘以 $2/3$ 下不变。对任意 $y$，
+\[
+  A(2y/3)=G(-4y/3)-G(2y/3).
+\]
+由 \eqref{eq:ratio2} 在 $-2y$ 处，$G(-4y/3)=G(-2y)$；由 \eqref{eq:ratio2} 在 $y$ 处，$G(2y/3)=G(y)$。因此
+\begin{equation}
+  A(2y/3)=G(-2y)-G(y)=A(y).
+  \label{eq:A-invariant}
+\end{equation}
+
+假设 $A$ 不恒为零。由支撑表和奇性，存在正的中心代表 $n\in(p/4,p/3)$ 使 $A(n)>0$。令 $m$ 是 $(2/3)n$ 的中心代表。由 \eqref{eq:A-invariant}，$A(m)=A(n)>0$。再次由支撑表和奇性，$A(m)>0$ 迫使 $m$ 为正且 $m\in(p/4,p/3)$。但
+\[
+  3m\equiv2n\pmod p.
+\]
+另一方面，
+\[
+  2n\in(p/2,2p/3),\qquad 3m\in(3p/4,p).
+\]
+这两个区间不相交，且都包含在 $(0,p)$ 内，故 $3m-2n$ 不可能是 $p$ 的非零倍数；又 $3m>2n$，差为正且小于 $p$，矛盾。因此 $A\equiv0$。
+
+由 $A\equiv0$ 得 $G(-2x)=G(x)$，即 $-G(2x)=G(x)$，故 $G(2x)=-G(x)$。由 $A=B$ 得 $B\equiv0$，同理 $G(3x)=-G(x)$。命题得证。
+\end{proof}
+
+\begin{remark}
+若 $p=7$，区间 $(p/6,p/4)=(7/6,7/4)$ 不含整数，上述选取 $n$ 的论证不适用。这不是定理的反例，而是纸面证明的一个边界缺口；本文已在节首用 $14=4+10$ 单独验证 $p=7$。手稿 B 的 Lean 证明通过分情况讨论覆盖了 $p=7$，但其正文没有写出这一句。第~\ref{sec:audit-b} 节将把这一点记为“可修复的书写缺口”，而不是“定理不成立”。自 v3.1 起，$p\ge11$ 一侧也不再只是文字说明：\code{exists\_nat\_between\_sixth\_and\_fourth} 在内核中证明，对每个素数 $p\ge11$，取 $n=p/4$ 即满足 $p<6n$ 与 $4n<p$，故区间 $(p/6,p/4)$ 必含整数。于是交换平方一步在 $p=7$（节首单独验证）与 $p\ge11$（区间非空，内核保证）两侧都闭合。
+\end{remark}
+
+\subsection{从短乘法到整个有限域}
+\label{sec:extension}
+
+\begin{lemma}[短代表元]
+\label{lem:short-rep}
+设 $p>3$ 为素数，$H$ 是 $\Fpx$ 的真子群，且 $-1,2,3\in H$。设 $q$ 是最小的正整数，其模 $p$ 的剩余不属于 $H$。则 $H$ 的每个乘法陪集都含有一个正整数代表 $n$，满足
+\begin{equation}
+  n<\frac{p}{2q}.
+  \label{eq:short}
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+先说明 $q$ 是素数。若 $q=ab$ 且 $1<a,b<q$，则 $a,b$ 的剩余都在 $H$ 中（因 $q$ 最小缺失），故 $q$ 的剩余也在 $H$ 中，矛盾。又 $1,2,3,4\in H$（$4=2\cdot2$），故 $q\ge5$。由于 $H$ 是真正子群，存在非零剩余不在 $H$ 中，故 $q<p$。由于 $-1\in H$，每个剩余都可换成其相反数；若 $q>p/2$，则 $p-q<q$ 且 $p-q\equiv-q\pmod p$ 也不属于 $H$，与 $q$ 的最小性矛盾。因此
+\[
+  5\le q<p/2.
+\]
+
+固定 $H$ 的一个陪集，取其中最小的正整数代表 $n$。若 $n>p/2$，则 $p-n<n$ 且 $p-n\equiv -n$ 属于同一陪集（因 $-1\in H$），矛盾；故 $n<p/2$。若 $n$ 为偶数，则 $n/2<n$ 且 $n\equiv2(n/2)$ 属于同一陪集（因 $2\in H$），矛盾；故 $n$ 为奇数。若 $n=1$，由 $q<p/2$ 得 $2q<p$，于是
+\[
+  1<\frac{p}{2q},
+\]
+结论成立。
+
+以下设 $1<n<p/2$。若 $2qn<p$，则 \eqref{eq:short} 成立，无需再证。故设
+\begin{equation}
+  2qn\ge p.
+  \label{eq:large}
+\end{equation}
+由于 $p$ 为奇数而 $2qn$ 为偶数，等号不可能，故 $2qn>p$。
+
+\smallskip
+\noindent\textit{情形 1：$p<(2q-1)n$。}
+此时
+\[
+  2<\frac{p}{n}<2q-1<2q.
+\]
+取最接近 $p/n$ 的偶数 $a$。由于 $p/n>2$ 且 $p/n<2q-1$，有
+\[
+  2\le a\le2q-2.
+\]
+又 $p/n$ 不是整数（否则 $n\mid p$，与 $1<n<p$ 矛盾），也不可能是两个相邻偶数的中点（那将是一个奇数整数），故
+\[
+  0<|p-an|<n.
+\]
+写 $a=2j$，其中 $1\le j<q$。由于 $j<q$，$j$ 的剩余属于 $H$；又 $2\in H$，故 $a$ 的剩余属于 $H$。于是 $|p-an|$ 是同一陪集中一个更小的正整数代表（因为 $|p-an|\equiv -an\pmod p$，而 $-1,a\in H$），与 $n$ 的最小性矛盾。
+
+\smallskip
+\noindent\textit{情形 2：$(2q-1)n<p<2qn$。}
+在 $2q-1$ 与 $2q+1$ 中，恰有一个被 $3$ 整除（两者相差 $2$，模 $3$ 不同）。取这个数记为 $a$。它可写成 $a=3j$，其中 $1\le j<q$；于是 $a$ 的剩余属于 $H$（$3\in H$，$j\in H$）。由所在区间，
+\[
+  0<|p-an|<2n.
+\]
+此外 $a,n,p$ 都是奇数，故 $p-an$ 为偶数，于是
+\[
+  r=\frac{|p-an|}{2}
+\]
+是正整数，且 $0<r<n$。它的剩余是 $\pm(a/2)n$；由于 $a,2\in H$ 且 $-1\in H$，$a/2$ 的剩余属于 $H$，故 $r$ 与 $n$ 在同一陪集。这与 $n$ 的最小性矛盾。
+
+两种情形都导出矛盾，故必有 $2qn<p$，即 $n<p/(2q)$。
+\end{proof}
+
+\begin{proposition}[半区间延拓]
+\label{prop:extension}
+设 $p>3$ 为素数，$F:\Fpx\to\{\pm1\}$ 满足 $F(1)=1$。假设
+\begin{align}
+  F(cx)&=F(c)F(x)&&\text{对 }c\in\{-1,2,3\},\ x\in\Fpx,
+  \label{eq:small-exact}\\
+  F(ab)&=F(a)F(b)&&\text{对 }a,b\in\Z_{\ge1},\ ab<p/2.
+  \label{eq:short-mult}
+\end{align}
+则 $F(xy)=F(x)F(y)$ 对所有 $x,y\in\Fpx$ 成立。
+\end{proposition}
+
+\begin{proof}
+称 $c\in\Fpx$ 为\emph{精确的}，若 $F(cx)=F(c)F(x)$ 对所有 $x\in\Fpx$ 成立。令 $H$ 为所有精确元组成的集合。由 $F(1)=1$，$1\in H$。若 $c,d\in H$，则
+\[
+  F(cdx)=F(c)F(dx)=F(c)F(d)F(x),
+\]
+故 $cd\in H$。若 $c\in H$，对任意 $x$，把精确性用于 $c^{-1}x$：
+\[
+  F(x)=F(c)F(c^{-1}x),
+\]
+故 $F(c^{-1}x)=F(c)^{-1}F(x)=F(c)F(x)$（因为 $F(c)=\pm1$），所以 $c^{-1}\in H$。因此 $H$ 是子群，且包含 $-1,2,3$。
+
+假设 $H$ 是真正子群。令 $q$ 是最小的正整数，其剩余不属于 $H$。定义
+\[
+  D(x)=\frac{F(qx)}{F(q)F(x)}\qquad(x\in\Fpx).
+\]
+对 $c\in H$，
+\[
+  D(cx)=\frac{F(qcx)}{F(q)F(cx)}
+  =\frac{F(c)F(qx)}{F(q)F(c)F(x)}=D(x),
+\]
+故 $D$ 在每个 $H$-陪集上为常数。
+
+由引理~\ref{lem:short-rep}，每个陪集含有整数代表 $n<p/(2q)$。于是 $qn<p/2$，由 \eqref{eq:short-mult}，
+\[
+  D(n)=\frac{F(qn)}{F(q)F(n)}=1.
+\]
+因 $D$ 在该陪集上为常数，$D\equiv1$。这等价于 $F(qx)=F(q)F(x)$ 对所有 $x$ 成立，即 $q\in H$，与 $q$ 的取法矛盾。因此 $H=\Fpx$，$F$ 在 $\Fpx$ 上完全乘性。
+\end{proof}
+
+\begin{corollary}
+\label{cor:multiplicative}
+在假设 \eqref{eq:noPP} 下，第~\ref{sec:completion} 节构造的 $G$ 在 $\Fpx$ 上乘性：
+\[
+  G(xy)=G(x)G(y)\qquad(x,y\in\Fpx).
+\]
+\end{corollary}
+
+\begin{proof}
+由 $G$ 的奇性，$-1$ 是精确乘子。由 \eqref{eq:exact} 在 $x=1$ 处，
+\[
+  G(2)=G(3)=-1,
+\]
+故 $2,3$ 也是精确乘子。对 $a,b\ge1$ 且 $ab<p/2$，有 $a,b\le ab<p/2$，于是 $G(a)=f(a)=\li(a)$，$G(b)=\li(b)$，$G(ab)=\li(ab)$；由 $\li$ 的乘性，
+\[
+  G(ab)=G(a)G(b).
+\]
+这正是 \eqref{eq:short-mult}。由命题~\ref{prop:extension}，$G$ 在 $\Fpx$ 上完全乘性。
+\end{proof}
+
+\subsection{小素数平方矛盾}
+\label{sec:small-prime}
+
+二次 reciprocity 及其补充律的标准陈述见 \cite[Chapter~5]{irelandrosen}。
+
+\begin{lemma}[半区间内的素二次剩余]
+\label{lem:small-prime}
+设 $p>3$ 为素数且 $p\equiv3\pmod4$。则存在素数 $\ell<p/2$，使 $\ell$ 是模 $p$ 的二次剩余。
+\end{lemma}
+
+\begin{proof}
+令 $L=(p+1)/4$。由 $p>3$ 得 $L>1$。取 $L$ 的一个素因子 $\ell$，则 $\ell\le L<p/2$。
+
+若 $\ell=2$，则 $L$ 为偶数，故 $8\mid p+1$，即 $p\equiv7\pmod8$；由二次剩余的补充律，$2$ 是模 $p$ 的二次剩余。
+
+若 $\ell$ 为奇素数，由 $p\equiv3\pmod4$ 及二次 reciprocity，
+\[
+  \leg{\ell}{p}
+  =(-1)^{\frac{\ell-1}{2}\frac{p-1}{2}}\leg{p}{\ell}
+  =(-1)^{\frac{\ell-1}{2}}\leg{p}{\ell}.
+\]
+因为 $\ell\mid p+1$，有 $p\equiv-1\pmod\ell$，故
+\[
+  \leg{p}{\ell}=\leg{-1}{\ell}=(-1)^{\frac{\ell-1}{2}}.
+\]
+代入得
+\[
+  \leg{\ell}{p}=(-1)^{\frac{\ell-1}{2}}(-1)^{\frac{\ell-1}{2}}=1.
+\]
+所以 $\ell$ 是模 $p$ 的非零二次剩余。
+\end{proof}
+
+\begin{theorem}[正正对存在]
+\label{thm:positive-pair}
+对每个素数 $p>3$，存在正整数 $u,v$ 使
+\[
+  u+v=2p,\qquad \li(u)=\li(v)=1.
+\]
+\end{theorem}
+
+\begin{proof}
+$p=5,7$ 已在节首直接验证。以下 $p\ge11$。反设 \eqref{eq:noPP} 成立。由第~\ref{sec:completion} 节构造 $G$，由推论~\ref{cor:multiplicative}，$G$ 在 $\Fpx$ 上乘性。
+
+先证 $G(-1)=-1$。由 \eqref{eq:G-properties}，$G(1)=1$；由奇性，$G(-1)=-G(1)=-1$。
+
+若 $-1$ 是模 $p$ 的二次剩余，比如 $-1\equiv y^2$，则
+\[
+  G(-1)=G(y^2)=G(y)^2=1,
+\]
+与 $G(-1)=-1$ 矛盾。因此 $-1$ 不是模 $p$ 的二次剩余。对奇素数 $p$，这等价于 $p\equiv3\pmod4$。
+
+由引理~\ref{lem:small-prime}，存在素数 $\ell<p/2$ 使 $\ell$ 是模 $p$ 的二次剩余，故存在 $y\in\Fpx$ 使 $\ell\equiv y^2$。于是
+\[
+  G(\ell)=G(y^2)=G(y)^2=1.
+\]
+但 $\ell<p/2$，由 $G$ 在 $0<n<p/2$ 上与 $f=\li$ 一致，
+\[
+  G(\ell)=\li(\ell)=-1,
+\]
+矛盾。因此假设 \eqref{eq:noPP} 不成立，正正对存在。
+\end{proof}
+
+\section{从正正对到所有偶数}
+\label{sec:reduction}
+
+本节证明定理~\ref{thm:LG}。关键是：正正对在乘以刘维尔值为 $-1$ 的因子后变成负负对；每个偶数 $2m$ 都可以通过提取 $m$ 的两个素因子，把问题化到某个 $2p$ 上的正正对。
+
+\begin{theorem}[刘维尔--哥德巴赫定理]
+\label{thm:LG-proof}
+每个偶数 $N>2$ 都存在正整数 $a,b$，使得
+\[
+  a+b=N,\qquad \li(a)=\li(b)=-1.
+\]
+\end{theorem}
+
+\begin{proof}
+写 $N=2m$，其中 $m>1$。
+
+\smallskip
+\noindent\textit{情形 1：$\li(m)=-1$。}
+取 $a=b=m$。则 $a+b=2m=N$，且 $\li(a)=\li(b)=-1$。
+
+\smallskip
+\noindent\textit{情形 2：$\li(m)=1$。}
+因为 $m>1$，$\Om(m)$ 是正偶数，故 $\Om(m)\ge2$。从 $m$ 的素因子分解中取出两个素数 $r,s$（允许 $r=s$），写成
+\[
+  m=rsc,\qquad c\ge1.
+\]
+由乘性，
+\[
+  \li(c)=\frac{\li(m)}{\li(r)\li(s)}=\frac{1}{(-1)(-1)}=1.
+\]
+
+若 $r>3$（或 $s>3$，交换记号即可），由定理~\ref{thm:positive-pair}，存在 $u,v>0$ 使
+\[
+  u+v=2r,\qquad \li(u)=\li(v)=1.
+\]
+两边乘以 $sc$：
+\[
+  N=2m=2rsc=sc(u+v)=scu+scv.
+\]
+由 $\li(sc)=\li(s)\li(c)=(-1)\cdot1=-1$，
+\[
+  \li(scu)=\li(sc)\li(u)=-1,\qquad
+  \li(scv)=\li(sc)\li(v)=-1.
+\]
+取 $a=scu$，$b=scv$ 即可。
+
+若 $r,s$ 都不超过 $3$，则 $r,s\in\{2,3\}$。此时 $2rs\in\{8,12,18\}$，而
+\[
+  8=3+5,\qquad 12=5+7,\qquad 18=7+11,
+\]
+右边每一对都是两个素数，刘维尔值均为 $-1$。把恒等式两边乘以 $c$，并注意 $\li(c)=1$，得
+\[
+  8c=3c+5c,\qquad 12c=5c+7c,\qquad 18c=7c+11c,
+\]
+且每一项的刘维尔值都是 $-1$。而 $N=2m=2rsc=(2rs)c$，故 $N$ 有所需的负负表示。
+\end{proof}
+
+\begin{corollary}[$4$ 的倍数]
+\label{cor:four}
+每个正整数的 $4$ 倍都是两个正整数之和，且两个加数的刘维尔值均为 $-1$。
+\end{corollary}
+
+\begin{proof}
+$4\mid N$ 时 $N$ 为偶数且 $N>2$，直接应用定理~\ref{thm:LG-proof}。
+\end{proof}
+
+\begin{remark}
+\label{rem:four}
+推论~\ref{cor:four} 的结论与手稿 A 相同，但本节给出的证明不依赖 Mangerel 的相关和上界。手稿 A 的证明另有一条“下降”路线，其代数步骤本身是正确的；它对 Mangerel 出版版阈值的引用与出版版摘要一致，版本差异详见第~\ref{sec:audit-a} 节。
+\end{remark}
+
+\section{九月手稿的闭环审计}
+\label{sec:audit}
+
+本节按“声明--证据--结论”的方式审计两项九月手稿。审计只针对文本与形式化产物，不针对作者动机；所有否定性结论都绑定到具体句子与具体定理。
+
+\subsection{手稿 A：$4$ 的倍数与 Mangerel 阈值的版本差异}
+\label{sec:audit-a}
+
+手稿 A 的标题是 \emph{Liouville's Goldbach Problem for Multiples of Four}，日期为 2026 年 9 月 15 日\cite{captain2026four}。其主定理为：
+\begin{quote}
+Every positive integer divisible by four is the sum of two positive integers whose Liouville values are both $-1$.
+\end{quote}
+证明结构如下。设 $N=4m$。若 $m\ge11$ 且 $2\nmid m,3\nmid m$，用 Mangerel 的相关和上界排除“没有负负对”；若 $2\mid m$ 或 $3\mid m$，用 $8=3+5$ 与 $12=5+7$ 的缩放覆盖；剩下 $m<11$ 且 $2\nmid m,3\nmid m$ 的 $m=1,5,7$，用 $4=2+2$、$20=3+17$、$28=5+23$ 覆盖。
+
+手稿 A 明确写道，唯一需要的外部定理是 Mangerel 的界\cite[Theorem~1.2]{mangerel2024}：
+\begin{equation}
+  \left|\sum_{n=1}^{m-1}\li(n)\li(m-n)\right|<m-1
+  \qquad(m\ge11).
+  \label{eq:quoted-a}
+\end{equation}
+这里必须区分 Mangerel 的两个版本：
+\begin{itemize}
+\item \textbf{arXiv v2（2404.12117v2，2024 年 5 月）}的摘要写“for all sufficiently large integers $N$”，正文定理的形式是“存在 $N_0$，对所有 $N\ge N_0$”；其 Remark~1 指出证明依赖 Siegel 关于二次 Dirichlet 特征 $L(1,\chi)$ 下界的定理，因此 $N_0$ 是\emph{无效的}，不能给出可计算的上界。
+\item \textbf{IMRN 出版版（2024, no.~16, 11865--11877；DOI \texttt{10.1093/imrn/rnae149}）}的摘要写的是“for all $N\ge11$”。
+\end{itemize}
+（出版版的摘要经 Crossref 记录（DOI \texttt{10.1093/imrn/rnae149}）核对，日期 2026-11-17；本文未取得出版版全文，因此只把摘要作为版本阈值的证据，正文 Theorem~1.2 的逐字陈述仍应以出版版为准。）因此 \eqref{eq:quoted-a} 与它所引用的版本一致。本文早期稿曾把 A 的 $m\ge11$ 判为“把 $\exists N_0$ 误写成 $\forall m\ge11$”，这个判断把 A 的引用对象换成了 arXiv v2；该判断现已撤回。正确的陈述是：\emph{A 引用出版版，故其阈值与出版版摘要一致；若改引 arXiv v2，则 $[11,N_0)$ 确实没有依据。}这是版本引用问题，不是 A 的数学错误。
+
+这一点在形式化中表现为一个显式输入。手稿 A 的 Lean 主定理类型是
+\[
+  \code{shusterman\_multiples\_of\_four}\ (h_M : \code{MangerelNonextremality})\ \cdots,
+\]
+其中 \code{MangerelNonextremality} 被定义为
+\[
+  \forall m\in\N,\quad 11\le m\Longrightarrow
+  \left|\sum_{n=1}^{m-1}\li(n)\li(m-n)\right|<m-1.
+\]
+因此 Lean 定理证明的是一个以 $h_M$ 为输入的蕴含。形式化本身没有错；需要说明的是，$h_M$ 是把 Mangerel 的证明作为外部输入，而不是把出版版定理重新证明一遍。如果 $h_M$ 采用出版版的陈述，那么它不是额外的、比已发表定理更强的假设；如果采用 arXiv v2 的陈述，则它确实强于 arXiv v2。上游 README 也写道，形式化“does not remove the explicit Mangerel hypothesis”；这句话的正确读法是“Mangerel 的证明没有被形式化”，而不是“该假设未被任何已发表定理支持”。
+
+需要区分两件事：
+\begin{enumerate}
+\item 手稿 A 的\emph{下降引理}本身是正确的。该引理把“$4m$ 没有负负对”转化为“$m$ 上所有对都异号”，其代数步骤（最小间隔、乘以 $3$、除以 $2$、奇偶性）经逐行检查未发现错误。
+\item 手稿 A 的\emph{引用}与 IMRN 出版版一致；它的“无条件”声称依赖出版版 Mangerel 定理作为外部输入。本文不主张该外部定理的证明有缺口；本文只指出，\emph{不能把 arXiv v2 的“充分大”当作 A 所引出版版的阈值}，反之亦然。
+\end{enumerate}
+
+因此，手稿 A 的正确标签是：
+\begin{quote}
+在 Mangerel 的 IMRN 出版版（$m\ge11$）作为外部定理的前提下，所有 $4$ 的倍数都有负负表示。
+\end{quote}
+它的结论本身是真的——本文定理~\ref{thm:LG-proof} 给出了不依赖 Mangerel 的独立证明，覆盖更强的所有偶数情形。本文早期稿的“A 的量词偷换”结论作废；保留下来的是一个版本引用警告：引用 Mangerel 时必须写明版本，arXiv v2 与 IMRN 出版版的阈值不同。
+
+\subsection{手稿 B：一般情形与两个可修复的边界}
+\label{sec:audit-b}
+
+手稿 B 的标题是 \emph{A Goldbach theorem for the Liouville function}，日期为 2026 年 9 月 16 日\cite{captain2026general}。其主定理为：每个偶数 $N>2$ 都存在 $a,b>0$ 使 $a+b=N$ 且 $\li(a)=\li(b)=-1$。证明路线与本文第~\ref{sec:proof} 与第~\ref{sec:reduction} 节一致：
+\begin{enumerate}
+\item 假设 $2p$ 没有正正对，导出反射不等式；
+\item 奇延拓到 $\Fp$，定义缺陷 $A,B$；
+\item 用交换平方证明 $A=B=0$，得到 $G(2x)=G(3x)=-G(x)$；
+\item 用短代表元引理把半区间乘法延拓为整个 $\Fpx$ 上的乘法；
+\item 用小素数二次剩余与 $G(-1)=-1$ 矛盾；
+\item 用两个素因子从 $2p$ 降到所有偶数。
+\end{enumerate}
+
+我们逐条检查了这条路线，重点包括：
+\begin{itemize}
+\item 反射不等式中的四种符号组合，特别是 $f(p+n)\le f(n)$ 的推导；
+\item 上三分之一恒等式中 $p=3u+2v$ 的系数与“不能同时为正”的方向；
+\item 缺陷支撑表在四个区间上的中心代表计算；
+\item 交换恒等式 $A(-3x)+B(x)=B(-2x)+A(x)$ 的 telescoping；
+\item $A$ 在乘以 $2/3$ 下的不变性，以及 $3m$ 与 $2n$ 所在区间的互斥；
+\item 短代表元引理中 $q$ 的素性、$q<p/2$、两种情形下的 $a$ 的选取与 $r=|p-an|/2$ 的陪集归属；
+\item 小素数引理中 $p\equiv3\pmod4$、$\ell\mid(p+1)/4$ 与二次 reciprocity 的符号。
+\end{itemize}
+
+我们发现了两个需要写明的边界，但都不是不可修复的数学缺口。
+\begin{enumerate}
+\item \textbf{$p=7$ 的空区间。}手稿 B 在交换平方处写“Take $p/6<n<p/4$”，但没有说明该区间非空。$p=5$ 时 $n=1$ 可用；$p=7$ 时 $(7/6,7/4)$ 不含整数。本文在节首用 $14=4+10$ 直接验证 $p=7$，并说明 $p\ge11$ 时区间非空（例如 $n=\lfloor p/4\rfloor$ 可用），因此纸面证明闭合。手稿 B 的 Lean 证明通过 \code{by\_cases} 与中心代表分类覆盖了 $p=7$，所以这只是正文的书写缺口，不是形式化或定理的反例。
+\item \textbf{引言中的 Mangerel 阈值。}手稿 B 的引言写道，Mangerel “proved, by an elementary argument, that $|C(N)|<N-1$ for every $N\ge11$”，并说等号情形恰为 $N\in\{2,3,5,10\}$，引用的是 Mangerel 的 Theorem~1.2\cite{captain2026general}。这句话与 IMRN 出版版的摘要一致，但与 arXiv v2 的“充分大”不同；因此它本身不是误引，而是一个需要注明版本的引用。该句不进入手稿 B 的主证明，不影响定理~\ref{thm:LG} 的成立。修订时建议写明“IMRN 出版版，Theorem~1.2”，并把等号情形的有限计算与 Mangerel 的定理分开陈述。
+\end{enumerate}
+
+除这两点外，未发现数学缺口。手稿 B 的证明是自足的：它不使用 Mangerel 的相关和上界，也不使用 GRH，只使用初等算术与二次 reciprocity。这一点也体现在形式陈述上：手稿 B 的 \code{liouville\_goldbach} 只有 \code{N}、\code{Even N}、\code{2 < N} 三个参数，没有手稿 A 那样的 \code{MangerelNonextremality} 假设。需要强调，这是逐行文本审计的结论，不是 Lean 对论文散文的验证；形式化只对所列类型负责。
+
+与项目此前的审计稿相比，本稿把 $p=7$ 的空区间单独列出。此前稿的“逐行核验未发现数学缺口”应理解为“未发现不可修复的数学缺口”；本稿把这一句细化为“主线正确，但有一个可修复的书写边界”。补上 $p=7$ 与区间非空性后，主结论不变，且与 Lean 的分情况证明一致。
+
+\subsection{两项手稿与本文的对比}
+\label{sec:audit-table}
+
+\begin{table}[htbp]
+\centering
+\small
+\caption{九月两项手稿与本文的证据对比。}
+\label{tab:audit}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}p{2.3cm}p{4.1cm}p{4.4cm}p{3.3cm}@{}}
+\toprule
+ & 手稿 A（9 月 15 日） & 手稿 B（9 月 16 日） & 本文 \\
+\midrule
+结论 & 所有 $4$ 的倍数 & 所有偶数 $N>2$ & 所有偶数 $N>2$（LG） \\
+外部输入 & Mangerel 出版版（$m\ge11$） & 无（引言引出版版，不进主证明） & 无 \\
+证明状态 & 引出版版则闭合；改引 arXiv v2 则 $[11,N_0)$ 无依据 & 主线通过；$p=7$ 可修复 & 自足证明 + Lean 复核 \\
+Lean & 有，含显式强假设 & 有，主定理无额外假设 & 复跑公理审计与缺口证书 \\
+是否 GC & 否 & 否 & 否 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+表~\ref{tab:audit} 的最后一列需要强调：本文与两项手稿证明的都是 LG，不是 GC。手稿 A 的结论被本文的定理~\ref{thm:LG-proof} 蕴含；A 的证明在引用 IMRN 出版版时是闭合的，但若把同一句话接到 arXiv v2 的“充分大”陈述上则不闭合。手稿 B 的证明成立，但它证明的定理名字里的 “Goldbach” 是“刘维尔--哥德巴赫”，不是“二元哥德巴赫”。
+
+\subsection{审计结论}
+\label{sec:audit-conclusion}
+
+把三项工作放在一起，可以给出一个精确的状态表：
+\begin{itemize}
+\item \textbf{已证明：}LG（所有偶数 $N>2$ 的 $\li=-1$ 表示）；因此所有 $4$ 的倍数也有这样的表示。
+\item \textbf{已核验：}手稿 B 的主线证明与 Lean 形式化；本文第~\ref{sec:proof} 与第~\ref{sec:reduction} 节给出独立重述，并补上 $p=7$ 的边界。
+\item \textbf{版本敏感：}手稿 A 的无条件性依赖 Mangerel 的 IMRN 出版版（$m\ge11$）；若引用 arXiv v2 的“充分大”，则 $[11,N_0)$ 无依据。
+\item \textbf{未证明且仍开放：}二元哥德巴赫猜想 GC。
+\item \textbf{未证明：}$\LGtwo$，即带 $\Om\le2$ 界的加强版 LG；第~\ref{sec:boundary} 节证明它与 GC 等价。
+\end{itemize}
+
+\section{形式化与数值核验}
+\label{sec:verification}
+
+\subsection{证据分级}
+\label{sec:evidence}
+
+本文把证据分为五类，避免把“编译通过”或“算到 $X$”升级为全称数学定理。
+\begin{center}
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}p{1.6cm}p{6.2cm}p{6.6cm}@{}}
+\toprule
+等级 & 含义 & 本文中的例子 \\
+\midrule
+A1 & 内核检查的 Lean 定理 & \code{liouville\_goldbach}、\code{binary\_goldbach\_iff\_}\allowbreak\code{liouville\_omega\_two} \\
+A2 & 构建/重放产物通过 & 本次 \code{lake env lean} 两个模块 rc 0 \\
+B & 文本事实 & Mangerel 出版版摘要的 $N\ge11$ 与 arXiv v2 的“充分大”；手稿 A 引出版版 \\
+C & 有限计算 & 到 $5\times10^6$ 的 LG 检查 \\
+D & 研究判断 & “未发现数学缺口”“缺口不是技术细节” \\
+\bottomrule
+\end{tabular}
+\end{center}
+A1 只对所列形式陈述负责，不对论文散文的每一句负责；A2 只对固定源码与工具链负责；C 永远不能升级为全称结论。
+
+\subsection{Lean 形式陈述与复核}
+\label{sec:lean}
+
+手稿 B 的 Lean~4\cite{lean4} 工程（基于 Mathlib\cite{mathlib}）把主定理陈述为：
+\begin{quote}\ttfamily\small
+theorem liouville\_goldbach (N : $\mathbb{N}$) (hEven : Even N) (hN : 2 < N) :\\
+\quad $\exists$ a b : $\mathbb{N}$, 0 < a $\wedge$ 0 < b $\wedge$ a + b = N $\wedge$\\
+\quad\quad ArithmeticFunction.liouville a = -1 $\wedge$ ArithmeticFunction.liouville b = -1
+\end{quote}
+这个类型与定义~\ref{def:LG} 逐字对应：没有隐藏的 $N_0$，没有“充分大”，没有额外的解析假设；\code{liouville} 是 Mathlib 中的刘维尔函数，定义为 $(-1)^{\Om(n)}$。因此，形式化没有把“所有偶数”偷换成“充分大偶数”，也没有把“$\li=-1$”偷换成“素数”。
+
+本次复核使用工作区内的 Lean 4.33.0-rc1 与已有 Mathlib 产物，执行
+\begin{verbatim}
+lake env lean GapCertificate.lean
+lake env lean LiouvilleAudit.lean
+\end{verbatim}
+两个命令均返回 0。\code{GapCertificate.lean} 的输出确认了五条缺口证书：
+\begin{quote}\ttfamily\small
+binary\_goldbach\_implies\_liouville\_goldbach :\\
+\quad BinaryGoldbach $\to$ $\forall$ N, Even N $\to$ 2 < N $\to$ $\exists$ a b, \dots\\
+liouville\_negative\_not\_prime :\\
+\quad $\neg$ $\forall$ n, liouville n = -1 $\to$ n.Prime\\
+liouville\_witness\_can\_be\_composite :\\
+\quad $\exists$ N a b, \dots $\neg$ a.Prime $\wedge$ $\neg$ b.Prime\\
+prime\_of\_liouville\_negative\_of\_cardFactors\_le\_two :\\
+\quad $\forall$ n, 1 < n $\to$ liouville n = -1 $\to$ cardFactors n $\le$ 2 $\to$ n.Prime\\
+binary\_goldbach\_iff\_liouville\_omega\_two :\\
+\quad BinaryGoldbach $\leftrightarrow$ LiouvilleGoldbachOmegaTwo
+\end{quote}
+除这五条之外，\code{GapCertificate.lean} 还给出两个 v3 增量：\code{positive\_prime\_pairs\_seven}（\(14=4+10\)，两个加数的 Liouville 值均为 \(+1\)，把 §3.4 的 \(p=7\) 补丁做成内核证书）与 \code{binary\_goldbach\_implies\_omega\_le}（对任意 \(k\ge2\)，\(\mathrm{GC}\Rightarrow\mathrm{LG}_{\Omega\le k}\)；现有的 \(k=2\) 等价式是它的特例）。这两个定理的公理集同样只含三条标准公理。
+
+\paragraph{v3.1 的内核增量。}v3.1 新增独立模块 \code{IntervalLemma.lean}（\code{import LiouvilleGoldbach}），把“$p\ge11$ 时区间非空”做成定理 \code{exists\_nat\_between\_sixth\_and\_fourth}：对每个素数 $p\ge11$，取 $n=p/4$，则 $p<6n$ 且 $4n<p$。它的类型不含“充分大”阈值，也不含额外假设。它与 \code{positive\_prime\_pairs\_seven} 一起覆盖交换平方一步所需的全部小素数情形：$p=7$ 由 §3.4 节首的 $14=4+10$ 单独验证，$p\ge11$ 的区间非空性由内核保证。运行 \code{lake env lean IntervalLemma.lean} 返回 0，公理集为三条标准公理。该模块随 v0.3.1 进入封存清单；v0.3.0 的 103 文件清单与 \code{lg-v0.3.0} 标签不包含它，故 v0.3.0 仍可按原样独立复核。
+\code{LiouvilleAudit.lean} 输出主定理 \code{liouville\_goldbach} 的类型，并打印其公理依赖。主定理与缺口证书只依赖
+\[
+  \{\code{propext},\ \code{Classical.choice},\ \code{Quot.sound}\}
+\]
+的子集；未出现 \code{sorry}、\code{admit}、自定义 \code{axiom}、\code{native\_decide} 或 \code{unsafe}。原始日志见 \code{paper\_boundary/verification/lean\_recheck.log}。
+
+必须写清范围：本次复核是\emph{源码级、非 clean-room} 的。我们复用了工作区中已有的 Mathlib 与依赖包 \code{.lake} 产物，只重新 elaboration 了两个审计模块；没有从空目录重建完整依赖，也没有重放全部导入闭包。上游手稿 B 自带的 \code{verification-build.log} 报告 2901 个任务（Lean 4.34.0-rc2）；项目随后在 Lean 4.33.0-rc1 下做源码级重建，报告 2851 个任务。这两个数字的计数口径不同，不应直接比较；本文的 2851 指后一次重建。本文没有重跑这两次完整构建，只复跑了两个审计模块。形式化证明的是 Lean 类型所表达的命题；它不能替代对论文散文、定义忠实性与 Mathlib 本身一致性的检查。
+
+\subsection{有限数值检查}
+\label{sec:numerical}
+
+作为辅助证据，我们用筛法计算 $\li(n)$ 到 $5\times10^6$，并检查：
+\begin{itemize}
+\item 每个偶数 $N\in[4,5\times10^6]$ 是否存在 $\li=-1$ 的表示；
+\item 每个 $4$ 的倍数是否都有这样的表示；
+\item 对每个素数 $p\in(3,5000]$，$2p$ 是否有正正表示。
+\end{itemize}
+结果如下（脚本 \code{paper\_boundary/verification/check\_boundary.py}，结果 JSON 的 SHA-256 为 \code{1be66bda1e89cac8f1a0a5d8fcc4bd1fd08657d14b43b0e6e6309468366c1171}）：
+\begin{center}
+\small
+\begin{tabular}{@{}lrr@{}}
+\toprule
+检查 & 数量 & 失败 \\
+\midrule
+偶数 $N\in[4,5\times10^6]$ 的 LG 表示 & 2,499,999 & 0 \\
+$4$ 的倍数的 LG 表示 & 1,250,000 & 0 \\
+$p\le5000$ 的正正对 $\PP(p)$ & 667 个素数 & 0 \\
+$\li$ 的确定性乘法抽样 & $500\times500$ 对 & 0 \\
+\bottomrule
+\end{tabular}
+\end{center}
+最小见证的最大值为 $37$，出现在 $N=125872$。这些是 C 级有限证据，不是全称证明；全称证明由第~\ref{sec:proof} 与第~\ref{sec:reduction} 节及 Lean 构建给出。把“算到 $5\times10^6$”写成“对所有偶数成立”，与把 arXiv v2 的“充分大”写成“对所有 $m\ge11$”是同一类错误，只是方向不同；手稿 A 引用的是 IMRN 出版版，故不属此列。
+
+\subsection{不能声称的东西}
+\label{sec:not-claimed}
+
+以下句子都\emph{不}成立，本文明确拒绝：
+\begin{itemize}
+\item “Lean 编译通过，所以哥德巴赫猜想被证明了。”——编译通过只说明形式陈述在固定公理下可证；形式陈述是 LG，不是 GC。
+\item “源码哈希一致，所以论文的每一句都正确。”——哈希只钉住字节，不检查散文与定义忠实性。
+\item “算到 $5\times10^6$ 都成立，所以对所有偶数成立。”——有限不能升级为无限。
+\item “LG 对所有偶数成立，所以 GC 成立。”——这正是第~\ref{sec:boundary} 节要拆解的偷换。
+\end{itemize}
+
+\section{与二元哥德巴赫猜想的逻辑边界}
+\label{sec:boundary}
+
+本节把“LG 与 GC 不是同一个命题”从口号变成可检查的命题。我们先给出形式定义，再证明两个方向，最后讨论奇偶障碍与“再走一步”的幻觉。
+
+\subsection{三个命题}
+\label{sec:three-props}
+
+\begin{definition}[GC]
+\label{def:GC}
+$\GC$ 是命题：对每个偶数 $N>2$，存在素数 $p,q$ 使 $p+q=N$。
+\end{definition}
+
+\begin{definition}[LG]
+\label{def:LG-again}
+$\LG$ 是命题：对每个偶数 $N>2$，存在正整数 $a,b$ 使 $a+b=N$ 且 $\li(a)=\li(b)=-1$。
+\end{definition}
+
+\begin{definition}[$\LGtwo$]
+\label{def:LGtwo-again}
+$\LGtwo$ 是命题：对每个偶数 $N>2$，存在正整数 $a,b$ 使
+\[
+  a+b=N,\qquad \li(a)=\li(b)=-1,\qquad \Om(a)\le2,\qquad \Om(b)\le2.
+\]
+\end{definition}
+
+显然 $\LGtwo\Rightarrow\LG$，因为后者只要求前两个条件。$\GC\Rightarrow\LG$ 也已由命题~\ref{prop:gc-implies-lg} 给出。关键问题是：$\LG$ 能否推出 $\GC$？
+
+\subsection{直接推理的失败}
+\label{sec:naive-failure}
+
+最直接的想法是：LG 给出 $a,b$ 满足 $\li(a)=\li(b)=-1$；如果“$\li=-1$”就是素数，那么就得到 GC。这个想法在第~\ref{sec:relation-preview} 节已被一个反例否定：$8$ 满足 $\li(8)=-1$，但不是素数。更强的是，LG 的见证可以两个加数都是合数：
+\[
+  20=8+12,\qquad \li(8)=\li(12)=-1.
+\]
+这两个事实都已机器检查（见第~\ref{sec:lean} 节）：
+\begin{quote}
+\code{liouville\_negative\_not\_prime}：$\neg\forall n,\ \li(n)=-1\Rightarrow n$ 为素数。\\
+\code{liouville\_witness\_can\_be\_composite}：存在 LG 见证，其两个加数都不是素数。
+\end{quote}
+因此，“从 LG 的见证直接读出素数”的推理是假的。但这还不足以否定一切可能的间接推理；需要更精确地刻画缺什么。
+
+\subsection{$\Om$ 等价：缺口恰好是 $\Om\le2$}
+\label{sec:omega-equiv}
+
+\begin{theorem}[$\Om$ 等价]
+\label{thm:omega-equiv}
+$\GC$ 成立当且仅当 $\LGtwo$ 成立：
+\[
+  \GC\iff\LGtwo.
+\]
+\end{theorem}
+
+\begin{proof}
+($\Rightarrow$) 设 $\GC$ 成立。对偶数 $N>2$，取素数 $p,q$ 使 $p+q=N$。素数满足 $\li(p)=\li(q)=-1$，且 $\Om(p)=\Om(q)=1\le2$。取 $a=p,b=q$ 即可。
+
+($\Leftarrow$) 设 $\LGtwo$ 成立。对偶数 $N>2$，取 $a,b>0$ 使 $a+b=N$，$\li(a)=\li(b)=-1$，$\Om(a),\Om(b)\le2$。因为 $\li(a)=-1$，$\Om(a)$ 为奇数；又 $a>0$ 且 $a\ne1$（否则 $\li(a)=1$），故 $\Om(a)\ge1$。结合 $\Om(a)\le2$，得 $\Om(a)=1$。由算术基本定理，$\Om(a)=1$ 的正整数 $a$ 必为素数。同理 $b$ 为素数。因此 $N=a+b$ 是两个素数之和，$\GC$ 成立。
+\end{proof}
+
+这个定理是本文逻辑分析的核心。它说明：
+\begin{enumerate}
+\item LG 的结论只记录 $\Om$ 的\emph{奇偶性}，不记录 $\Om$ 的\emph{大小}；
+\item 要恢复 GC，必须在 LG 上再加一个 $\Om\le2$ 的界；
+\item 这个加强不是“顺手补一刀”，因为它与 GC 等价：谁证明了 $\LGtwo$，谁就证明了 GC；谁证明了 $\GC$，谁就免费得到 $\LGtwo$。
+\end{enumerate}
+
+因此，任何“从 LG 推出 GC”的论证，如果只把 LG 当作黑箱存在量词，就必然要额外证明 $\LGtwo$；而 $\LGtwo$ 与 GC 等价。本文第~\ref{sec:proof} 与第~\ref{sec:reduction} 节的构造也不提供这个界：它给出的见证可以是两个合数，例如 $20=8+12$。
+
+\begin{corollary}[缺口的精确定位]
+\label{cor:gap}
+在只使用 LG 的陈述作为前提的推理中，从 LG 到 GC 的缺口恰好是：
+\[
+  \LG\ \Longrightarrow\ \LGtwo.
+\]
+而这个蕴含与 GC 等价（在 LG 已成立的背景下）。
+\end{corollary}
+
+\begin{proof}
+由定理~\ref{thm:omega-equiv}，$\LGtwo\iff\GC$。若已知 LG，则“LG 推出 GC”等价于“LG 推出 $\LGtwo$”。更形式化地，在假设 LG 下，
+\[
+  (\LG\Rightarrow\GC)\iff(\LG\Rightarrow\LGtwo).
+\]
+\end{proof}
+
+\subsection{为什么现有构造不控制 $\Om$}
+\label{sec:omega-loss}
+
+第~\ref{sec:reduction} 节的证明是一个存在性构造。它从 $m$ 中取出两个素因子 $r,s$，用 $\PP(r)$ 得到正正对 $u,v$，再乘以 $sc$。在这个构造中，$\li(u)=\li(v)=1$ 只说明 $\Om(u),\Om(v)$ 是\emph{偶数}，可能是 $2,4,6,\dots$；乘以 $\Om(sc)$ 为奇数的 $sc$ 后，$\Om(scu)$ 只保证是奇数，可能是 $3,5,7,\dots$。要得到素数，必须 $\Om(scu)=1$，这要求 $\Om(sc)=1$ 且 $u=1$（或对称地 $v=1$）。对一般的 $m$，这两个条件都不受控制。
+
+一个具体例子是 $N=20$。写 $m=10=5\cdot2$，用 $\PP(5)$ 的正正对 $4+6=10$（$\li(4)=\li(6)=1$），乘以 $sc=2$，得到
+\[
+  20=8+12,\qquad \li(8)=\li(12)=-1.
+\]
+这里两个加数都是合数，$\Om(8)=\Om(12)=3$。这说明同一构造可以给出合法的 LG 见证，却完全不给 $\Om\le2$ 的保证；它不是该构造给出的 GC 见证（$20$ 另有 $3+17$ 的素数表示）。
+
+这就是“奇偶性”与“素性”的差别。LG 的证明把所有奇数 $\Om$ 一视同仁；GC 只允许最小的奇数 $1$。从 LG 到 GC，不是从“几乎全部”到“全部”的定量差距，而是从“奇偶性”到“精确大小”的定性差距。筛法中的奇偶障碍（parity problem）表达了同一件事：Selberg 筛只能检测“没有被小素数整除”，不能区分一个数有 $1$ 个还是 $3$ 个素因子\cite{montgomeryvaughan}。Chen 的 $1+2$ 定理之所以困难，正是因为它用额外结构绕过了部分奇偶障碍，把第二个加数压到至多两个素因子；但它仍然不能把“至多两个”压到“恰好一个”。本文的 $\Om$ 等价把这一障碍写成了一个精确的等价式：要跨过它，就必须证明 $\LGtwo$，而这与 GC 等价。
+
+\subsection{我们不声称独立性}
+\label{sec:no-independence}
+
+需要克制的一点是：上述结论\emph{不是}“LG 与 GC 形式独立”的证明。我们没有构造一个满足 LG 而不满足 GC 的模型；我们证明的是：
+\begin{itemize}
+\item GC 蕴含 LG；
+\item GC 等价于带 $\Om\le2$ 的 LG；
+\item 九月定理只证明了不带 $\Om$ 界的 LG；
+\item 因而它没有、也不可能仅凭其陈述就给出 GC。
+\end{itemize}
+把“没有给出”说成“形式独立”是过度声称；把“没有给出”说成“已经证明 GC”则是错误声称。本文只主张前者。本文不声称 LG 与 GC 形式独立：若 GC 为真，则“LG 蕴含 GC”作为真值蕴含当然为真。本文的结论不是“LG 不蕴含 GC”的独立性定理，而是：\emph{九月材料没有提供从 LG 到 GC 的推理；缺的正是 $\LGtwo$，而这个加强等价于 GC。}
+
+\subsection{一个可检验的“桥”}
+\label{sec:bridge}
+
+为了把“缺什么”说得更具体，我们给出一个条件性命题。它的证明是平凡的，但它把 GC 的额外输入写成了可检验的形式。
+
+\begin{proposition}[条件桥]
+\label{prop:bridge}
+若每个偶数 $N>2$ 都存在一个 LG 表示，其两个加数均满足 $\Om\le2$，则 GC 成立。
+\end{proposition}
+
+\begin{proof}
+这正是定理~\ref{thm:omega-equiv} 的 ($\Leftarrow$) 方向。
+\end{proof}
+
+这个命题不是 GC 的证明，因为它没有给出这样的表示；它只是把 GC 等价地重写为一个“带 $\Om$ 界的 LG”。它的作用是防止把 LG 误当成 GC：若一个论证只以 LG 的陈述为输入，却声称“LG 已经推出 GC”，它就必须在这条桥上给出实质性的新证明，而不能只在符号层面重复 LG 的构造。
+
+\section{结论}
+\label{sec:conclusion}
+
+本文的结论可以用四句话概括。
+
+第一，刘维尔--哥德巴赫定理 LG 成立。第~\ref{sec:proof} 与第~\ref{sec:reduction} 节给出了一个完整的初等证明：从“$2p$ 没有正正对”的假设出发，反射不等式给出上三分之一恒等式；奇延拓后的缺陷 $A,B$ 在交换平方下被迫为零，从而 $G(2x)=G(3x)=-G(x)$；短代表元引理把半区间乘法延拓到整个 $\Fpx$；最后，一个小素数二次剩余与 $G(-1)=-1$ 矛盾。再用两个素因子从 $2p$ 降到所有偶数。证明不使用 Mangerel 的相关和上界，也不使用 GRH。本文还补上了原证明在 $p=7$ 处的空区间，使纸面论证完整。
+
+第二，九月两项手稿需要区别对待。手稿 A（$4$ 的倍数）的下降引理正确，其证明引用 Mangerel 的 IMRN 出版版，该版摘要写的是对所有 $N\ge11$；因此 A 的引用与出版版一致，本文早期稿的“量词偷换”判断已撤回。需要提醒的是，arXiv v2 只写“充分大”且 $N_0$ 无效；把 A 的 $m\ge11$ 接到 arXiv v2 上才会出现 $[11,N_0)$ 的缺口。手稿 B（一般偶数）改用交换对称与下降，主线正确；其正文有一个 $p=7$ 的书写边界，补上后证明完整。其 Lean 形式化有上游 2901 任务构建记录；项目在 Lean 4.33 下的源码级重建为 2851 任务，主定理只依赖三条标准公理；本文复跑了两个审计模块，均返回 0。手稿 B 引言中的 Mangerel 阈值与出版版摘要一致，但应注明所引版本。本文只核对 Mangerel 出版版摘要（$N\ge11$），未逐行审计出版版正文；arXiv v2 的 $N_0$ 无效，两个阈值不得互相替代。
+
+第三，LG 与 GC 不是同一个命题。我们机器验证了 $\GC\Rightarrow\LG$，并证明了
+\[
+  \GC\iff\LGtwo,
+\]
+其中 $\LGtwo$ 要求两个加数还满足 $\Om\le2$。LG 只看见 $\Om$ 的奇偶性，允许 $8,12$ 这样的合数；它的见证甚至可以两个加数都是合数（$20=8+12$）。因此，从 LG 到 GC 的缺口不是“再算大一点”，而是“把奇数 $\Om$ 精确压到 $1$”。这个升级与 GC 等价；谁想仅从 LG 的存在量词推出 GC，谁就必须证明这个等价强化，而不能把 LG 的存在量词直接读成素性。
+
+第四，因此，对“本文是否证明了哥德巴赫猜想”这个问题，答案是否定的。本文重述并核验了刘维尔--哥德巴赫定理的证明，并把它与二元哥德巴赫猜想之间的逻辑距离精确地写成了一个机器检查的等价式。哥德巴赫猜想这颗数学皇冠上的明珠仍未被摘下；九月的工作摘下的是它旁边一颗确实闪亮、但尺寸不同的宝石。把两颗宝石混为一谈，既低估了 GC 的难度，也低估了 LG 的价值。
+
+\subsection{间接价值}
+本文不产生产品、专利或可交易资产，直接经济影响很小；任何具体经济数字都缺乏依据。它的间接价值在于四点。第一，可复核的审计模板：清单、时间戳、复跑命令与“可声明/不可声明”表可以复用到其他 AI 辅助数学项目。第二，形式化成本：把非形式证明的关键边界（如 \(p=7\)）接入 Lean 内核，展示了低成本的证书化路径。第三，教学：LG 与 GC 的边界、\(\Omega\) 等价与 \(p=7\) 空区间是很好的教学案例。第四，研究完整性：v1\(\to\)v2 的公开更正记录了“发现错误—核对来源—发布更正”的流程。本文不给出量化的社会经济估计。
+
+\subsection*{后续工作}
+\label{sec:future}
+
+本文留下三个方向。
+\begin{enumerate}
+\item \textbf{证明 $\LGtwo$。}由定理~\ref{thm:omega-equiv}，这与证明 GC 等价；它不是一条“更容易的旁路”，而是同一座山头的另一条登山道。
+\item \textbf{寻找不经过 $\LGtwo$ 的直接 GC 证明。}这需要新的算术信息，例如对素因子大小的控制、筛法的奇偶突破，或完全不同的解析/代数方法。
+\item \textbf{核对 Mangerel 出版版的正文。}本文依据 IMRN 出版版的摘要（“for all $N\ge11$”）与 arXiv v2 的摘要（“sufficiently large”）作出区分；进一步的工作是逐条核对出版版 Theorem~1.2 的证明是否与摘要的均匀阈值一致，并把这一版本差异写入引用规范。
+\end{enumerate}
+
+\section*{数据与代码可用性}
+\label{sec:data}
+
+{\raggedright
+本文的 \LaTeX{} 源码、构建脚本与复核记录位于项目目录 \path{goldbach/paper_boundary/}。九月两项手稿与 Lean 源码的快照位于 \path{goldbach/liouville_audit/} 与 \path{goldbach/liouville_general_audit/}；本文使用的 Lean~4.33 工程位于 \path{goldbach/frontier/goldbach-lean/}。主定理的形式陈述、缺口证书、构建命令与源码哈希见附录~\ref{app:lean} 与~\ref{app:hashes}。数值检查脚本为 \path{verification/check_boundary.py}，结果与哈希见同目录。\par}
+
+\section*{AI 使用与上游归属}
+
+本文的审计、起草、打包与复核由本地 DeepSeek Harness（DSH）实例执行；作者设定目标、提供环境并决定发布。本文可核对的上游材料（两份九月手稿仓库与 Lean 工程的本地快照，2026 年 11 月 18 日核对）未包含 AI 工具的使用声明；本文不据此推断其作者是否使用过其他模型，也不把任何未经证实的第三方 AI 归属写入引用。数学结论的判据是 Lean~4 内核与所引出版定理，不是任何模型的自述。
+
+\section*{致谢}
+
+本文的证明路线与形式化来自九月两项手稿及其 Lean 工程；作者感谢上游项目公开源码、构建日志与验证记录。本文的审计部分独立完成，但审计对象的设计与实现归功于上游作者。文中的错误与遗漏由本文作者负责。
+
+\section*{利益冲突声明}
+
+作者声明不存在利益冲突。本文不主张哥德巴赫猜想的优先权，也不主张刘维尔--哥德巴赫定理的优先权；本文的贡献是独立重述、边界修复、审计、机器复核与逻辑边界分析。
+
+\appendix
+
+\section{关键 Lean 声明}
+\label{app:lean}
+
+以下声明摘自九月一般稿的 Lean 工程，并在本文的 Lean~4.33 复核中通过类型检查与公理审计。为便于阅读，数学记号与 Lean 语法混排；精确源码见仓库。
+
+\begin{quote}\ttfamily\small
+theorem positive\_prime\_pairs : PositivePrimePairs
+
+theorem liouville\_goldbach (N : $\mathbb{N}$) (hEven : Even N) (hN : 2 < N) :\\
+\quad $\exists$ a b : $\mathbb{N}$, 0 < a $\wedge$ 0 < b $\wedge$ a + b = N $\wedge$\\
+\quad\quad ArithmeticFunction.liouville a = -1 $\wedge$ ArithmeticFunction.liouville b = -1
+\end{quote}
+
+其中
+\begin{quote}\ttfamily\small
+def PositivePrimePairs : Prop :=\\
+\quad $\forall$ p : $\mathbb{N}$, p.Prime $\to$ 3 < p $\to$\\
+\quad\quad $\exists$ a b : $\mathbb{N}$, 0 < a $\wedge$ 0 < b $\wedge$ a + b = 2 * p $\wedge$\\
+\quad\quad\quad ArithmeticFunction.liouville a = 1 $\wedge$ ArithmeticFunction.liouville b = 1
+\end{quote}
+
+缺口证书中的关键声明：
+\begin{quote}\ttfamily\small
+theorem binary\_goldbach\_implies\_liouville\_goldbach\\
+\quad (h : BinaryGoldbach) : $\forall$ N, Even N $\to$ 2 < N $\to$ $\exists$ a b, \dots
+
+theorem liouville\_negative\_not\_prime :\\
+\quad $\neg$ $\forall$ n : $\mathbb{N}$, ArithmeticFunction.liouville n = -1 $\to$ n.Prime
+
+theorem liouville\_witness\_can\_be\_composite :\\
+\quad $\exists$ N a b : $\mathbb{N}$, 0 < a $\wedge$ 0 < b $\wedge$ a + b = N $\wedge$\\
+\quad\quad ArithmeticFunction.liouville a = -1 $\wedge$ ArithmeticFunction.liouville b = -1 $\wedge$\\
+\quad\quad $\neg$ a.Prime $\wedge$ $\neg$ b.Prime
+
+theorem prime\_of\_liouville\_negative\_of\_cardFactors\_le\_two :\\
+\quad $\forall$ n : $\mathbb{N}$, 1 < n $\to$ ArithmeticFunction.liouville n = -1 $\to$\\
+\quad\quad ArithmeticFunction.cardFactors n $\le$ 2 $\to$ n.Prime
+
+theorem positive\_prime\_pairs\_seven :\\
+\quad $\exists$ a b : $\mathbb{N}$, 0 < a $\wedge$ 0 < b $\wedge$ a + b = 14 $\wedge$\\
+\quad\quad ArithmeticFunction.liouville a = 1 $\wedge$ ArithmeticFunction.liouville b = 1
+
+theorem binary\_goldbach\_implies\_omega\_le (k : $\mathbb{N}$) (hk : 2 $\le$ k) :\\
+\quad BinaryGoldbach $\to$ LiouvilleGoldbachOmegaLe k
+
+theorem binary\_goldbach\_iff\_liouville\_omega\_two :\\
+\quad BinaryGoldbach $\leftrightarrow$ LiouvilleGoldbachOmegaTwo
+
+theorem exists\_nat\_between\_sixth\_and\_fourth \{p : $\mathbb{N}$\}\\
+\quad (hp : p.Prime) (h11 : 11 $\le$ p) :\\
+\quad $\exists$ n : $\mathbb{N}$, p < 6 * n $\wedge$ 4 * n < p
+\end{quote}
+
+最后一条由 v3.1 新增的独立模块 \code{IntervalLemma.lean} 给出（\code{import LiouvilleGoldbach}）。它是第~\ref{sec:small-p} 节 Remark 中“$p\ge11$ 时区间非空”的内核版本：$n=p/4$ 就是该 Remark 里的 $\lfloor p/4\rfloor$，两个不等式 $p<6n$ 与 $4n<p$ 都在内核中验证。
+
+\section{构建输出、哈希与复现}
+\label{app:hashes}
+
+\subsection*{本次 Lean 复核}
+
+\begin{verbatim}
+> lake env lean GapCertificate.lean
+...
+'LiouvilleGoldbach.binary_goldbach_iff_liouville_omega_two'
+  depends on axioms: [propext, Classical.choice, Quot.sound]
+GAP_RC=0
+
+> lake env lean LiouvilleAudit.lean
+...
+'LiouvilleGoldbach.liouville_goldbach'
+  depends on axioms: [propext, Classical.choice, Quot.sound]
+LG_RC=0
+
+> lake env lean IntervalLemma.lean
+'LiouvilleGoldbach.exists_nat_between_sixth_and_fourth'
+  depends on axioms: [propext, Classical.choice, Quot.sound]
+IL_RC=0
+\end{verbatim}
+
+前两次运行的完整输出见 \texttt{verification/lean\_recheck.log}；第三次运行的输出即上面的 \texttt{IL\_RC=0} 一段（\texttt{IntervalLemma.lean} 是 v3.1 新增模块，未追加到该日志）。本次复核复用已有 Mathlib 产物，是非 clean-room 的源码级复核；上游 2901 任务记录见项目目录 \texttt{liouville\_general\_audit/}，项目在 Lean 4.33 下的 2851 任务重建记录见 \texttt{liouville\_paper/}。
+
+\subsection*{源码 SHA-256}
+
+以下哈希与九月验证记录 \texttt{verification.json} 一致；本文在 Lean~4.33 复核时逐文件核对。
+
+{\footnotesize
+\begin{verbatim}
+Character.lean   c697ba2ba3aa66c2bb695d1c630930763c35d47feaf4290aaad83c45a055eb55
+Commuting.lean   3aef8d1b4bfc9659991a10a76bc34e3e00c605cf881b10ff49b6398f27c11bb1
+Completion.lean  b2ff402aa249b38f59d4f41f3203a1987b28db444309542d60af68917461387d
+Coset.lean       33aa43751b85c52aeacec9202823b01ff1e83ee94505cbce6655f4f25db80e51
+Descent.lean     735dad437f0d8974e27c33b2ba2fb4bfcf59d9d982c55c11239a7ac9fa4125b7
+Extension.lean   194efbab3a2529795bd832c161a0b58106bb74f62325274aeb6b3267d128b2f8
+Main.lean        8d92eedc688ad35dc0a30d94c7c72c693d7c806f955dfd9d5d92a3391777b716
+Reduction.lean   d2c569172747a13349e240e0d73ffac8812a1f46441ae5b8ac26b2c9b107f366
+Residue.lean     74dc651cd64b9fde0a40ec385d78e5b6874939811c924a11d7d99b24ccc127d2
+\end{verbatim}
+}
+
+\subsection*{数值结果哈希}
+
+\begin{verbatim}
+verification_results.json
+  1be66bda1e89cac8f1a0a5d8fcc4bd1fd08657d14b43b0e6e6309468366c1171
+check_boundary.py
+  (见 verification/SHA256SUMS.json)
+lean_recheck.log
+  (见 verification/SHA256SUMS.json)
+\end{verbatim}
+
+\subsection*{复现步骤}
+
+\begin{enumerate}
+\item 使用 Lean~4.33.0-rc1 与 Mathlib 提交 \texttt{e4c91783ca8e6a7c693ae624ade32fd22d4e43c1}；设置 \texttt{ELAN\_HOME} 指向工作区 \texttt{.elan}。
+\item 在 \texttt{goldbach/frontier/goldbach-lean} 运行 \texttt{lake env lean GapCertificate.lean}、\texttt{lake env lean LiouvilleAudit.lean} 与 \texttt{lake env lean IntervalLemma.lean}（v3.1 新增模块）。
+\item 在 \texttt{goldbach/paper\_boundary/verification} 运行 \texttt{python check\_boundary.py}，核对 JSON 与 SHA-256。
+\item 在 \texttt{goldbach/paper\_boundary} 运行 \texttt{xelatex paper.tex} 两次，生成 PDF。
+\end{enumerate}
+
+\section{审计清单}
+\label{app:checklist}
+
+\begin{table}[htbp]
+\centering
+\small
+\caption{闭环审计清单与结果。}
+\label{tab:checklist}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}p{4.2cm}p{7.8cm}p{2.4cm}@{}}
+\toprule
+检查项 & 结果 & 证据等级 \\
+\midrule
+LG 的纸面证明是否自足？ & 是；不使用 Mangerel 或 GRH；补上 $p=7$ 后完整 & 文本审计 \\
+手稿 A 的外部定理阈值 & 出版版摘要为 $N\ge11$；arXiv v2 为“充分大” & 文本对照 \\
+手稿 A 的下降引理 & 正确；A 引用出版版时闭合 & 逐行检查 \\
+手稿 B 的证明 & 主线正确；$p=7$ 为可修复书写缺口 & 逐行检查 \\
+Lean 陈述是否忠实？ & 是；无 $N_0$、无额外假设 & 类型检查 \\
+Lean 公理依赖 & 仅三条标准公理 & 内核审计 \\
+$p\ge11$ 区间非空性 & 内核定理 \code{IntervalLemma.lean}；取 $n=p/4$ & 内核审计 \\
+是否证明 GC？ & 否；仅 LG & 逻辑分析 \\
+$\GC\iff\LGtwo$ & 是；机器检查 & 内核审计 \\
+数值检查到 $5\times10^6$ & 0 失败 & 有限计算 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{thebibliography}{99}
+\small
+\setlength{\itemsep}{3pt}
+
+\bibitem{goldbach1742}
+C.~Goldbach,
+\emph{Letter to L.~Euler}, 7 June 1742;
+in \emph{Correspondence math\'ematique de Christian Goldbach}, 1999.
+
+\bibitem{helfgott2015}
+H.~A.~Helfgott,
+\emph{The ternary Goldbach conjecture is true},
+arXiv:1312.7748 (2013); revised 2015.
+
+\bibitem{chen1973}
+J.~R.~Chen,
+\emph{On the representation of a large even integer as the sum of a prime and the product of at most two primes},
+Sci. Sinica \textbf{16} (1973), 157--176.
+
+\bibitem{chen1978}
+J.~R.~Chen,
+\emph{On the representation of a large even integer as the sum of a prime and the product of at most two primes, II},
+Sci. Sinica \textbf{21} (1978), 421--430.
+
+\bibitem{montgomeryvaughan}
+H.~L.~Montgomery and R.~C.~Vaughan,
+\emph{Multiplicative Number Theory I: Classical Theory},
+Cambridge Studies in Advanced Mathematics, vol.~97, Cambridge University Press, 2007.
+
+\bibitem{shusterman2018}
+M.~Shusterman,
+\emph{Goldbach's conjecture for the Liouville function},
+MathOverflow question 307479, 3 August 2018.
+\href{https://mathoverflow.net/q/307479}{mathoverflow.net/q/307479}.
+
+\bibitem{mangerel2024}
+A.~P.~Mangerel,
+\emph{On a Goldbach-type problem for the Liouville function},
+International Mathematics Research Notices \textbf{2024}, no.~16, 11865--11877;
+arXiv:2404.12117v2.
+\href{https://doi.org/10.1093/imrn/rnae149}{doi:10.1093/imrn/rnae149}.
+
+\bibitem{mangerel2024b}
+A.~P.~Mangerel,
+\emph{On Shusterman's Goldbach-type problem for sign patterns of the Liouville function},
+arXiv:2412.17199 (2024).
+\href{https://arxiv.org/abs/2412.17199}{arXiv:2412.17199}.
+
+\bibitem{captain2026four}
+CaptainSude,
+\emph{Liouville--Goldbach for multiples of four},
+preliminary manuscript and Lean formalization, GitHub, 15 September 2026.
+\href{https://github.com/CaptainSude/Liouville-Goldbach-Multiples-of-Four}{GitHub repository}.
+
+\bibitem{captain2026general}
+CaptainSude,
+\emph{A Goldbach theorem for the Liouville function},
+preliminary manuscript and Lean formalization, GitHub, 16 September 2026.
+\href{https://github.com/CaptainSude/Liouville-Goldbach}{GitHub repository}.
+
+\bibitem{irelandrosen}
+K.~Ireland and M.~Rosen,
+\emph{A Classical Introduction to Modern Number Theory},
+2nd ed., Graduate Texts in Mathematics, vol.~84, Springer, 1990.
+\href{https://doi.org/10.1007/978-1-4757-2103-4}{doi:10.1007/978-1-4757-2103-4}.
+
+\bibitem{oliveira2014}
+T.~Oliveira e Silva, S.~Herzog and S.~Pardi,
+\emph{Empirical verification of the even Goldbach conjecture and computation of prime gaps up to $4\cdot10^{18}$},
+Mathematics of Computation \textbf{83} (2014), 2033--2060.
+
+\bibitem{lean4}
+L.~de~Moura and S.~Ullrich,
+\emph{The Lean 4 theorem prover and programming language},
+in Automated Deduction---CADE~28, Lecture Notes in Computer Science, vol.~12699, Springer, 2021, 625--635.
+
+\bibitem{mathlib}
+The Mathlib Community,
+\emph{The Lean mathematical library},
+in Proceedings of the 9th ACM SIGPLAN International Conference on Certified Programs and Proofs (CPP~2020), ACM, 2020, 367--381.
+
+\bibitem{sunnyspot2026}
+sunnyspot114514,
+\emph{Liouville--Goldbach independent audit bundle},
+GitHub, 17 September 2026.
+\href{https://github.com/sunnyspot114514/Liouville-Goldbach-audit}{GitHub repository}.
+
+\bibitem{meng2026}
+L.~Meng,
+\emph{Answer to ``Goldbach's conjecture for the Liouville function''},
+MathOverflow answer 515534, 25 September 2026.
+\href{https://mathoverflow.net/a/515534}{mathoverflow.net/a/515534}.
+
+\end{thebibliography}
+
+\end{document}

@@ -1,0 +1,66 @@
+{
+  "title": "刘维尔--哥德巴赫定理的严格证明与二元哥德巴赫猜想的逻辑边界",
+  "upload_type": "publication",
+  "publication_type": "preprint",
+  "publication_date": "2026-11-18",
+  "version": "0.3.2",
+  "creators": [
+    {
+      "name": "宋, 敏"
+    },
+    {
+      "name": "宋, 瑷成"
+    },
+    {
+      "name": "宋, 奥菲"
+    },
+    {
+      "name": "范, 钧睿"
+    },
+    {
+      "name": "胡, 安"
+    },
+    {
+      "name": "涂, 源"
+    }
+  ],
+  "description": "<p><strong>What is claimed.</strong> A self-contained elementary proof of the Liouville&ndash;Goldbach theorem (LG): every even <em>N</em> &gt; 2 is a sum of two positive integers at which the Liouville function equals &minus;1. The proof does not use Mangerel's correlation bound or GRH. We repair the <em>p</em> = 7 boundary in the commuting-square step, audit the two September 2026 manuscripts, and machine-check the logical boundary: binary Goldbach is equivalent to the strengthening <em>LG</em><sub>&Omega;&le;2</sub>.</p><p><strong>Machine evidence.</strong> The upstream Lean 4 development is rebuilt at source level under Lean 4.33.0-rc1 (2851 jobs). The two audit modules <code>GapCertificate.lean</code> and <code>LiouvilleAudit.lean</code> return 0, as does <code>IntervalLemma.lean</code> added in 0.3.1; the main theorem <code>LiouvilleGoldbach.liouville_goldbach</code> depends only on <code>propext</code>, <code>Classical.choice</code> and <code>Quot.sound</code>. A finite check covers all even <em>N</em> &le; 5,000,000 with zero failures (2,499,999 even numbers, 1,250,000 multiples of four, 667 prime pairs). The package carries a SHA-256 manifest and an RFC 3161 timestamp.</p><p><strong>What is new in 0.3.2.</strong> Text-only corrections and evidence-list alignment, with no new mathematical claims: the conditional bridge now says that every even <em>N</em> &gt; 2 has one LG representation whose two summands satisfy &Omega; &le; 2; the abstract and conclusion record that only the published Mangerel abstract (<em>N</em> &ge; 11) was checked, not the published body line by line, and that the ineffective arXiv-v2 <em>N</em><sub>0</sub> must not be substituted for it. It also cites the 25 September 2026 MathOverflow answer by L. Meng (answer 515534), which states a stronger unconditional result (all four sign pairs for every <em>N</em> not in {2,3,4,5,6,9,10}) and credits the even case to an anonymous upstream author; this paper does not address that result and makes no priority claim over it. A new section records the AI-provenance position: the audit and drafting used a local DeepSeek Harness instance, and the audited upstream snapshots (checked 2026-11-18) contain no AI-tool disclosure, so no unverified third-party AI attribution is asserted. The paper is now 30 pages.</p><p><strong>What is new in 0.3.1.</strong> A standalone Lean module <code>IntervalLemma.lean</code> proves <code>LiouvilleGoldbach.exists_nat_between_sixth_and_fourth</code>: for every prime <em>p</em> &ge; 11 there is an integer <em>n</em> with <em>p</em> &lt; 6<em>n</em> and 4<em>n</em> &lt; <em>p</em> (take <em>n</em> = <em>p</em>/4). This closes the interval non-emptiness side of the written commuting-square step, whose <em>p</em> = 7 side was already handled by <code>positive_prime_pairs_seven</code>; the module returns 0 with the same three standard axioms. The sealed manifest grows from 103 to 104 files, and the paper (now 29 pages) states the result in &sect;1.2, &sect;3.4, &sect;5.2 and appendix A. Version 0.3.0 remains unchanged and independently verifiable at DOI 10.5281/zenodo.24306341.</p><p><strong>What is not claimed.</strong> This does not prove binary Goldbach; it remains open. The package is a preprint, not peer reviewed. No priority claim is made: the LG route and the Lean development come from the September 2026 upstream manuscripts. 'No gap found' is an audit conclusion, not a peer-review verdict. The finite check is not a universal proof.</p><p><strong>Version-sensitive audit correction.</strong> The 'multiples of four' manuscript cites the published IMRN version of Mangerel's theorem (DOI 10.1093/imrn/rnae149), whose abstract states the bound for all <em>N</em> &ge; 11; arXiv v2 states it only for sufficiently large <em>N</em> with an ineffective <em>N</em><sub>0</sub>. We checked only the published abstract, not the published body line by line, and the two thresholds must not substitute for each other. The two versions must not be conflated. This package withdraws an earlier claim that the manuscript committed a quantifier substitution; its citation is consistent with the version it cites.</p><p><strong>License.</strong> Prose and data are CC BY 4.0. Lean sources are Apache-2.0; upstream notices are retained.</p><p><strong>AI disclosure.</strong> The audit, drafting, packaging and verification were performed with a local DeepSeek Harness (DSH) instance; the authors set the goals, provided the environment and decided to publish. The final criterion for the mathematical claims is the Lean 4 kernel and the cited published theorem, not any model's self-report.</p>",
+  "license": "cc-by-4.0",
+  "keywords": [
+    "Liouville function",
+    "Goldbach conjecture",
+    "Shusterman problem",
+    "Lean 4",
+    "formal verification",
+    "parity problem",
+    "Liouville-Goldbach"
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "https://github.com/songminlhy/goldbach-lean/tree/lg-v0.3.2",
+      "relation": "isSupplementTo",
+      "resource_type": "software"
+    },
+    {
+      "identifier": "https://github.com/CaptainSude/Liouville-Goldbach-Multiples-of-Four",
+      "relation": "references",
+      "resource_type": "software"
+    },
+    {
+      "identifier": "https://github.com/CaptainSude/Liouville-Goldbach",
+      "relation": "references",
+      "resource_type": "software"
+    },
+    {
+      "identifier": "10.1093/imrn/rnae149",
+      "relation": "references",
+      "resource_type": "publication-article"
+    },
+    {
+      "identifier": "2404.12117",
+      "relation": "references",
+      "resource_type": "publication-preprint"
+    }
+  ],
+  "notes": "The prose in this package is released under CC BY 4.0; the Lean sources are Apache-2.0, matching the upstream repositories. Upstream files retain their original notices. The raw CLI audit transcript is not redistributed; its SHA-256 is recorded in liouville_priority/background/PROVENANCE.json."
+}

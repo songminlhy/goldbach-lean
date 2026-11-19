@@ -1,0 +1,150 @@
+{
+    "schema":  "liouville-parity-pack-provenance-v1",
+    "generated_utc":  "2026-11-18T01:15:08Z",
+    "upstream":  [
+                     {
+                         "label":  "A",
+                         "date":  "2026-09-15",
+                         "repo":  "https://github.com/CaptainSude/Liouville-Goldbach-Multiples-of-Four",
+                         "snapshot":  "liouville_audit/Liouville-Goldbach-Multiples-of-Four-main",
+                         "repo_zip":  "liouville_audit/repo.zip",
+                         "repo_zip_bytes":  89886,
+                         "repo_zip_sha256":  "40128011283fb1f57950915227b4d00b230732b9ff4e6c1f119727ae75dcd63e"
+                     },
+                     {
+                         "label":  "B",
+                         "date":  "2026-09-16",
+                         "repo":  "https://github.com/CaptainSude/Liouville-Goldbach",
+                         "snapshot":  "liouville_general_audit/Liouville-Goldbach-main",
+                         "repo_zip":  "liouville_general_audit/repo.zip",
+                         "repo_zip_bytes":  341751,
+                         "repo_zip_sha256":  "cabe0fef9f6cdcc6664d0c94cb7527235e9b24dc597a8298057ac0e5241737c2"
+                     }
+                 ],
+    "prior_audit":  {
+                        "repo":  "https://github.com/sunnyspot114514/Liouville-Goldbach-audit",
+                        "verified_at":  "2026-09-17T12:12:00+08:00",
+                        "upstream_tag":  "v1.0.0",
+                        "upstream_commit":  "da3c528c16975781e21f3b7270c61331e70da8d2",
+                        "build_jobs":  2907,
+                        "verdict":  "PASS",
+                        "note":  "independent Lean replay; not a peer-reviewed publication; not cited as first by this pack"
+                    },
+    "third_party_excluded":  [
+                                 {
+                                     "name":  "Mangerel, IMRN 2024 (published PDF)",
+                                     "doi":  "10.1093/imrn/rnae149",
+                                     "path":  "liouville_audit/mangerel/mangerel.pdf",
+                                     "bytes":  229632,
+                                     "sha256":  "ae26a659220985c55576a18d05a84d5a56988024f8781ae4ccbe04847ac16505",
+                                     "reason":  "copyright: not redistributed"
+                                 },
+                                 {
+                                     "name":  "Mangerel, IMRN 2024 (text extraction)",
+                                     "path":  "liouville_audit/mangerel/mangerel.txt",
+                                     "bytes":  67449,
+                                     "sha256":  "dc8a0e2e9d43244feb274082ec5b489d2fa458acbc341e73520a6a81dac5110a",
+                                     "reason":  "copyright: not redistributed"
+                                 },
+                                 {
+                                     "name":  "Mangerel, arXiv:2412.17199 (PDF)",
+                                     "path":  "liouville_audit/mangerel/mangerel2024b.pdf",
+                                     "bytes":  353258,
+                                     "sha256":  "75e93ec8e4829c4b095bc9f3ee9bc150f4290ed02f6e87b778cd8ed3849d5ab7",
+                                     "reason":  "copyright: not redistributed"
+                                 },
+                                 {
+                                     "name":  "Mangerel, arXiv:2412.17199 (text extraction)",
+                                     "path":  "liouville_audit/mangerel/mangerel2024b.txt",
+                                     "bytes":  110790,
+                                     "sha256":  "1a7a4f123dfc4227e4203cf585610b7fb18cba31d9e926468ca904148b7d7976",
+                                     "reason":  "copyright: not redistributed"
+                                 },
+                                 {
+                                     "name":  "Mangerel, arXiv source (src.tar)",
+                                     "path":  "liouville_audit/mangerel/src.tar",
+                                     "bytes":  19774,
+                                     "sha256":  "0b04a2e4252b46c5332eecafede8a7b0e9111af2002c8b99241a351fd69fe667",
+                                     "reason":  "copyright: not redistributed"
+                                 }
+                             ],
+    "audit_logs_excluded":  [
+                                {
+                                    "path":  "C:\\Users\\宋敏\\Downloads\\LG_Windows PowerShell.txt",
+                                    "bytes":  740020,
+                                    "sha256":  "bc04c08f15b85dd1f6f55d05f996200b345e660686ae278376b00b734b438f25",
+                                    "reason":  "internal reasoning log; not redistributed"
+                                },
+                                {
+                                    "path":  "C:\\Users\\宋敏\\Downloads\\(新)LG_Windows PowerShell.txt",
+                                    "bytes":  688757,
+                                    "sha256":  "a69e33344a99a4521a5232e4c4e7bdfa07a72dfe4cc2b333a72873f47b702163",
+                                    "reason":  "internal review log; direct basis of the v2 audit withdrawal; not redistributed"
+                                }
+                            ],
+    "toolchain":  {
+                      "lean":  "4.33.0-rc1",
+                      "mathlib":  "e4c91783ca8e6a7c693ae624ade32fd22d4e43c1",
+                      "python":  "3.13.0"
+                  },
+    "build":  {
+                  "upstream_jobs":  2901,
+                  "upstream_lean":  "4.34.0-rc2",
+                  "local_jobs":  2851,
+                  "local_lean":  "4.33.0-rc1",
+                  "audit_modules":  [
+                                        {
+                                            "module":  "GapCertificate.lean",
+                                            "rc":  0
+                                        },
+                                        {
+                                            "module":  "LiouvilleAudit.lean",
+                                            "rc":  0
+                                        },
+                                        {
+                                            "module":  "IntervalLemma.lean",
+                                            "rc":  0
+                                        }
+                                    ]
+              },
+    "lean_new_theorems":  [
+                              "positive_prime_pairs_seven",
+                              "binary_goldbach_implies_omega_le",
+                              "LiouvilleGoldbachOmegaLe",
+                              "exists_nat_between_sixth_and_fourth"
+                          ],
+    "checks":  {
+                   "nmax":  5000000,
+                   "pmax":  5000,
+                   "even_checked":  2499999,
+                   "multiples_of_four":  1250000,
+                   "primes_checked":  667,
+                   "multiplicativity_pairs":  250000,
+                   "failures":  0,
+                   "max_least_witness":  37,
+                   "argmax_N":  125872
+               },
+    "zenodo":  {
+                   "deposition_id":  24309847,
+                   "reserved_doi":  "10.5281/zenodo.24309847",
+                   "previous_version_id":  24306341,
+                   "version":  "0.3.1"
+               },
+    "paper":  {
+                  "version":  "0.3.2-draft",
+                  "pdf_sha256":  "04c12adfe26d32db7c4126b50f64098d263f75fbdf2e23eeda8f4a54f62b88bb",
+                  "tex_sha256":  "2f0a4c57fad8ade784c8ad2dfd55cd983f36155f79f6b52f4918ff936521f8dc",
+                  "pages":  30
+              },
+    "github":  {
+                   "tag":  "lg-v0.3.1",
+                   "commit":  "51eabc1bb9cd23ce9394d50f81ad431aa8c4e93f",
+                   "tag_object":  "b1c45824dfe4e8060021978864b4b312d5ab5db1"
+               },
+    "draft":  {
+                  "version":  "0.3.2",
+                  "status":  "local-only, not published",
+                  "date":  "2026-11-18",
+                  "note":  "text revision (Meng 2026-09-25 prior art; AI-provenance statement; README/CLAIM wording); no DOI, no tag, no release; local re-seal only"
+              }
+}
