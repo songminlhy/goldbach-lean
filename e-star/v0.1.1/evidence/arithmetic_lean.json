@@ -1,0 +1,69 @@
+{
+  "status": "PASS_ARITHMETIC_RECHECK",
+  "leanSha256": "3de2b110adb212f6ae360ef4deb7fba6fda8b7f3f5a5bde561447d2dd4d5d6b0",
+  "checks": [
+    {
+      "source": "LevAssembly.lean",
+      "sourceSha256": "fa9ab17c474ff0e96674c739a25b81555bd3fd14ae7dac63cbb1658c5be31242",
+      "exitCode": 0,
+      "seconds": 38.11,
+      "axioms": {
+        "EStarAssembly.scaled_increment": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "EStarAssembly.triple_sumset_card_bound": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "EStarAssembly.triple_central_radius": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ]
+      },
+      "passed": true
+    },
+    {
+      "source": "LevChain.lean",
+      "sourceSha256": "d2f32819367a28fd63f584f954043826baae5cc4b48f0f5aff221ab3e081a91d",
+      "exitCode": 0,
+      "seconds": 18.39,
+      "axioms": {
+        "EStarChain.min_step": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "EStarChain.normalized_density": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "EStarChain.basis_window": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "EStarChain.theta_window": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "EStarChain.ratio_upper": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "EStarChain.ratio_lower": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ]
+      },
+      "passed": true
+    }
+  ]
+}

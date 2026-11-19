@@ -1,0 +1,19 @@
+{
+  "generatedAt": "2026-11-18T08:52:28.617313+00:00",
+  "sourceSha256": "a5bf31dd9dc43e960e459f4177a1daa5c8ebf60687ce7d9b0437e2245ac61398",
+  "oleanSha256": "31763ec60004b5099a58431e768459022acc86df4613dbc75bb8ec29f8d74c72",
+  "scope": "Only new declarations of EStarDistinct module replayed over existing imported environments; dependencies not independently rebuilt",
+  "passed": true,
+  "checks": [
+    {
+      "rc": 0,
+      "seconds": 8.547,
+      "logSha256": "20ab678bb7457516d83666c95c1e3871b0e8e0101117d8cead975b316218bc06"
+    },
+    {
+      "rc": 0,
+      "seconds": 27.875,
+      "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}

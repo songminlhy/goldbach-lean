@@ -1,0 +1,7 @@
+New explanatory text and newly written research code in this supplement:
+Anonymous, 2026. Creative Commons Attribution 4.0 International (CC BY 4.0).
+License: https://creativecommons.org/licenses/by/4.0/
+
+Adapted upstream proof code retains its original MIT license and attribution.
+See code/UPSTREAM_LICENSE.txt and the notices in the adapted Lean files.
+Imported Lean/Mathlib dependencies are not redistributed by this supplement.

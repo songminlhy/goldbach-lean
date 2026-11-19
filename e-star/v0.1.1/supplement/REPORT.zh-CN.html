@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN" xml:lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>E* 条件极限形式化与来源续核</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    table { display:block; overflow-x:auto; }
+body {
+      margin: 0 auto;
+      max-width: 72em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body>
+<h1 id="e-继续核验精确参数与真实同余类极限">E*
+继续核验：精确参数与真实同余类极限</h1>
+<p>Anonymous · CC BY 4.0 · 2026-11-19</p>
+<p>本补充承接<a
+href="https://doi.org/10.5281/zenodo.24342987">匿名论文及原复现包</a>和<a
+href="https://github.com/songminlhy/goldbach-lean/tree/66614fc35d722bd8993e21496046999f94e25c5c/e-star/v0.1.0/main-audit">此前主定理深化核验</a>。原论文、PDF、ZIP、tag及DOI版本保持；新增代码与结果单独交付。</p>
+<p><strong>本轮已将真实的指定同余类
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mi>/</mi><mn>4</mn></mrow><annotation encoding="application/x-tex">1/4</annotation></semantics></math>
+极限接成 Lean 证明，但仍以经典 <code>LevGrowthInput</code>
+为明确外部输入。</strong>
+这不是无条件端到端验收，也不是新颖性或外部同行评审认证。</p>
+<h2 id="1-本次真正新增的机器证明">1. 本次真正新增的机器证明</h2>
+<table>
+<thead>
+<tr class="header">
+<th>对象</th>
+<th>新覆盖</th>
+<th>仍保留的条件</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>论文的
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi><mo>=</mo><mrow><mi mathvariant="normal">s</mi><mi mathvariant="normal">n</mi><mi mathvariant="normal">d</mi></mrow><mrow><mo stretchy="true" form="prefix">(</mo><mi>s</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">q=\mathrm{snd}(s)</annotation></semantics></math></td>
+<td>实际定义最小正非因子，证明不整除本身、所有更小正数整除、<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi><mo>≥</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">q\ge2</annotation></semantics></math>，并实例化主定理；另证
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">s</mi><mi mathvariant="normal">n</mi><mi mathvariant="normal">d</mi></mrow><mrow><mo stretchy="true" form="prefix">(</mo><mn>6</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mn>4</mn></mrow><annotation encoding="application/x-tex">\mathrm{snd}(6)=4</annotation></semantics></math></td>
+<td>逆定理仍需要Lev输入</td>
+</tr>
+<tr class="even">
+<td>极值函数
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>M</mi><mo>,</mo><mi>n</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">F(M,n)</annotation></semantics></math></td>
+<td>在
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">[</mo><mn>1</mn><mo>,</mo><mi>M</mi><mo stretchy="true" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">[1,M]</annotation></semantics></math>
+的全部有限子集中过滤避目标集合，再取最大基数</td>
+<td>不是把一个未知实数函数或最终极值界作为假设</td>
+</tr>
+<tr class="odd">
+<td>极限下界</td>
+<td>实际有限集构造、基数、避目标性质，得
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mi>k</mi><mo>+</mo><mn>2</mn><mo>≤</mo><mi>F</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>8</mn><mi>k</mi><mo>+</mo><mn>4</mn><mo>,</mo><mn>12</mn><mi>k</mi><mo>+</mo><mn>6</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">3k+2\le F(8k+4,12k+6)</annotation></semantics></math></td>
+<td>该有限构造不需要Lev</td>
+</tr>
+<tr class="even">
+<td>高段上界</td>
+<td>真实集合的互补配对计数，证明 $</td>
+<td>A\cap[2T,4T]</td>
+</tr>
+<tr class="odd">
+<td>低段及统一上界</td>
+<td>将已有逆定理用于
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mo>=</mo><mn>2</mn><mi>T</mi><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">E=2T-1</annotation></semantics></math>，统一所有后选集合</td>
+<td>明确使用Lev输入，不把上界当额外前提</td>
+</tr>
+<tr class="even">
+<td>最终极限</td>
+<td>原取整函数、完整模12同余类、真正的
+<code>Tendsto</code>，并证明定义域滤子非平凡</td>
+<td>明确保留 <code>LevGrowthInput</code></td>
+</tr>
+</tbody>
+</table>
+<p>这些包括辅助引理和既有结果的复用，不按声明数量换算论文覆盖百分比或独立成果数。</p>
+<h2 id="2-被检查的极限究竟是什么">2. 被检查的极限究竟是什么？</h2>
+<p>新定义 <code>Avoids A n</code> 要求：任何
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>X</mi><mo>⊆</mo><mi>A</mi></mrow><annotation encoding="application/x-tex">X\subseteq A</annotation></semantics></math>
+若和为
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>，则
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>X</mi><annotation encoding="application/x-tex">X</annotation></semantics></math>
+只能为空集。这正好排除非空互异子集和。<code>Avoiders M n</code> 枚举
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">[</mo><mn>1</mn><mo>,</mo><mi>M</mi><mo stretchy="true" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">[1,M]</annotation></semantics></math>
+的幂集中的这些集合；<code>F M n</code> 是其有限最大基数。</p>
+<p>从真实构造和对所有避和集合的统一上界，先得到</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mrow><mi>F</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>8</mn><mi>k</mi><mo>+</mo><mn>4</mn><mo>,</mo><mn>12</mn><mi>k</mi><mo>+</mo><mn>6</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><mn>12</mn><mi>k</mi><mo>+</mo><mn>6</mn></mrow></mfrac><mo>→</mo><mfrac><mn>1</mn><mn>4</mn></mfrac><mi>.</mi></mrow><annotation encoding="application/x-tex">
+\frac{F(8k+4,12k+6)}{12k+6}\longrightarrow\frac14.
+</annotation></semantics></math></p>
+<p>每个
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>≡</mo><mn>6</mn><mrow><mspace width="0.222em"></mspace><mo stretchy="false" form="prefix">(</mo><mo>mod</mo><mspace width="0.222em"></mspace><mn>12</mn><mo stretchy="false" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">n\equiv6\pmod{12}</annotation></semantics></math>
+都写成
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>=</mo><mn>12</mn><mo stretchy="false" form="prefix">⌊</mo><mi>n</mi><mi>/</mi><mn>12</mn><mo stretchy="false" form="postfix">⌋</mo><mo>+</mo><mn>6</mn></mrow><annotation encoding="application/x-tex">n=12\lfloor n/12\rfloor+6</annotation></semantics></math>，且</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mo stretchy="true" form="prefix">⌊</mo><mfrac><mrow><mn>2</mn><mi>n</mi></mrow><mn>3</mn></mfrac><mo stretchy="true" form="postfix">⌋</mo></mrow><mo>=</mo><mn>8</mn><mo stretchy="false" form="prefix">⌊</mo><mi>n</mi><mi>/</mi><mn>12</mn><mo stretchy="false" form="postfix">⌋</mo><mo>+</mo><mn>4</mn><mi>.</mi></mrow><annotation encoding="application/x-tex">
+\left\lfloor\frac{2n}{3}\right\rfloor=8\lfloor n/12\rfloor+4.
+</annotation></semantics></math></p>
+<p>因此末端声明覆盖原函数和整个同余类，而非仅一个未经联系的稀疏子列：</p>
+<pre class="lean"><code>theorem quarter_limit_filter_relative_to_lev
+    (hLev : EStarBasisFromLev.LevGrowthInput) :
+    Tendsto
+      (fun n : ℕ =&gt; (F ⌊(2/3 : ℝ)*n⌋₊ n : ℝ)/(n : ℝ))
+      (atTop ⊓ Filter.principal {n : ℕ | n % 12 = 6})
+      (𝓝 (1/4 : ℝ))</code></pre>
+<p>另一个已证明声明 <code>mod12_filter_nontrivial</code> 对每个截止点取
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>12</mn><mi>N</mi><mo>+</mo><mn>6</mn></mrow><annotation encoding="application/x-tex">12N+6</annotation></semantics></math>，证实这个同余类无界、滤子不是bottom。因此这里没有用空滤子的极限性质制造空真结果。</p>
+<p>上界先固定任意正误差，再选阈值，统一后选的全部集合；上极限和误差趋零的连接已进入代码。下界构造只沿正确的奇
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi><mo>=</mo><mn>2</mn><mi>k</mi><mo>+</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">T=2k+1</annotation></semantics></math>
+使用，未外推到偶
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>T</mi><annotation encoding="application/x-tex">T</annotation></semantics></math>。</p>
+<h2 id="3-精确参数与外部输入">3. 精确参数与外部输入</h2>
+<p>旧主声明使用“所有小于
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>q</mi><annotation encoding="application/x-tex">q</annotation></semantics></math>
+的正整数整除
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>s</mi><annotation encoding="application/x-tex">s</annotation></semantics></math>”这一充分条件，已经能实例化论文。新
+<code>EStarExactStatement.main_inverse_at_leastNondivisor</code>
+进一步直接定义最小正非因子，并保留原来的全部量词、非空互异性和精确项数</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mo stretchy="true" form="prefix">(</mo><mi>q</mi><mo>−</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mo stretchy="true" form="prefix">(</mo><mo stretchy="false" form="prefix">⌈</mo><mn>2</mn><mi>s</mi><mi>/</mi><mi>ε</mi><mo stretchy="false" form="postfix">⌉</mo><mo>+</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><mi>.</mi></mrow><annotation encoding="application/x-tex">
+(q-1)(\lceil2s/\varepsilon\rceil+1).
+</annotation></semantics></math></p>
+<p>这是陈述精度的补全，不是修复一个已发现的数学反例。</p>
+<p>所有相关渐近上界和最终极限仍有
+<code>hLev : LevGrowthInput</code>。它准确要求：对含0、L、gcd为1的真实有限
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>B</mi><mo>⊆</mo><mrow><mo stretchy="true" form="prefix">[</mo><mn>0</mn><mo>,</mo><mi>L</mi><mo stretchy="true" form="postfix">]</mo></mrow></mrow><annotation encoding="application/x-tex">B\subseteq[0,L]</annotation></semantics></math>
+以及每个
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>j</mi><mo>≥</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">j\ge2</annotation></semantics></math>，</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mo stretchy="true" form="prefix">|</mo><mi>j</mi><mi>B</mi><mo stretchy="true" form="postfix">|</mo></mrow><mo>≥</mo><mrow><mo stretchy="true" form="prefix">|</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>j</mi><mo>−</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><mi>B</mi><mo stretchy="true" form="postfix">|</mo></mrow><mo>+</mo><mo>min</mo><mo stretchy="false" form="prefix">{</mo><mi>L</mi><mo>,</mo><mi>j</mi><mrow><mo stretchy="true" form="prefix">(</mo><mrow><mo stretchy="true" form="prefix">|</mo><mi>B</mi><mo stretchy="true" form="postfix">|</mo></mrow><mo>−</mo><mn>2</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo>+</mo><mn>1</mn><mo stretchy="false" form="postfix">}</mo><mi>.</mi></mrow><annotation encoding="application/x-tex">
+|jB|\ge |(j-1)B|+\min\{L,j(|B|-2)+1\}.
+</annotation></semantics></math></p>
+<p>标准公理列表不会删除写在定理类型中的这个参数。本轮没有把它藏成<code>axiom</code>、把最后结论改名为假设，或宣称经典Lev定理已在Lean中完全证明。</p>
+<h2 id="4-lev本身与来源的当前边界">4. Lev本身与来源的当前边界</h2>
+<p>Lev1996出版社排印版已从用户提供的归档中取得：10页、期刊79–88，SHA256
+<code>ca21a72de0706095c3fb0ab3e22caf468f5abce4a191dfd7429c972a5e3209d7</code>。协调者直接目视第79页的前提/定义/Theorem1及第83–85页的证明，与作者版关键陈述及Lean接口一致。<strong>目标定理出版社原文未读这一项已经关闭。</strong></p>
+<p>这不等于整篇作者版与排印版逐字一致性认证。§3使用有限循环群、稳定子、Kneser和整数纤维计数；真非平凡周期分支的处理不能被简单的Cauchy–Davenport式替换。</p>
+<p>一个实际反例控制是
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mo>=</mo><mn>12</mn></mrow><annotation encoding="application/x-tex">L=12</annotation></semantics></math>、<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>B</mi><mo>=</mo><mo stretchy="false" form="prefix">{</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo>,</mo><mn>4</mn><mo>,</mo><mn>5</mn><mo>,</mo><mn>8</mn><mo>,</mo><mn>9</mn><mo>,</mo><mn>12</mn><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">B=\{0,1,4,5,8,9,12\}</annotation></semantics></math>：模12的二重和集只有9类，小于错误泛化会要求的11类；但整数二重和集有18个元素，恰满足Lev下界。它反驳的是错误的替代路线，不反驳原定理。</p>
+<p>本轮 <code>LevResidue</code> 与 <code>LevKneserBranches</code>
+两模块均实际编译、标准公理审计、模块重放通过。它们证明真实整数到余类的提升、素数直径
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>L</mi><annotation encoding="application/x-tex">L</annotation></semantics></math>
+的完整Lev增长、全余类分支；平凡周期分支仍以精确的
+<code>CyclicKneserInput</code> 为条件。这里的素数是直径
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>L</mi><annotation encoding="application/x-tex">L</annotation></semantics></math>，不是主定理的参数
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>q</mi><annotation encoding="application/x-tex">q</annotation></semantics></math>，不能改称“素数
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>q</mi><annotation encoding="application/x-tex">q</annotation></semantics></math>
+的主定理已无条件证明”。</p>
+<p>另有一个有限计数连接把显式 <code>hK</code>、<code>hFiber</code>
+关系接到Lev一步；它没有构造所需新陪集，也没有证明重纤维存在。一般合数直径的真非平凡周期纤维计数仍未全闭合，<strong>不能把原主链的统一Lev输入改称已经由Kneser完全消去。</strong>
+精确签名及结果见 <code>results/LEAN_SUMMARY.json</code>。</p>
+<p>协调者又从分发副本实际复跑了标准库检查器：<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mo>≤</mo><mn>13</mn></mrow><annotation encoding="application/x-tex">L\le13</annotation></semantics></math>
+的8191个含端点集合、49146个提升步骤、26030个素直径增长步骤及108份有限真周期纤维证书通过，删除端点的负控制按预期失败。这些是有限范围的检错证据，不代替一般真周期的全称证明。</p>
+<p>其余来源实际状态如下：</p>
+<table>
+<thead>
+<tr class="header">
+<th>来源</th>
+<th>本轮取得</th>
+<th>数学阅读与限制</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a
+href="https://www.sciencedirect.com/science/article/pii/S0022314X97921284">1997
+Addendum</a>，DOI10.1006/jnth.1997.2128</td>
+<td>官方Elsevier和Crossref题录200；含开放归档标志</td>
+<td>新PDF/XML429，常规PDF403；只有coredata不是正文。既有作者版核读和历史文本层读取保持，不冒称本轮排印PDF视觉复核</td>
+</tr>
+<tr class="even">
+<td><a
+href="https://doi.org/10.1142/S1793042118501543">Huicochea2018</a></td>
+<td>新正常full HTML路径403</td>
+<td>主定理未取得，不能排除其间接更强推论</td>
+</tr>
+<tr class="odd">
+<td><a
+href="https://www.erdosproblems.com/forum/proof-claims/124/comments">Basile原note的公开评论入口</a></td>
+<td>新Google官方usercontent服务连接超时，当前工具无可操作浏览器</td>
+<td>原note仍未读，不用Principia另一个PDF代替</td>
+</tr>
+</tbody>
+</table>
+<p>来源失败、题录成功和未检索到相同公式，都不证明新颖性。此前确认的2025年论坛模数构造、Lev有界基和好核/消重先例继续明确归属既有来源。</p>
+<h2 id="5-实际验证与如何复核">5. 实际验证与如何复核</h2>
+<p>本轮五个新Lean模块，均与实际通过的编译、公理报告和模块重放记录绑定；详见
+<code>results/LEAN_SUMMARY.json</code>。九个旧模块作为固定已核依赖携带，不虚增为本轮新证明或新重跑。只读语义复核另核对了F、最小非因子、量词、原floor及整个同余类对象，未发现指定范围的实质错位；内部代理审查不称外部同行评审。</p>
+<p>首次三个并发编译均达到300秒限制，没有计PASS。单线程过程中2.2GB进程上限明确不足，改为本进程6GB后得到实际结果；只改变本次命令参数，未改全局配置、权限或缓存。失败记录与修复过程本地保留，不以旧成功覆盖新失败。</p>
+<p>导入环境沿用Lean4.33.0-rc1和Mathlib
+<code>e4c91783ca8e6a7c693ae624ade32fd22d4e43c1</code>缓存。这里不是全依赖闭包从零重建或独立重放。旧九模块作为固定依赖复用，新增模块的执行与旧证据分别登记。</p>
+<p>复跑源码与入口见 <a
+href="README.md">README</a>。公开清单只包含可复核代码、汇总与解释，不上传第三方论文全文、私人对话、凭证、个人路径或失败候选证明。</p>
+<p><strong>尚未关闭：完整Lev增长定理、theta全局定义及尖锐下界的全部形式化、未取得先行全文、历史新颖性及真正外部同行审阅。</strong>
+本补充只增加实际已覆盖的证据，不把重复PASS或说明文字算作这些事项完成。</p>
+</body>
+</html>

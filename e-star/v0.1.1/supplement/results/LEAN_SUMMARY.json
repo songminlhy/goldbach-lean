@@ -1,0 +1,529 @@
+{
+  "generatedAt": "2026-11-19T07:27:17.500939+00:00",
+  "status": "PASS_SCOPED_NEW_FORMAL_MODULES_AND_REPLAY",
+  "toolchain": "Lean 4.33.0-rc1",
+  "mathlibCommit": "e4c91783ca8e6a7c693ae624ade32fd22d4e43c1",
+  "newModules": [
+    {
+      "module": "EStarExactStatement",
+      "sourceSha256": "5793c93e4ad60a27dcef9012e42d01bd1c92360983ae83d4eab7e30932409e93",
+      "exitCode": 0,
+      "axiomsOk": true,
+      "axioms": {
+        "EStarExactStatement.positive_nondivisor_exists": [
+          "propext",
+          "Quot.sound"
+        ],
+        "EStarExactStatement.leastNondivisor_spec": [
+          "propext",
+          "Quot.sound"
+        ],
+        "EStarExactStatement.leastNondivisor_ge_two": [
+          "propext",
+          "Quot.sound"
+        ],
+        "EStarExactStatement.leastNondivisor_eq_of_spec": [
+          "propext",
+          "Quot.sound"
+        ],
+        "EStarExactStatement.main_inverse_at_leastNondivisor": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "EStarExactStatement.leastNondivisor_six": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ]
+      },
+      "compileSeconds": 39.735,
+      "replayExitCode": 0
+    },
+    {
+      "module": "EStarQuarterLimit",
+      "sourceSha256": "41f956dd32cbc79a10e6938264d2409e3cc0a4799c5a3ce9a318c858e8a3d4bc",
+      "exitCode": 0,
+      "axiomsOk": true,
+      "axioms": {
+        "EStarQuarterLimit.F_ge_card": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "EStarQuarterLimit.F_le_of_bound": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "EStarQuarterLimit.high_card_bound": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "EStarQuarterLimit.construction_card": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "EStarQuarterLimit.construction_avoids": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "EStarQuarterLimit.quarter_lower": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ]
+      },
+      "compileSeconds": 32.297,
+      "replayExitCode": 0
+    },
+    {
+      "module": "EStarQuarterLimitEnd",
+      "sourceSha256": "807b1ac33b8068c5e1c06752029d8932587c3afc8a631c7e985a97f3b4b7c761",
+      "exitCode": 0,
+      "axiomsOk": true,
+      "axioms": {
+        "EStarQuarterLimit.quarter_upper_relative_to_lev": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "EStarQuarterLimit.quarter_limit_relative_to_lev": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "EStarQuarterLimit.quarter_limit_mod12_relative_to_lev": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "EStarQuarterLimit.quarter_limit_filter_relative_to_lev": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "EStarQuarterLimit.mod12_filter_nontrivial": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ]
+      },
+      "compileSeconds": 43.703,
+      "replayExitCode": 0
+    },
+    {
+      "module": "LevResidue",
+      "sourceSha256": "c4ce81dbb9d1a8adcdd57439ac031bdaa56ae12ea1d33bc9868287a2441f7c6b",
+      "exitCode": 0,
+      "axiomsOk": true,
+      "axioms": {
+        "LevResidue.residue_card": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "LevResidue.new_representative_per_residue": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "LevResidue.heavy_residue_block_lift": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "LevResidue.residue_lift_growth": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "LevResidue.lev_step_of_residue_card": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "LevResidue.residues_succ": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "LevResidue.prime_residue_growth": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "LevResidue.lev_growth_prime_diameter": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ]
+      },
+      "compileSeconds": 30.344,
+      "replayExitCode": 0
+    },
+    {
+      "module": "LevKneserBranches",
+      "sourceSha256": "277210e1930e1dcdd8be839a034f29a3c8835c0ed69a0796f86706442269bd0d",
+      "exitCode": 0,
+      "axiomsOk": true,
+      "axioms": {
+        "LevKneserBranches.zero_mem_periods": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "LevKneserBranches.quotient_sums_eq": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "LevKneserBranches.periods_card_one_eq": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "LevKneserBranches.lev_step_aperiodic": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "LevKneserBranches.lev_step_full_residues": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "LevKneserBranches.lev_step_of_periodic_fiber_estimate": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ]
+      },
+      "compileSeconds": 32.125,
+      "replayExitCode": 0
+    }
+  ],
+  "immutablePreviouslyVerifiedDependencies": [
+    {
+      "module": "EStarDistinct",
+      "exitCode": 0,
+      "sourceSha256": "a5bf31dd9dc43e960e459f4177a1daa5c8ebf60687ce7d9b0437e2245ac61398",
+      "seconds": 8.313,
+      "axiomsOk": true,
+      "axioms": {
+        "EStarDistinct.fresh_pair": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "EStarDistinct.support_increases": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "EStarDistinct.eliminate_repetitions": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "EStarDistinct.distinct_sum_exact": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "EStarDistinct.distinct_sum_nonempty": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ]
+      }
+    },
+    {
+      "module": "EStarTransfer",
+      "exitCode": 0,
+      "sourceSha256": "13252bf935c31ba4aeca10f16e4eae6c7d24fed5a8783031564503eec2eb20ba",
+      "seconds": 14.906,
+      "axiomsOk": true,
+      "axioms": {
+        "EStarTransfer.sum_filter_nonzero": [
+          "propext",
+          "Quot.sound"
+        ],
+        "EStarTransfer.denormalize_mem": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "EStarTransfer.lift_normalized_representation": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "EStarTransfer.normalized_representation_to_distinct": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "EStarTransfer.common_divisor_lt_of_dense": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "EStarTransfer.common_divisor_dvd_parameter": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ]
+      }
+    },
+    {
+      "module": "EStarFiniteMain",
+      "exitCode": 0,
+      "sourceSha256": "49de21fd78c7d9522d77c830f77d3e4a4818a9f4c7d0f320ed853017856093c4",
+      "seconds": 13.625,
+      "axiomsOk": true,
+      "axioms": {
+        "EStarFiniteMain.finite_inverse_from_basis_and_good_core": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ]
+      }
+    },
+    {
+      "module": "UpstreamGoodCore",
+      "exitCode": 0,
+      "sourceSha256": "43b2737513364cf949a15c0a8532bf3e90d1a93f14b0d57359b291a858f5b3cc",
+      "seconds": 30.281,
+      "axiomsOk": true,
+      "axioms": {
+        "greedy_indep": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "hypergraph_indep": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "good_core_split": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "roth_small_nat": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "good_core_exists": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ]
+      }
+    },
+    {
+      "module": "EStarRothCore",
+      "exitCode": 0,
+      "sourceSha256": "7439aec632c80f9c1ce3c4f420fb72ac235d3b2dedf50ec3cdbdaf21d3769f39",
+      "seconds": 25.391,
+      "axiomsOk": true,
+      "axioms": {
+        "EStarRothCore.roth_core_split": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "EStarRothCore.roth_core_exists": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ]
+      }
+    },
+    {
+      "module": "EStarConditionalMain",
+      "exitCode": 0,
+      "sourceSha256": "de0180b991a50e32127d34ec19ac59c5cde3e20f43bf56ef8d10763f3d362cfa",
+      "seconds": 37.438,
+      "axiomsOk": true,
+      "axioms": {
+        "EStarConditionalMain.normalized_facts": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "EStarConditionalMain.good_core_small_loss": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "EStarConditionalMain.main_inverse_relative_to_basis": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ]
+      }
+    },
+    {
+      "module": "EStarModularAvoidance",
+      "exitCode": 0,
+      "sourceSha256": "e1a058f0242e437856a8a0ed7392e17a526edd941772352215ee0204b58f3286",
+      "seconds": 32.375,
+      "axiomsOk": true,
+      "axioms": {
+        "EStarSharpness.sum_add_special_count_mod": [
+          "propext",
+          "Quot.sound"
+        ],
+        "EStarSharpness.special_count_ge": [
+          "propext",
+          "Quot.sound"
+        ],
+        "EStarSharpness.multiset_sum_ne_target": [
+          "propext",
+          "Quot.sound"
+        ],
+        "EStarSharpness.finset_sum_ne_target": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "EStarSharpness.every_subset_sum_ne_target": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ]
+      }
+    },
+    {
+      "module": "UpstreamDenseCovering",
+      "exitCode": 0,
+      "sourceSha256": "4a81c2f42dde63922d9c431c87029fbdc4641bd62d806ff0689146a4d6191c1d",
+      "seconds": 30.75,
+      "axiomsOk": true,
+      "axioms": {
+        "Erdos361Covering.lemma1_holes": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "Erdos361Covering.modular_rep": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "Erdos361Covering.lemma2_dense": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ]
+      }
+    },
+    {
+      "module": "EStarBasisFromLev",
+      "exitCode": 0,
+      "sourceSha256": "038a035c02b29a9627f16db6471c118b96dea1e02fd39f99cd4241772a0c5019",
+      "seconds": 31.781,
+      "axiomsOk": true,
+      "axioms": {
+        "EStarBasisFromLev.mem_sums_iff": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "EStarBasisFromLev.sums_one": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "EStarBasisFromLev.sums_subset": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "EStarBasisFromLev.zero_mem_sums": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "EStarBasisFromLev.top_mem_sums": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "EStarBasisFromLev.half_density_from_lev": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "EStarBasisFromLev.hfold_flatten": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "EStarBasisFromLev.hfold_to_multiset": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "EStarBasisFromLev.general_basis_from_lev": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "EStarBasisFromLev.main_inverse_relative_to_lev": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ]
+      }
+    }
+  ],
+  "oldDependencyReplaysFromEarlierRun": [
+    {
+      "module": "EStarDistinct",
+      "exitCode": 0
+    },
+    {
+      "module": "EStarTransfer",
+      "exitCode": 0
+    },
+    {
+      "module": "EStarFiniteMain",
+      "exitCode": 0
+    },
+    {
+      "module": "UpstreamGoodCore",
+      "exitCode": 0
+    },
+    {
+      "module": "EStarRothCore",
+      "exitCode": 0
+    },
+    {
+      "module": "EStarConditionalMain",
+      "exitCode": 0
+    },
+    {
+      "module": "EStarModularAvoidance",
+      "exitCode": 0
+    },
+    {
+      "module": "UpstreamDenseCovering",
+      "exitCode": 0
+    },
+    {
+      "module": "EStarBasisFromLev",
+      "exitCode": 0
+    }
+  ],
+  "remainingMathematicalInput": "LevGrowthInput for full main inverse theorem and exact quarter limit",
+  "levPartialBranchesDischargeGeneralInput": false,
+  "scope": "New module sources individually compiled, axiom-audited and replayed; prior source hashes checked unchanged. New distribution assembly is not a fresh rebuild/replay of all imported dependencies."
+}

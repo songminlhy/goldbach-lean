@@ -1,0 +1,5 @@
+'EStarDistinct.fresh_pair' depends on axioms: [propext, Classical.choice, Quot.sound]
+'EStarDistinct.support_increases' depends on axioms: [propext, Classical.choice, Quot.sound]
+'EStarDistinct.eliminate_repetitions' depends on axioms: [propext, Classical.choice, Quot.sound]
+'EStarDistinct.distinct_sum_exact' depends on axioms: [propext, Classical.choice, Quot.sound]
+'EStarDistinct.distinct_sum_nonempty' depends on axioms: [propext, Classical.choice, Quot.sound]

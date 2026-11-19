@@ -1,0 +1,108 @@
+{
+  "toolchain": "Lean (version 4.33.0-rc1, x86_64-w64-windows-gnu, commit 62eed1db4d67327ec8120be05f1a1b0847d74561, Release)",
+  "status": "PASS_SCOPED_LEAN_CHECKS",
+  "checks": [
+    {
+      "module": "LevAssembly",
+      "sourceSha256": "fa9ab17c474ff0e96674c739a25b81555bd3fd14ae7dac63cbb1658c5be31242",
+      "exitCode": 0,
+      "seconds": 190.609,
+      "axiomsOk": true,
+      "axioms": {
+        "EStarAssembly.scaled_increment": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "EStarAssembly.triple_sumset_card_bound": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "EStarAssembly.triple_central_radius": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ]
+      }
+    },
+    {
+      "module": "LevChain",
+      "sourceSha256": "d2f32819367a28fd63f584f954043826baae5cc4b48f0f5aff221ab3e081a91d",
+      "exitCode": 0,
+      "seconds": 14.578,
+      "axiomsOk": true,
+      "axioms": {
+        "EStarChain.min_step": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "EStarChain.normalized_density": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "EStarChain.basis_window": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "EStarChain.theta_window": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "EStarChain.ratio_upper": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "EStarChain.ratio_lower": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ]
+      }
+    },
+    {
+      "module": "EStarDistinct",
+      "sourceSha256": "a5bf31dd9dc43e960e459f4177a1daa5c8ebf60687ce7d9b0437e2245ac61398",
+      "exitCode": 0,
+      "seconds": 7.344,
+      "axiomsOk": true,
+      "axioms": {
+        "EStarDistinct.fresh_pair": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "EStarDistinct.support_increases": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "EStarDistinct.eliminate_repetitions": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "EStarDistinct.distinct_sum_exact": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "EStarDistinct.distinct_sum_nonempty": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ]
+      }
+    },
+    {
+      "module": "EStarDistinct kernel replay",
+      "exitCode": 0
+    }
+  ],
+  "scope": "Arithmetic steps and finite distinctification only; existing imported dependency environments reused"
+}

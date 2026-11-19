@@ -1,0 +1,77 @@
+{
+  "createdAt": "2026-11-18T12:27:13.608020+00:00",
+  "scope": "Portable anonymous review artifacts; no third-party full texts or private workspace transcripts",
+  "provenance": [
+    {
+      "file": "checks/check_finite_lemmas.py",
+      "upstreamFile": "verify_estar_lemmas.py",
+      "upstreamSha256": "a0a80086a6130052a59420df08bfa119b431a8b01f0efcc35fab55668fe42a9c",
+      "packagedSha256": "a0a80086a6130052a59420df08bfa119b431a8b01f0efcc35fab55668fe42a9c",
+      "adaptation": []
+    },
+    {
+      "file": "checks/check_combinatorial_boundaries.py",
+      "upstreamFile": "check_review_boundaries.py",
+      "upstreamSha256": "4bd2abad80a1ee75e90118c7a401b99380284ac2cd59240b39c32ac0114930d1",
+      "packagedSha256": "4bd2abad80a1ee75e90118c7a401b99380284ac2cd59240b39c32ac0114930d1",
+      "adaptation": []
+    },
+    {
+      "file": "checks/check_fresh_proof.py",
+      "upstreamFile": "fresh_proof_checks.py",
+      "upstreamSha256": "ecabf6571fb96cca0c7d4d9bda52f3969d7bb7814edb042a833a5b8af79e85de",
+      "packagedSha256": "bbda6d5ff0c631e97ab2f1e3bd4f619b22006cbc9d3c0949f11d243104edbd9a",
+      "adaptation": [
+        "Replace private workspace source-identity read-set with the portable script itself; mathematical checks unchanged"
+      ]
+    },
+    {
+      "file": "formal/EStarDistinct.lean",
+      "upstreamFile": "EStarDistinct.lean",
+      "upstreamSha256": "a5bf31dd9dc43e960e459f4177a1daa5c8ebf60687ce7d9b0437e2245ac61398",
+      "packagedSha256": "a5bf31dd9dc43e960e459f4177a1daa5c8ebf60687ce7d9b0437e2245ac61398",
+      "adaptation": []
+    },
+    {
+      "file": "formal/LevChain.lean",
+      "upstreamFile": "LevChain.lean",
+      "upstreamSha256": "d2f32819367a28fd63f584f954043826baae5cc4b48f0f5aff221ab3e081a91d",
+      "packagedSha256": "d2f32819367a28fd63f584f954043826baae5cc4b48f0f5aff221ab3e081a91d",
+      "adaptation": []
+    },
+    {
+      "file": "formal/LevAssembly.lean",
+      "upstreamFile": "LevAssembly.lean",
+      "upstreamSha256": "fa9ab17c474ff0e96674c739a25b81555bd3fd14ae7dac63cbb1658c5be31242",
+      "packagedSha256": "fa9ab17c474ff0e96674c739a25b81555bd3fd14ae7dac63cbb1658c5be31242",
+      "adaptation": []
+    }
+  ],
+  "priorVerifiedToolchain": {
+    "lean": "4.33.0-rc1",
+    "commit": "62eed1db4d67327ec8120be05f1a1b0847d74561",
+    "mathlibCommit": "e4c91783ca8e6a7c693ae624ade32fd22d4e43c1",
+    "python": "3.12.14"
+  },
+  "limits": "Lean scope is arithmetic and finite distinctification only; main theorem is a paper proof with external Lev and Roth inputs.",
+  "authorshipVersionUpdate": {
+    "version": "0.1.1",
+    "date": "2026-11-19",
+    "authors": [
+      "宋敏",
+      "宋瑷成",
+      "宋奥菲",
+      "范钧睿",
+      "胡安",
+      "涂源"
+    ],
+    "anonymousPredecessorDoi": "10.5281/zenodo.24342987",
+    "anonymousPaperSourceSha256": "8cb7ee7872781f644654850805b32e3a2daae70fc3606bcfabf1dfc1e422c817",
+    "namedPaperSourceSha256": "a756e48be1b9a380dcd83e7d97a8f588a4d97411d96dcba68c7bd22b78bc2197",
+    "namedPaperPdfSha256": "d9134ad772aff63e652f468c7ff11d1dd24fff199fe48b5a05c7ada7a885f6a5",
+    "documentBodyUnchanged": true,
+    "newMathematicalTests": false,
+    "newLeanExecution": false,
+    "supplementCommit": "3b00c48455009ede07c57bde62674482d6f5cb44"
+  }
+}

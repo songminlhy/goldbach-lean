@@ -1,0 +1,610 @@
+\documentclass[UTF8,a4paper,11pt,fontset=none]{ctexart}
+\usepackage{fontspec}
+\setCJKmainfont[AutoFakeBold=2,AutoFakeSlant=0.2]{SimSun}
+\setCJKsansfont{SimHei}
+\setCJKmonofont{SimSun}
+\setmonofont{Consolas}
+\usepackage[left=27mm,right=27mm,top=25mm,bottom=25mm]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{booktabs,enumitem,microtype,hyperref}
+\hypersetup{hidelinks,pdfauthor={宋敏, 宋瑷成, 宋奥菲, 范钧睿, 胡安, 涂源},pdftitle={禁用子集和逆定理的线性范围改进}}
+\pagestyle{plain}
+\setlength{\parindent}{2em}
+\setlength{\parskip}{0.12em}
+\linespread{1.12}
+\allowdisplaybreaks[2]
+\newtheorem{theorem}{定理}[section]
+\newtheorem{lemma}[theorem]{引理}
+\newtheorem{corollary}[theorem]{推论}
+\newtheorem{proposition}[theorem]{命题}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{注}
+\newcommand{\N}{\mathbb N}
+\newcommand{\Z}{\mathbb Z}
+\newcommand{\sig}{\Sigma}
+\newcommand{\snd}{\operatorname{snd}}
+\newcommand{\gcdop}{\operatorname{gcd}}
+\newcommand{\rthree}{r_3}
+\newcommand{\eps}{\varepsilon}
+\title{\bfseries 禁用子集和逆定理的线性范围改进\\[0.3em]
+\large 及 $q=4,\ c=2/3$ 的同余类极限}
+\author{宋敏、宋瑷成、宋奥菲、范钧睿、胡安、涂源}
+\date{2026 年 11 月 19 日\\[0.3em]\small v0.1.1：署名更新；数学内容沿用 v0.1.0}
+\begin{document}
+\maketitle
+\begin{abstract}
+设 $s$ 为正整数，$q=\snd(s)$ 为不整除 $s$ 的最小正整数。
+本文将 Matijasevick 的禁用子集和逆定理中的范围因子
+$2^{q-2}$ 改为 $q-1$，并相应缩短表示长度。
+具体而言，对每个 $\eps>0$，存在仅依赖于 $s,\eps$ 的阈值 $T_0$，
+使得 $T\ge T_0$、$(q-1)E\le sT$ 及
+$A\subseteq[1,E]$、$|A|\ge E/q+\eps T$ 蕴含：
+$sT$ 可表示为至多 $(q-1)(\lceil2s/\eps\rceil+1)$
+个互异 $A$ 元素之和。
+证明以 Lev 的多重和集增量界替换原论证的二进迭代，
+其余使用既有的好中心抽取与重复项消去框架。
+由此得到范围常数 $\theta_q\le q-1$；
+结合已有模数构造，沿 $n\equiv6\pmod{12}$ 有
+$F(\lfloor2n/3\rfloor,n)/n\to1/4$。
+本文不将 Lev 路线或所复用的组合桥本身作为新结果。
+附录说明有限检查及去重桥的 Lean 证明范围；
+主定理的论证为引用 Lev 与 Roth 定理的纸面证明。
+\par\noindent\textbf{关键词：}子集和；逆加法定理；多重和集；最小非因子；Roth 定理。
+\end{abstract}
+
+\section{引言与既有结果的边界}\label{sec:intro}
+对有限正整数集 $A$，定义非空互异元素子集和
+\[
+  \sig(A)=
+  \left\{\sum_{a\in X}a:\ \varnothing\ne X\subseteq A\right\}.
+\]
+对 $M\ge0$、$n\ge1$，记
+\[
+ F(M,n)=\max\bigl\{|A|:\ A\subseteq[1,M],\ n\notin\sig(A)\bigr\},
+ \qquad f_c(n)=F(\lfloor cn\rfloor,n).
+\]
+这里及下文 $[u,v]$ 表示整数区间。
+令 $\snd(s)$ 表示最小的不整除正整数 $s$ 的正整数。
+该数 $q=\snd(s)$ 至少为 $2$，并且每个 $1\le d<q$ 都整除 $s$。
+
+Matijasevick~\cite{Matijasevick2026} 的 Theorem~1.2 表明：
+对固定 $s,\eps>0$，当 $T$ 充分大且 $2^{q-2}E\le sT$ 时，
+$|A|\ge E/q+\eps T$ 蕴含 $sT\in\sig(A)$；
+其给出的表示长度不超过
+$2^{q-2}(\lceil2s/\eps\rceil+1)$。
+原文定义范围常数 $\theta_q$ 并得到
+\[
+  \theta_2=1,\quad \theta_3=2,\qquad
+  \max\!\left\{2,q-2+\frac1q\right\}\le\theta_q\le2^{q-2}
+  \quad(q\ge4),
+\]
+并询问 $\theta_q$ 是否线性增长（原文 Problem~9.2）。
+尤须指出：\textbf{原文 Remark~3.2 已明确建议考察 Lev 型多重和集结构定理}。
+因此，本文讨论的具体增量限于 $q-1$ 范围在该禁用子集和问题中的应用
+及 $q=4,c=2/3$ 的极限推论，而不是首次提出 Lev 路线。
+好中心、去重及中心覆盖的证明是既有组合框架的重述；
+有界基结论也可由 Lev~\cite{Lev1997} 的既有区间定理直接推出。
+下文保留增量式的短证明，以清楚展示因子 $q-1$ 从何而来。
+
+\begin{theorem}[线性范围逆定理]\label{thm:main}
+固定整数 $s\ge1$，令 $q=\snd(s)$、$r=q-1$。
+对每个 $\eps>0$，存在整数 $T_0=T_0(s,\eps)$，使得对所有
+整数 $T\ge T_0$、$E\ge1$ 与 $A\subseteq[1,E]$，只要
+\[
+  rE\le sT,\qquad |A|\ge\frac Eq+\eps T,
+\]
+则 $sT$ 可以表示成 $A$ 中至多
+\[
+  H=r\bigl(\lceil2s/\eps\rceil+1\bigr)
+\]
+个互异元素之和。
+\end{theorem}
+
+\begin{theorem}[指定同余类上的极限]\label{thm:limit}
+沿正整数 $n\equiv6\pmod{12}$ 趋于无穷，
+\[
+  \lim_{\substack{n\to\infty\\n\equiv6\ (\mathrm{mod}\ 12)}}
+      \frac{f_{2/3}(n)}n=\frac14 .
+\]
+\end{theorem}
+主定理中的 $T_0$ 一致于全部满足前提的 $E,A$。
+因证明使用 Roth 的渐近结论，本文不提供数值上可用的显式阈值。
+本稿尚未经过外部同行评审；附录中的部分形式化不替代主定理的纸面论证。
+
+\section{记号及引用的增长定理}
+对非空整数集 $B$ 与整数 $h\ge1$，记
+\[
+ hB=\{b_1+\cdots+b_h:b_i\in B\},
+\]
+其中\textbf{允许重复选取元素}。若 $0\in B$，则
+$hB\subseteq(h+1)B$，且 $j(hB)=(jh)B$。
+这与前述 $\sig(A)$ 必须严格区分。
+
+\begin{lemma}[Lev 增量界；外部输入]\label{lem:lev}
+设整数 $L\ge1$，有限整数集 $B\subseteq[0,L]$ 满足
+$0,L\in B$ 与 $\gcdop(B)=1$，记 $N=|B|$。
+则对每个整数 $j\ge2$，
+\[
+ |jB|\ge|(j-1)B|+\min\{L,\ j(N-2)+1\}.
+ \tag{2.1}\label{eq:lev}
+\]
+\end{lemma}
+这是 Lev~\cite{Lev1996} 的 Theorem~1。
+其 Addendum~\cite{LevAddendum1997} 允许各个加数集合不同；
+取所有加数集合均为 $B$ 时也得到同一不等式。
+两文作者自存原文的定理与前提均已直接核对。
+Matijasevick 的 Remark~3.2 提到的 Lev 文献
+\cite{Lev1997} 则是另一篇关于和集区间的工作。
+
+\begin{lemma}[有限步密度增长]\label{lem:growth}
+设 $q\ge2$、$L\ge q$ 为整数，$B\subseteq[0,L]$ 为整数集，
+$0,L\in B$、$\gcdop(B)=1$，且
+\[
+ |B|=N\ge \frac Lq+2.
+\]
+令 $r=q-1$。则
+\[
+ \boxed{|rB|\ge\frac{rL}{2}+q.}\tag{2.2}\label{eq:growth}
+\]
+\end{lemma}
+\begin{proof}
+若 $q=2$，则 $r=1$，结论正是 $N\ge L/2+2$。
+若 $q\ge3$，对每个 $2\le j\le r$，有
+\[
+ j(N-2)+1\ge\frac{jL}{q}+1,
+ \qquad
+ \frac{jL}{q}+1\le L.
+\]
+第二式利用 $j\le q-1$ 与 $L\ge q$。
+由引理~\ref{lem:lev}，
+\[
+ |jB|-|(j-1)B|\ge\frac{jL}{q}+1.
+\]
+从 $|B|\ge L/q+2$ 逐步相加，得到
+\begin{align*}
+ |rB|
+ &\ge\frac Lq+2+\sum_{j=2}^{r}
+                       \left(\frac{jL}{q}+1\right)\\
+ &=\frac Lq\sum_{j=1}^{r}j+(r+1)
+ =\frac{r(r+1)}{2q}L+(r+1)
+ =\frac{rL}{2}+q .
+\end{align*}
+\end{proof}
+特别地，$q=4$ 时 $r=3$，
+$|B|\ge L/4+2$ 推出 $|3B|\ge3L/2+4$；
+此处的 $3B$ 仍是允许重复的和集。
+
+\section{中心区间覆盖与有界加法基}
+\begin{lemma}[中心区间覆盖]\label{lem:central}
+设 $D\ge1$ 是整数，$C\subseteq[0,D]$，
+$0,D\in C$，且 $D\le2|C|-4$。
+令
+\[
+ \gamma=2D+2-2|C|.
+\]
+则 $0\le\gamma\le D-2$，并且对每个整数 $j\ge2$，
+\[
+  [\gamma,jD-\gamma]\subseteq jC. \tag{3.1}\label{eq:central}
+\]
+该结论不需要 $\gcdop(C)=1$。
+\end{lemma}
+\begin{proof}
+令 $N=|C|$。由于 $N\le D+1$，有 $\gamma\ge0$；
+$D\le2N-4$ 恰等价于 $\gamma\le D-2$。
+$[0,D]\setminus C$ 恰有 $\gamma/2$ 个元素。
+
+先证二重和集覆盖。对
+$z\in[\gamma,2D-\gamma]$，令
+$U_z=\{u\in[0,D]:z-u\in[0,D]\}$。
+则 $|U_z|=\min\{z,2D-z,D\}+1\ge\gamma+1$。
+导致 $u\notin C$ 或 $z-u\notin C$ 的候选各不超过
+$\gamma/2$ 个，故至少有一个 $u$ 同时满足
+$u,z-u\in C$。于是
+\[
+ [\gamma,2D-\gamma]\subseteq2C. \tag{3.2}
+\]
+
+再令 $C'=C\setminus\{D\}\subseteq[0,D-1]$。
+由于 $|C'|=N-1>D/2$，模 $D$ 的两份 $C'$
+之和遍历所有剩余类；从而每个 $a\in[0,D-1]$
+均可写为 $u+v=a$ 或 $u+v=a+D$，
+其中 $u,v\in C'$。
+
+给定 $j\ge2$ 与 $z\in[\gamma,jD-\gamma]$。
+若 $z\le2D-\gamma$，由 (3.2) 得二项表示，
+再补 $j-2$ 个零。
+若 $z\ge(j-2)D+\gamma$，
+则 $z-(j-2)D\in[\gamma,2D-\gamma]$，
+可用二项表示并补 $j-2$ 个 $D$。
+余下的中间情形满足
+$2D-\gamma<z<(j-2)D+\gamma$。
+写 $z=kD+a$，$0\le a<D$。
+由 $\gamma\le D-2$ 得 $1\le k\le j-2$。
+用上段的 $u,v\in C'$ 表示 $a$ 或 $a+D$；
+前者补 $k$ 个 $D$，后者补 $k-1$ 个 $D$，
+再用零补齐到恰好 $j$ 项。
+故所有情形均有 $z\in jC$。
+\end{proof}
+
+\begin{lemma}[有界加法基]\label{lem:basis}
+在引理~\ref{lem:growth} 的假设下，任给实数 $K>0$，
+置
+\[
+ J=\lceil K\rceil+1,\qquad H=(q-1)J.
+\]
+对每个整数 $y$，若
+$(q-1)L\le y\le KL$，则 $y\in HB$。
+\end{lemma}
+\begin{proof}
+设 $r=q-1$、$C=rB$、$D=rL$。
+显然 $C\subseteq[0,D]$ 且 $0,D\in C$。
+由式~\eqref{eq:growth}，
+\[
+ |C|\ge D/2+q\ge D/2+2.
+\]
+故引理~\ref{lem:central} 适用，给出
+$0\le\gamma\le D-2$ 和
+$[\gamma,JD-\gamma]\subseteq JC$。
+因为 $J\ge2$ 且 $r\ge1$，
+\[
+ y\ge D>\gamma,\qquad
+ y\le KL\le\lceil K\rceil L
+     \le(J-1)D\le JD-\gamma.
+\]
+于是 $y\in JC=(Jr)B=HB$。
+注意得到的是\emph{恰好 $H$ 项}的允许重复表示；
+零项填充是合法的。
+\end{proof}
+
+\begin{remark}[与 Lev 1997 区间定理的关系]\label{rem:lev1997}
+引理~\ref{lem:basis} 也是 Lev~\cite{Lev1997}, Theorem~1$'$ 的直接推论。
+为核对这一关系，令 $a=N-2$、$k=\lfloor(L-1)/a\rfloor$。
+上述假设给出 $N\ge3$、$1\le a\le L-1$，
+且 $1\le k\le q-1=r$；整除边界取该较大的整数选择亦符合原文条件。
+该定理设
+\[
+ G=k\bigl(2L-2-(k+1)(N-2)\bigr),
+\]
+并对所有整数 $h\ge2k$ 给出 $[G,hL-G]\subseteq hB$。
+由 $a\ge L/q$ 及
+\[
+ r-\frac{k(2q-k-1)}q=\frac{(q-k)(q-1-k)}q\ge0
+\]
+得 $G\le rL$。
+另一方面 $H=r(\lceil K\rceil+1)\ge2r\ge2k$，
+且 $HL-G\ge(H-r)L\ge KL$。
+故 $[rL,KL]\subseteq HB$。
+因此，本文使用的有界基窗口不是新的独立结构定理；
+上面的增量式证明是这一既有结论的自足推导。
+一般有界基窗口的线性因子也不能任意降低。
+例如固定 $q\ge2$，取整数 $b\ge2$、$L=qb$ 及
+$B=\{0,q,2q,\ldots,qb\}\cup\{qb-1\}$。
+则 $|B|=L/q+2$、$\gcdop(B)=1$，
+但 $y=(q-1)(L-2)-1$ 不属于任意重和集：
+因 $y\equiv1\pmod q$，表示中 $qb-1$ 的份数至少为 $q-1$，
+仅这些项的和就大于 $y$。
+这个已有 Frobenius 型例族的代入说明一般窗口因子趋近 $q-1$；
+它\emph{不}证明 $\theta_q=q-1$，因为后者的目标 $sT$ 另有整除结构。
+\end{remark}
+
+\section{由重复和到互异子集和：好核与删点}
+对有限 $A\subseteq[1,E]$、$g\in A$，记
+\[
+ \nu_A(g)=
+ \bigl|\{u\in A:u<g,\ 2g-u\in A\}\bigr|,\qquad
+ C_m(A)=\{g\in A:\nu_A(g)<m\}.
+\]
+$r_3(E)$ 记 $[1,E]$ 中不含非平凡三项等差数列的
+集合的最大基数。Roth 定理~\cite{Roth1953} 给出
+$r_3(E)=o(E)$。
+
+\begin{lemma}[重复项消去]\label{lem:distinct}
+设整数 $m\ge1$，$G\subseteq A$，每个 $g\in G$
+均满足 $\nu_A(g)\ge m$。
+若 $t$ 可写成 $1\le h\le m$ 个（可重复）$G$ 元素之和，
+则 $t\in\sig(A)$，且可用恰好 $h$ 个互异元素表示。
+\end{lemma}
+\begin{proof}
+从给定多重表示开始；维持如下不变式：
+有重复的值仅来自 $G$。
+若 $g\in G$ 至少出现两次，删除两份 $g$。
+其余表示中至多有 $h-2$ 个被占据的不同值。
+以 $g$ 为中心的 $\nu_A(g)\ge m\ge h$ 个
+无重合的二元配对 $\{u,2g-u\}$，
+至少有一对与其余被占据的值不相交。
+用这两个互异 $A$ 元素替代两份 $g$，
+既不改变总和，也不改变总项数。
+新添的两个元素均只出现一次，
+令多重表示为 $\mu$，取自然数度量
+$\delta(\mu)=h-|\operatorname{supp}\mu|$。
+删除两份 $g$ 后支持集至多损失一个值，随后加入两个新值，
+故支持集严格增大，$\delta$ 严格下降。
+有限次操作后得到恰好 $h$ 项的互异表示；由 $h\ge1$ 可知其非空。
+新添元素不必属于 $G$，
+因为它们绝不会成为新的重复值。
+\end{proof}
+
+\begin{lemma}[坏中心规模]\label{lem:bad}
+对整数 $m\ge1$ 及 $A\subseteq[1,E]$，
+\[
+ |C_m(A)|\le2\sqrt{2m}\,r_3(E). \tag{4.1}\label{eq:bad}
+\]
+\end{lemma}
+\begin{proof}
+记 $V=C_m(A)$、$v=|V|$。
+在 $V$ 上建立以非平凡三项等差数列为边的三元超图；
+按中心 $g$ 计数，边数至多 $(m-1)v$。
+当 $m=1$，没有边，故 $v\le r_3(E)$，
+从而 (4.1) 成立。
+当 $m\ge2$，取
+$p=(2(m-1))^{-1/2}\le1$，
+以概率 $p$ 独立选取每个顶点。
+所选顶点数减去完全落入的边数的期望至少为
+\[
+ pv-p^3(m-1)v=\frac{pv}{2}.
+\]
+因此可选到一个诱导子集，删除每条边至少一个顶点后，
+仍有至少 $pv/2$ 个顶点且不含三项等差数列。
+由 $pv/2\le r_3(E)$，
+\[
+ v\le2\sqrt{2(m-1)}\,r_3(E)
+       \le2\sqrt{2m}\,r_3(E).\qedhere
+\]
+\end{proof}
+重复项消去与坏中心界分别重述
+Matijasevick~\cite{Matijasevick2026} 的 Lemma~2.2(a),(b)；
+中心覆盖来自该文的 Lemma~2.3，好核及归一化也沿用其主证明框架。
+这里给出完整证明，以明确重复和集与互异子集和的区别；
+不将这些桥接引理作为本文的新增定理。
+
+\section{线性范围逆定理的证明}
+\begin{proof}[定理~\ref{thm:main} 的证明]
+固定 $s\ge1,\eps>0$，令 $q=\snd(s)$、$r=q-1$。
+\emph{先于} $T,E,A$ 固定
+\[
+ K=\frac{2s}{\eps},\quad
+ J=\lceil K\rceil+1,\quad
+ H=rJ,\quad m=H.
+\]
+由 $r_3(E)=o(E)$，选 $E_0=E_0(s,\eps)$，
+使所有整数 $E\ge E_0$ 均满足
+\[
+  2\sqrt{2H}\,r_3(E)
+       \le\frac{\eps r}{2s}E. \tag{5.1}
+\]
+再选整数 $T_0$，使
+$\eps T_0\ge E_0$，并且 $\eps T_0/2\ge q$。
+以下任取满足定理前提的 $T,E,A$。
+
+\textbf{第一步：抽取好核。}
+因为 $E\ge|A|\ge\eps T\ge E_0$，
+令 $G=A\setminus C_H(A)$。
+由引理~\ref{lem:bad} 与 (5.1)，
+\[
+ |A\setminus G|
+ \le\frac{\eps r}{2s}E\le\frac{\eps T}{2}.
+\]
+因此
+\[
+ |G|\ge\frac Eq+\frac{\eps T}{2}>\frac Eq,
+ \qquad \nu_A(g)\ge H\quad(g\in G). \tag{5.2}
+\]
+
+\textbf{第二步：处理公因子。}
+令 $d=\gcdop(G)$，此时 $G\ne\varnothing$。
+由于 $G$ 是区间 $[1,E]$ 内互异的正 $d$ 倍数，
+$|G|\le E/d$；由 $|G|>E/q$ 得 $d<q$。
+按 $q$ 的定义有 $d\mid s$，故
+\[
+   y=\frac{sT}{d}\in\N. \tag{5.3}
+\]
+
+\textbf{第三步：归一化及密度余量。}
+置
+\[
+ B=\{0\}\cup\{g/d:g\in G\},\qquad
+ L=\frac{\max G}{d}.
+\]
+则 $0,L\in B\subseteq[0,L]$、
+$\gcdop(B)=1$、$|B|=|G|+1$，并且
+\[
+ L\ge|G|\ge\frac{\eps T}{2}\ge q,\qquad
+ L\le E.
+\]
+须特别检查引理~\ref{lem:growth} 中的\textbf{$+2$}：
+仅凭 $|G|>E/q$ 并不能推出它；
+这里真正使用的是 (5.2) 中保留的余量
+$\eps T/2\ge q$。故
+\[
+ |B|=|G|+1
+ \ge \frac Eq+\frac{\eps T}{2}+1
+ \ge \frac Lq+q+1
+ \ge \frac Lq+2. \tag{5.4}
+\]
+另一方面，由 $\max G\le E$、$\max G\ge|G|$，
+\[
+ r\le\frac{sT}{E}
+ \le\frac{y}{L}
+ =\frac{sT}{\max G}
+ \le\frac{sT}{|G|}
+ \le\frac{2s}{\eps}=K. \tag{5.5}
+\]
+引理~\ref{lem:basis} 用 (5.4)--(5.5) 给出
+$y\in HB$。
+
+\textbf{第四步：回到互异子集和。}
+先将 $y$ 的恰好 $H$ 项 $B$ 表示删去零项，
+再乘以 $d$，得到 $sT$ 由至多 $H$ 个
+（允许重复的）$G$ 元素表示。因为 $sT>0$，删零后项数满足 $1\le h\le H$。
+结合 (5.2) 与引理~\ref{lem:distinct}，
+得到 $sT$ 的至多 $H$ 个互异 $A$ 元素表示。
+所有依赖于 $T,E,A$ 的选择都在固定 $H,E_0,T_0$
+之后完成，故量词一致。证毕。
+\end{proof}
+
+\begin{corollary}[范围常数]\label{cor:theta}
+在 Matijasevick~\cite{Matijasevick2026} 对 $\theta_q$ 的定义下，
+定理~\ref{thm:main} 蕴含
+\[
+ \theta_q\le q-1.
+\]
+因此对可出现的素数幂 $q=\snd(s)\ge4$，
+\[
+ \boxed{\max\!\left\{2,q-2+\frac1q\right\}
+        \le\theta_q\le q-1}.
+\]
+特别地 $\theta_4\in[9/4,3]$。
+而 $q=2,3$ 与原文已知的 $\theta_2=1,\theta_3=2$ 一致。
+\end{corollary}
+\begin{proof}
+$\theta_q$ 是所有使定理的范围条件
+$\theta E\le sT$ 成立的参数 $\theta$ 的下确界。
+定理~\ref{thm:main} 的范围因子为 $q-1$，
+并且其表示长度界不大于原 Theorem~1.2 的
+$2^{q-2}(\lceil2s/\eps\rceil+1)$，
+因此确实满足 Proposition~3.1 所定义参数的全部结论，
+而不只是无长度限制的存在性结论。
+故 $\theta=q-1$ 可用；下界沿用原文的已知构造。
+又 $q-1\le2^{q-2}$，因此新参数不比原范围更弱。
+\end{proof}
+
+\section{\texorpdfstring{$q=4$ 与 $c=2/3$}{q=4 与 c=2/3} 的指定同余类极限}
+\begin{proof}[定理~\ref{thm:limit} 的证明]
+将 $n$ 写成 $n=6T$，其中 $T$ 为正奇数。
+则 $n\equiv6\pmod{12}$，且
+$\lfloor2n/3\rfloor=4T$。
+此时 $\snd(6)=4$；对每个奇数 $T$，
+$6T\equiv2\pmod4$。
+
+\textbf{上界。} 设 $A\subseteq[1,4T]$
+满足 $6T\notin\sig(A)$。
+分解
+\[
+ A_0=A\cap[1,2T-1],\qquad
+ A_1=A\cap[2T,4T].
+\]
+给定任意 $\eps>0$，在定理~\ref{thm:main} 中取
+$s=6,q=4,r=3,E=2T-1$。
+由于 $3(2T-1)\le6T$，
+对充分大的奇数 $T$，若
+$|A_0|\ge(2T-1)/4+\eps T$，则
+$6T\in\sig(A_0)$，矛盾。故
+\[
+ |A_0|<\frac{2T-1}{4}+\eps T
+        <\left(\frac12+\eps\right)T. \tag{6.1}
+\]
+另一方面，沿用 \cite[Lemma~5.1]{Matijasevick2026} 的配对，
+$[2T,4T]$ 被 $T$ 对互补元素
+$\{x,6T-x\}$（$2T\le x\le3T-1$）
+以及单点 $3T$ 分割。
+$A_1$ 在每对中至多选一个，因此
+\[
+ |A_1|\le T+1. \tag{6.2}
+\]
+由 (6.1)--(6.2)，
+\[
+ F(4T,6T)\le\left(\frac32+\eps\right)T+1.
+\]
+先令 $T\to\infty$（沿奇数），再令 $\eps\downarrow0$，
+得到
+\[
+ \limsup_{\substack{T\to\infty\\T\text{ 为奇数}}}
+ \frac{F(4T,6T)}{6T}\le\frac14. \tag{6.3}
+\]
+
+\textbf{下界。} 取
+\[
+ Q=\{4,8,\ldots,4T\},\quad
+ U=\{x\in[3T,4T]:x\ \text{为奇数}\},\quad
+ A=Q\cup U.
+\]
+$Q$ 的任意子集和模 $4$ 为 $0$，
+而 $6T\equiv2\pmod4$；
+若子集包含恰好一个 $U$ 元素，其和为奇数，
+不可能等于偶数 $6T$；
+若包含至少两个互异 $U$ 元素，其和严格大于
+$2\cdot3T=6T$。
+故 $6T\notin\sig(A)$。
+又因 $T$ 为奇数，
+\[
+ |Q|=T,\qquad |U|=\frac{T+1}{2},
+ \qquad |A|=\frac{3T+1}{2}.
+\]
+于是
+\[
+ \liminf_{\substack{T\to\infty\\T\text{ 为奇数}}}
+ \frac{F(4T,6T)}{6T}\ge\frac14. \tag{6.4}
+\]
+由 (6.3)--(6.4) 得所求极限。
+此下界构造是原文 Proposition~5.3(b)
+的模数构造的 $q=4$ 特例，并非新构造。
+\end{proof}
+
+
+\section{结语与适用边界}
+本证明的变化集中在一个有限步增长估计：
+Lev 增量界使 $(q-1)B$ 跨过半密度，再利用中心区间覆盖给出有界项数表示。
+好中心及消重框架把重复表示转回原集合中的互异表示。
+当 $q\ge4$ 时，$q-1<2^{q-2}$，范围和长度均严格改进；
+$q=2,3$ 时与原范围一致。
+本文只详证 $q=4,c=2/3$ 的同余类应用，
+不把整个中间参数区间的极限公式列为已证结论。
+这是一份供外部审阅的未发表文稿；
+有关贡献与既有结果的对照见随附的文献比较说明，
+有界检索不作为新颖性或优先权的证明。
+
+\appendix
+\section{可复现核验及形式化边界}\label{sec:verify}
+附带材料包含仅用 Python 标准库的有限检查脚本、
+去重桥与算术步骤的 Lean 源码、运行说明及文件哈希。
+有限检查覆盖小集合的和集增长、中心区间、有界基、消重、坏中心与应用构造，
+包含去掉 gcd 条件和削弱密度余量的负控制。
+独立构造检查另外覆盖空表示、消重支持增长及模 $D$ 填充的中间分支。
+这些结果辅助检错，不证明本文的渐近命题，也不替代所引定理。
+
+Lean 文件 \texttt{EStarDistinct.lean} 对有限自然数集和多重集证明：
+若 $G\subseteq A$、每个中心有至少 $m$ 个配对，
+任意至多 $m$ 项的 $G$ 重复和可转为同和、同项数的互异 $A$ 子集。
+非空推论显式要求正项数。
+文件中的五条相关声明及原有九条算术声明已由固定工具链检查，
+公理报告仅含 \texttt{propext, Classical.choice, Quot.sound}；
+本次独立重实现的组合桥模块另经 \texttt{leanchecker} 重放。
+原预印本亦报告该组合桥的形式化；这里不主张首次形式化。
+这不包含 Lev、Roth、坏中心概率估计、统一阈值及最终定理的全部形式化，
+不应被解释为主定理的端到端机器证明。
+复现包中精确记录有限范围、版本、退出码及未覆盖项。
+
+\begin{thebibliography}{99}
+\bibitem{Matijasevick2026}
+M.~Matijasevick,
+\emph{Forbidden subset sums in a linear range: an inverse theorem and the Erd\H{o}s--Graham irregularity problem},
+arXiv:2611.17205v1, 2026.
+\url{https://arxiv.org/abs/2611.17205v1}.
+
+\bibitem{Lev1996}
+V.~F.~Lev,
+\emph{Structure theorem for multiple addition and the Frobenius problem},
+Journal of Number Theory \textbf{58} (1996), 79--88.
+\href{https://doi.org/10.1006/jnth.1996.0065}{doi:10.1006/jnth.1996.0065}.
+作者自存版：\url{https://math.haifa.ac.il/seva/Papers/multiad.dvi}.
+
+\bibitem{LevAddendum1997}
+V.~F.~Lev,
+\emph{Addendum to ``Structure Theorem for Multiple Addition''},
+Journal of Number Theory \textbf{65} (1997), 96--100.
+\href{https://doi.org/10.1006/jnth.1997.2128}{doi:10.1006/jnth.1997.2128}.
+作者自存版：\url{https://math.haifa.ac.il/seva/Papers/adndum.dvi}.
+
+\bibitem{Lev1997}
+V.~F.~Lev,
+\emph{Optimal representations by sumsets and subset sums},
+Journal of Number Theory \textbf{62} (1997), 127--143.
+\href{https://doi.org/10.1006/jnth.1997.2012}{doi:10.1006/jnth.1997.2012}.
+
+\bibitem{Roth1953}
+K.~F.~Roth,
+\emph{On certain sets of integers},
+Journal of the London Mathematical Society \textbf{s1-28} (1953), no.~1, 104--109.
+\href{https://doi.org/10.1112/jlms/s1-28.1.104}{doi:10.1112/jlms/s1-28.1.104}.
+\end{thebibliography}
+\end{document}

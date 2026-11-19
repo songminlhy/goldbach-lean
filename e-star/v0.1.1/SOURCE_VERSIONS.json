@@ -1,0 +1,150 @@
+{
+  "scope": "Public source versions actually retrieved; download alone is not full-text proof review. Read scope is separately listed in RELATED_WORK.md.",
+  "copyright": "Third-party full texts are not included in this package. Links identify official or author-public sources.",
+  "sources": [
+    {
+      "url": "https://math.haifa.ac.il/seva/pub_list.html",
+      "requested_utc": "2026-11-18T08:22:35.419198+00:00",
+      "status": 200,
+      "final_url": "https://math.haifa.ac.il/seva/pub_list.html",
+      "content_type": "text/html",
+      "size_bytes": 19915,
+      "sha256": "4b3536dba79bb729c197aeb1859cfd38d3606bc0d5dda82fe0c30068e944ae0a"
+    },
+    {
+      "url": "https://math.haifa.ac.il/seva/Papers/multiad.dvi",
+      "requested_utc": "2026-11-18T08:22:37.889035+00:00",
+      "status": 200,
+      "final_url": "https://math.haifa.ac.il/seva/Papers/multiad.dvi",
+      "content_type": "application/x-dvi",
+      "size_bytes": 30740,
+      "sha256": "f41a58f21687c1d2eb827c976907308537be9c70698d3b87050fd63aa88a3819"
+    },
+    {
+      "url": "https://math.haifa.ac.il/seva/Papers/adndum.dvi",
+      "requested_utc": "2026-11-18T08:22:40.940297+00:00",
+      "status": 200,
+      "final_url": "https://math.haifa.ac.il/seva/Papers/adndum.dvi",
+      "content_type": "application/x-dvi",
+      "size_bytes": 19676,
+      "sha256": "4686e0f12499bf879e19434a56017f0c1431fd1a2b95a0d4022e592bde4114ff"
+    },
+    {
+      "url": "https://arxiv.org/abs/2611.17205v1",
+      "requested_utc": "2026-11-18T08:22:50.082657+00:00",
+      "status": 200,
+      "final_url": "https://arxiv.org/abs/2611.17205v1",
+      "content_type": "text/html; charset=utf-8",
+      "size_bytes": 41252,
+      "sha256": "469aa45fa1466a213fdd51fb7049d72b3cf937fe3165c81026adce7f97c19542"
+    },
+    {
+      "url": "https://arxiv.org/html/2611.17205v1",
+      "requested_utc": "2026-11-18T08:22:51.903357+00:00",
+      "status": 200,
+      "final_url": "https://arxiv.org/html/2611.17205v1",
+      "content_type": "text/html; charset=utf-8",
+      "size_bytes": 689952,
+      "sha256": "876e88c3c119d4c3d6e2a1306a3a5276c227da1b7e2219cc1dc4dffce8c4dbf2"
+    },
+    {
+      "url": "https://arxiv.org/pdf/2611.17205v1",
+      "requested_utc": "2026-11-18T08:22:53.976149+00:00",
+      "status": 200,
+      "final_url": "https://arxiv.org/pdf/2611.17205v1",
+      "content_type": "application/pdf",
+      "size_bytes": 573964,
+      "sha256": "94aaf8747809c9397925d8fc7986f19ed09484cfdbcb69830bd9b0b1eb783b37"
+    },
+    {
+      "url": "https://math.haifa.ac.il/seva/Papers/lint.dvi",
+      "requested_utc": "2026-11-18T12:07:29.910109+00:00",
+      "status": 200,
+      "final_url": "https://math.haifa.ac.il/seva/Papers/lint.dvi",
+      "content_type": "application/x-dvi",
+      "sha256": "ca9d36f7ed42ad8abbf6cd822eee4345d767f9077690a504617b64d4bbc7578d",
+      "size_bytes": 56096
+    },
+    {
+      "url": "https://math.haifa.ac.il/seva/Papers/coblis.dvi",
+      "requested_utc": "2026-11-18T12:07:48.763547+00:00",
+      "status": 200,
+      "final_url": "https://math.haifa.ac.il/seva/Papers/coblis.dvi",
+      "content_type": "application/x-dvi",
+      "sha256": "5be8c646936f12df33c4c60c80e393b43f1e8514c22b95f6f9960b71780319ea",
+      "size_bytes": 37152
+    },
+    {
+      "url": "https://math.haifa.ac.il/seva/Papers/BLInts.pdf",
+      "requested_utc": "2026-11-18T12:07:53.085947+00:00",
+      "status": 200,
+      "final_url": "https://math.haifa.ac.il/seva/Papers/BLInts.pdf",
+      "content_type": "application/pdf",
+      "sha256": "75866ecf0f328f795a1df073694685332e21d30d69ff2fa1e5ef2137c8713a42",
+      "size_bytes": 268761
+    },
+    {
+      "url": "https://arxiv.org/abs/2401.08208",
+      "requested_utc": "2026-11-18T12:08:49.031989+00:00",
+      "status": 200,
+      "final_url": "https://arxiv.org/abs/2401.08208",
+      "content_type": "text/html; charset=utf-8",
+      "sha256": "2c2c8f265ad57caa615bd52fb5c99103ad506683c2e1d39abc06377459c89a93",
+      "size_bytes": 41105
+    },
+    {
+      "url": "https://arxiv.org/pdf/2401.08208",
+      "requested_utc": "2026-11-18T12:08:55.808100+00:00",
+      "status": 200,
+      "final_url": "https://arxiv.org/pdf/2401.08208",
+      "content_type": "application/pdf",
+      "sha256": "d02ceb76824e6044565aeff8d7205c1820792fe9f6d3e749729ff00cebf9ac7c",
+      "size_bytes": 250428
+    },
+    {
+      "url": "https://arxiv.org/abs/2401.04699",
+      "requested_utc": "2026-11-18T12:09:03.457356+00:00",
+      "status": 200,
+      "final_url": "https://arxiv.org/abs/2401.04699",
+      "content_type": "text/html; charset=utf-8",
+      "sha256": "1504a0bb1b6825affca0f5bf91bd013ea6f8602adf22244095c64ec3306fa6d8",
+      "size_bytes": 37950
+    },
+    {
+      "url": "https://arxiv.org/pdf/2401.04699",
+      "requested_utc": "2026-11-18T12:09:27.650290+00:00",
+      "status": 200,
+      "final_url": "https://arxiv.org/pdf/2401.04699",
+      "content_type": "application/pdf",
+      "sha256": "967ac7891f061c1fba4270acde5da76c6ef55d4c2ede045eddd9c712f1482fd8",
+      "size_bytes": 157613
+    },
+    {
+      "url": "https://arxiv.org/abs/2611.17205",
+      "requested_utc": "2026-11-18T12:09:45.725896+00:00",
+      "status": 200,
+      "final_url": "https://arxiv.org/abs/2611.17205",
+      "content_type": "text/html; charset=utf-8",
+      "sha256": "816255423b9eaaa4d2118c4469e4dcb2cb0b3b5fd8b02324fbba865568207cb8",
+      "size_bytes": 41240
+    },
+    {
+      "url": "https://arxiv.org/pdf/2611.17205",
+      "requested_utc": "2026-11-18T12:09:48.797290+00:00",
+      "status": 200,
+      "final_url": "https://arxiv.org/pdf/2611.17205",
+      "content_type": "application/pdf",
+      "sha256": "94aaf8747809c9397925d8fc7986f19ed09484cfdbcb69830bd9b0b1eb783b37",
+      "size_bytes": 573964
+    },
+    {
+      "url": "https://arxiv.org/pdf/2410.21942v1",
+      "requested_utc": "2026-11-18T12:22:10.656966+00:00",
+      "status": 200,
+      "final_url": "https://arxiv.org/pdf/2410.21942v1",
+      "content_type": "application/pdf",
+      "sha256": "e60b551a486e085eff8a6d0289381045a2f73d010f20f02ea27ac3831bc051c0",
+      "size_bytes": 586864
+    }
+  ]
+}
