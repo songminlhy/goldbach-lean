@@ -1,0 +1,84 @@
+{
+  "scope": "Finite adversarial seam audit, not proof of either asymptotic theorem.",
+  "python": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]",
+  "platform": "Windows-11-10.0.26100-SP0",
+  "optional_source": "E_star_anonymous.tex",
+  "source_sha256_before": "PAPER_SOURCE_NOT_BUNDLED",
+  "scriptSha256": "3159bd5fe3dda5840a8d445d99c9924c0415bf147eb21071dfca7bf6ad43c85c",
+  "parameter_seams": {
+    "parameter_cases": 157706,
+    "division_boundary_cases": 10936,
+    "full_interval_cases": 3160,
+    "K_cases": 473118
+  },
+  "small_actual_basis": {
+    "normalized_density_cases": 16978,
+    "actual_Lev_increment_steps": 38565,
+    "basis_target_hits": 156124,
+    "empty_windows_excluded": 16978,
+    "minimum_growth_slack": "0"
+  },
+  "expected_failure_negative_controls": {
+    "varying_epsilon_countermodels": 101,
+    "wrong_q_countermodels": 101,
+    "missing_gcd_countermodel": 1,
+    "missing_h_bound_countermodel": 1,
+    "empty_sum_guard": 1,
+    "missing_T0_countermodel": 1,
+    "even_T_lower_construction_failure": 1,
+    "general_basis_semigroup_obstructions": 390
+  },
+  "modulus_five_lower_bound_examples": [
+    {
+      "theta": "2",
+      "alpha": "5/2",
+      "epsilon": "3/100",
+      "T": 71,
+      "E": 171,
+      "target": 426,
+      "cardinality": 47,
+      "density_threshold": "1122/25",
+      "smallest_four_U_sum": 466,
+      "target_avoided": true
+    },
+    {
+      "theta": "5/2",
+      "alpha": "11/4",
+      "epsilon": "3/220",
+      "T": 151,
+      "E": 330,
+      "target": 906,
+      "cardinality": 87,
+      "density_threshold": "18603/220",
+      "smallest_four_U_sum": 946,
+      "target_avoided": true
+    },
+    {
+      "theta": "29/10",
+      "alpha": "59/20",
+      "epsilon": "3/1180",
+      "T": 791,
+      "E": 1609,
+      "target": 4746,
+      "cardinality": 406,
+      "density_threshold": "119257/295",
+      "smallest_four_U_sum": 4786,
+      "target_avoided": true
+    },
+    {
+      "theta": "299/100",
+      "alpha": "599/200",
+      "epsilon": "3/11980",
+      "T": 7991,
+      "E": 16009,
+      "target": 47946,
+      "cardinality": 4006,
+      "density_threshold": "11992732/2995",
+      "smallest_four_U_sum": 47986,
+      "target_avoided": true
+    }
+  ],
+  "source_sha256_after": "PAPER_SOURCE_NOT_BUNDLED",
+  "status": "passed",
+  "elapsed_seconds": 2.858
+}

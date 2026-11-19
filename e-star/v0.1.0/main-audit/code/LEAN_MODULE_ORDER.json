@@ -1,0 +1,11 @@
+[
+  "EStarDistinct",
+  "EStarTransfer",
+  "EStarFiniteMain",
+  "UpstreamGoodCore",
+  "EStarRothCore",
+  "EStarConditionalMain",
+  "EStarModularAvoidance",
+  "UpstreamDenseCovering",
+  "EStarBasisFromLev"
+]
