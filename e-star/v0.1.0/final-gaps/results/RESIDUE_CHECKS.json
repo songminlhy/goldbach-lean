@@ -1,0 +1,142 @@
+{
+  "generatedAt": "2026-11-19T07:27:18.987233+00:00",
+  "status": "PASS_BOUNDED_RESIDUE_LIFT_AND_PRIME_GROWTH_WITH_REQUIRED_PERIODIC_OBSTRUCTION",
+  "scope": "All endpoint-containing B subsets [0,L], 1<=L<=13, h<=6. Does not prove universal Lev or Kneser.",
+  "seconds": 1.203,
+  "counts": {
+    "sets": 8191,
+    "liftSteps": 49146,
+    "heavyBlockLiftSteps": 138629,
+    "primeDiameterLevSteps": 26030,
+    "compositeAperiodicSteps": 1354,
+    "compositeFullSteps": 13184,
+    "compositeProperNontrivialPeriodSteps": 387,
+    "properNontrivialPeriodWithGcdOneSteps": 74,
+    "properPeriodKneserAndFiberCertificates": 108
+  },
+  "properPeriodExamples": [
+    {
+      "L": 8,
+      "B": [
+        0,
+        1,
+        4,
+        5,
+        8
+      ],
+      "h": 2,
+      "residueCard": 6,
+      "periods": [
+        0,
+        4
+      ],
+      "integerSumsetCard": 12,
+      "previousCard": 5,
+      "gcd": 1
+    },
+    {
+      "L": 8,
+      "B": [
+        0,
+        3,
+        4,
+        7,
+        8
+      ],
+      "h": 2,
+      "residueCard": 6,
+      "periods": [
+        0,
+        4
+      ],
+      "integerSumsetCard": 12,
+      "previousCard": 5,
+      "gcd": 1
+    },
+    {
+      "L": 10,
+      "B": [
+        0,
+        1,
+        5,
+        6,
+        10
+      ],
+      "h": 2,
+      "residueCard": 6,
+      "periods": [
+        0,
+        5
+      ],
+      "integerSumsetCard": 12,
+      "previousCard": 5,
+      "gcd": 1
+    }
+  ],
+  "explicitCompositeObstruction": {
+    "L": 12,
+    "B": [
+      0,
+      1,
+      4,
+      5,
+      8,
+      9,
+      12
+    ],
+    "h": 2,
+    "Abar": [
+      0,
+      1,
+      4,
+      5,
+      8,
+      9
+    ],
+    "hAbar": [
+      0,
+      1,
+      2,
+      4,
+      5,
+      6,
+      8,
+      9,
+      10
+    ],
+    "periods": [
+      0,
+      4,
+      8
+    ],
+    "naiveCauchyDavenportLower": 11,
+    "actualCyclicCard": 9,
+    "actualIntegerCard": 18,
+    "LevLower": 18
+  },
+  "negativeControls": [
+    {
+      "omittedCondition": "missing_zero",
+      "B": [
+        1,
+        2
+      ],
+      "L": 2,
+      "previousCard": 2,
+      "residueCard": 2,
+      "nextCard": 3
+    },
+    {
+      "omittedCondition": "missing_top",
+      "B": [
+        0,
+        1
+      ],
+      "L": 2,
+      "previousCard": 2,
+      "residueCard": 2,
+      "nextCard": 3
+    }
+  ],
+  "scriptSha256": "f6e8597c8ff201ade67928745309aa267da0fbab47d965d3aa287e15890eb71c"
+}

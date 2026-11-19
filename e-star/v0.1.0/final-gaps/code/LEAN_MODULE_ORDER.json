@@ -1,0 +1,16 @@
+[
+  "EStarDistinct",
+  "EStarTransfer",
+  "EStarFiniteMain",
+  "UpstreamGoodCore",
+  "EStarRothCore",
+  "EStarConditionalMain",
+  "EStarModularAvoidance",
+  "UpstreamDenseCovering",
+  "EStarBasisFromLev",
+  "EStarExactStatement",
+  "EStarQuarterLimit",
+  "EStarQuarterLimitEnd",
+  "LevResidue",
+  "LevKneserBranches"
+]
